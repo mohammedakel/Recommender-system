@@ -1,5 +1,7 @@
 package edu.brown.cs.student.main;
 
+import edu.brown.cs.student.main.bloomfilter.BloomFilterBuilder;
+
 /**
  * The query_bf command querys a Bloom filter to see whether it might contain
  * a given element
@@ -26,13 +28,14 @@ public class QueryBF implements REPL, Command {
    * @param args (array of strings)
    */
   public void execute(String[] args) {
-    if (!REPL.bloomFilterExists()) { // check boolean
+    BloomFilterBuilder<String> bloomFilter = REPL.bloomFilterExists();
+    if (bloomFilter == null) {
       System.out.println("ERROR: No Bloom Filter exists, run create_bf <element>");
     } else if (args.length < 2) {
       System.out.println("ERROR: Missing args, enter query_bf <element>");
     } else {
       String element = args[1];
-      // call query element
+      //BloomFilterBuilder.mightContain(element);
     }
   }
 }

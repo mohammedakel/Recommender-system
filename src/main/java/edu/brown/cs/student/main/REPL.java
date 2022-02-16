@@ -1,5 +1,7 @@
 package edu.brown.cs.student.main;
 
+import edu.brown.cs.student.main.bloomfilter.BloomFilterBuilder;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,6 +22,7 @@ public interface REPL {
   int[] starsLoaded = new int[1];
   int[] bloomFilterCreated = new int[1];
   ArrayList<String[]> stars = new ArrayList<String[]>();
+  BloomFilterBuilder<String> bloom = null;
 
 
   /**
@@ -107,8 +110,15 @@ public interface REPL {
   /**
    * Used by create_bf command when bloom filter has been created
    */
-  static void createdBloomFilter() {
+  static BloomFilterBuilder<String> createdBloomFilter(Double r, int n) {
     bloomFilterCreated[0] = 1;
+    if (r != null){
+      bloom =new BloomFilterBuilder<String>(n, r);
+    }
+    else {
+      BloomFilterBuilder bloom =new BloomFilterBuilder<String>(n);
+    }
+    return bloom;
   }
 
   /**
@@ -116,11 +126,11 @@ public interface REPL {
    *
    * @return true if create_bf has been called, false if not
    */
-  static Boolean bloomFilterExists() {
+  static BloomFilterBuilder<String> bloomFilterExists() {
     if (bloomFilterCreated[0] == 1) {
-      return true;
+      return bloom;
     }
-    return false;
+    return null;
   }
 
 }

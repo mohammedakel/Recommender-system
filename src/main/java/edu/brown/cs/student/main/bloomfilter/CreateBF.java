@@ -1,5 +1,8 @@
 package edu.brown.cs.student.main;
 
+import edu.brown.cs.student.main.bloomfilter.BloomFilter;
+import edu.brown.cs.student.main.bloomfilter.BloomFilterBuilder;
+
 /**
  * The create_bf command construct an empty, generic Bloom filter given:
  * r, a desired false positive rate
@@ -22,15 +25,25 @@ public class CreateBF implements REPL, Command {
   }
 
   public void execute(String[] args) {
-    if (args.length < 3) {
-      System.out.println("ERROR: Missing args, enter create_bf <r> <n>");
+    if (args.length < 2) {
+      System.out.println("ERROR: Missing args, enter create_bf <r> <n> or create_bf <n>");
     } else if (args.length > 3) {
-      System.out.println("ERROR: Too many args, enter create_bf <r> <n>");
+      System.out.println("ERROR: Too many args, enter create_bf <r> <n> or create_bf <n>");
     } else {
-      REPL.createdBloomFilter(); // set boolean to true so that insert and query know a bf has been created
-      double r = Double.parseDouble(args[1]);
       int n = Integer.parseInt(args[2]);
-      // call constructor of Bloom filter
+      if (args.length == 3){
+        double r = Double.parseDouble(args[1]);
+        BloomFilterBuilder bloom = new BloomFilterBuilder(n, r);
+        REPL.createdBloomFilter(r, n); // set boolean to true so that insert and query know a bf has been created
+
+      }
+      else {
+        BloomFilterBuilder bloom = new BloomFilterBuilder(n);
+        REPL.createdBloomFilter(null, n); // set boolean to true so that insert and query know a bf has been created
+
+      }
+
     }
   }
+
 }
