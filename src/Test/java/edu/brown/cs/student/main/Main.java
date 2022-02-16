@@ -2,6 +2,7 @@ package edu.brown.cs.student.main;
 
 // look into using these imports for your REPL!
 
+import edu.brown.cs.student.main.kdtree.Repl;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;

@@ -1,8 +1,7 @@
-package edu.brown.cs.student.main;
+package edu.brown.cs.student.main.kdtree;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 public class SortByData implements Comparator<KdTreeNode> {
   private int cd;

@@ -1,9 +1,9 @@
-package edu.brown.cs.student.main;
+package edu.brown.cs.student.main.kdtree;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Student implements KdTreeNode<KdTreeNode>{
+public class Student implements KdTreeNode<KdTreeNode> {
   int cd;
   int id;
   double years;

@@ -4,6 +4,7 @@ package edu.brown.cs.student.main;
 
 import java.io.IOException;
 
+import edu.brown.cs.student.main.kdtree.Repl;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
