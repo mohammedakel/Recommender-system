@@ -63,6 +63,7 @@ public final class Main {
     QueryBF queryBF = new QueryBF();
 
     REPL.runREPL();
+
   }
 
   private void runSparkServer(int port) {
