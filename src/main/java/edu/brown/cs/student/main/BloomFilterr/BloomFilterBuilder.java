@@ -25,6 +25,8 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
      *            maximum number of elements that will be inserted into the bloomfilter
      * @param r
      *            desired false positivity rate
+     * @throws IllegalArgumentException
+     *          for invalid rate inputs
      */
     public BloomFilterBuilder(int n, double r) {
         if(0<r && r<1) {

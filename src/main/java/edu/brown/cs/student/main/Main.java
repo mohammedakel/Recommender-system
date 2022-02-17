@@ -50,7 +50,7 @@ public final class Main {
         // TODO: Add your REPL here!
 
         //given  the following user inputs:
-        int n = 5;
+        int n = 10;
         double r = 0.01;
 
         BloomFilterBuilder<String> sampleBloomFilter = new BloomFilterBuilder<>(n, r);
@@ -64,6 +64,7 @@ public final class Main {
         sampleBloomFilterTwo.add("Java");
         System.out.println(sampleBloomFilterTwo.toBinaryString() + "\n");
         System.out.println(sampleBloomFilterTwo.mightContain("Java"));
+        System.out.println(sampleBloomFilterTwo.mightContain("Python"));
     }
 
     private void runSparkServer(int port) {
