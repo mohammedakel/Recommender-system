@@ -14,7 +14,7 @@ import edu.brown.cs.student.main.bloomfilter.BloomFilterBuilder;
  *
  * @author kkmarcus
  */
-public class CreateBF implements REPL, Command {
+public class CreateBF implements Command {
 
   /**
    * Constructor must add itself to REPL hashmap containing command name and classes

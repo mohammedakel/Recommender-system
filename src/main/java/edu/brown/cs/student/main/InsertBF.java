@@ -11,7 +11,7 @@ import edu.brown.cs.student.main.bloomfilter.BloomFilterBuilder;
  *
  * @author kkmarcus
  */
-public class InsertBF implements REPL, Command {
+public class InsertBF implements Command {
 
   /**
    * Constructor must add itself to REPL hashmap containing command name and classes
@@ -30,7 +30,7 @@ public class InsertBF implements REPL, Command {
   public void execute(String[] args) {
     BloomFilterBuilder<String> bloomFilter = REPL.bloomFilterExists();
     if (bloomFilter == null) {
-      System.out.println("ERROR: No Bloom Filter exists, run create_bf <element>");
+      System.out.println("ERROR: No Bloom Filter exists, run create_bf <r> <n>");
     } else if (args.length < 2) {
       System.out.println("ERROR: Missing args, enter insert_bf <element>");
     } else {
