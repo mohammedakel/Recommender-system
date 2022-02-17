@@ -1,0 +1,13 @@
+INPUT
+insert_bf
+query_bf
+create_bf 0.05 2
+insert_bf
+query_bf
+OUTPUT
+ERROR: No Bloom Filter exists, run create_bf <r> <n>
+ERROR: No Bloom Filter exists, run create_bf <r> <n>
+building filter
+ERROR: Missing args, enter insert_bf <element>
+ERROR: Missing args, enter query_bf <element>
+END

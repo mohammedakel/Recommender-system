@@ -1,0 +1,7 @@
+INPUT
+load_kd
+load_kd data/project1/proj1_small.csv
+OUTPUT
+ERROR: No FileName
+Read 20 students from data/project1/proj1_small.csv
+END

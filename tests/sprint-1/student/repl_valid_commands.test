@@ -1,0 +1,15 @@
+INPUT
+create_b
+create_bf
+create_bf abc
+create_bf ab 2
+create_bf 1 2
+create_bf 0.05 1
+OUTPUT
+ERROR: No command with that name exists
+ERROR: Missing args, enter create_bf <r> <n> or create_bf <n>
+ERROR: Invalid arg. <n> must be an Integer
+ERROR: Invalid arg(s). <n> must be an Integer, <r> must be a Double
+ERROR: r must be between 0 and 1 (create_bf <r> <n>)
+building filter
+END
