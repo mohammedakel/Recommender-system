@@ -113,7 +113,7 @@ public interface REPL {
   static BloomFilterBuilder<String> createdBloomFilter(Double r, int n) {
     bloomFilterCreated[0] = 1;
     if (r != null){
-      bloom =new BloomFilterBuilder<String>(n, r);
+      //bloom =new BloomFilterBuilder<String>(n, r);
     }
     else {
       BloomFilterBuilder bloom =new BloomFilterBuilder<String>(n);

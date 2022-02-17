@@ -30,20 +30,32 @@ public class CreateBF implements REPL, Command {
     } else if (args.length > 3) {
       System.out.println("ERROR: Too many args, enter create_bf <r> <n> or create_bf <n>");
     } else {
-      int n = Integer.parseInt(args[2]);
-      if (args.length == 3){
-        double r = Double.parseDouble(args[1]);
-        BloomFilterBuilder bloom = new BloomFilterBuilder(n, r);
-        REPL.createdBloomFilter(r, n); // set boolean to true so that insert and query know a bf has been created
-
+      int n = 0;
+      if (args.length == 3) { // create_bf <r> <n>
+        try {
+          double r = Double.parseDouble(args[1]);
+          n = Integer.parseInt(args[2]);
+          if (r > 0 && r < 1) {
+            BloomFilterBuilder bloom = new BloomFilterBuilder(n, r);
+            REPL.createdBloomFilter(r,
+                n); // set boolean to true so that insert and query know a bf has been created
+          } else {
+            System.out.println("ERROR: r must be between 0 and 1 (create_bf <r> <n>)");
+            //throw new IllegalArgumentException();
+          }
+        } catch (NumberFormatException e) {
+          System.out.println("ERROR: Invalid arg(s). <n> must be an Integer, <r> must be a Double");
+        }
+      } else { // create_bf <n>
+        try {
+          n = Integer.parseInt(args[1]);
+          BloomFilterBuilder bloom = new BloomFilterBuilder(n);
+          REPL.createdBloomFilter(null,
+              n); // set boolean to true so that insert and query know a bf has been created
+        } catch (NumberFormatException e) {
+          System.out.println("ERROR: Invalid arg. <n> must be an Integer");
+        }
       }
-      else {
-        BloomFilterBuilder bloom = new BloomFilterBuilder(n);
-        REPL.createdBloomFilter(null, n); // set boolean to true so that insert and query know a bf has been created
-
-      }
-
     }
   }
-
 }
