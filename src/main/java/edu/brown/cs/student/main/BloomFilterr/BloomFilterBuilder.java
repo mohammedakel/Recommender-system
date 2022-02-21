@@ -10,12 +10,14 @@ import static java.lang.Math.max;
  * A class that implements a bit-set based bloom filter data structure and its relevant methods
  */
 
-public class BloomFilterBuilder<T> implements BloomFilter<T> {
+public class BloomFilterBuilder  {
 
     private BitArray sampleBitArray;
     private int maxNumHash;
     private int maxBloomSize;
     private BigInteger[] hashFunctions;
+
+
 
     /**
      * First constructor for the Bloom Filter. calculates the ideal size for the bloom filter.
@@ -66,14 +68,19 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
      * @param item
      *            categorical item to be added to the bloom filter
      */
-    public void add(T item) {
+    public void add(String item) {
         HashGenerator hashFuncGenerator = new HashGenerator();
         String str = item.toString();
         byte[] b = str.getBytes(StandardCharsets.UTF_8);
         BigInteger[] hashFunctions = hashFuncGenerator.createHashes(b, this.maxNumHash);
         for (BigInteger hashfun: hashFunctions) {
-            BigInteger index = hashfun.mod(BigInteger.valueOf(this.maxBloomSize));
-            this.sampleBitArray.set(index.intValue(), true);
+            System.out.println(hashfun);
+            BigInteger b1 = new BigInteger(String.valueOf(this.maxBloomSize));
+            System.out.println("check");
+            System.out.println(b1);
+            BigInteger index = hashfun.mod(b1);
+            System.out.println(index);
+             this.sampleBitArray.set(index.intValue(), true);
         }
     }
 
@@ -86,7 +93,7 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
      *              true if the item is in the bloom filter and false otherwise
      *
      */
-    public boolean mightContain(T item) {
+    public boolean mightContain(String item) {
         HashGenerator hashFuncGenerator = new HashGenerator();
         String str = item.toString();
         byte[] b = str.getBytes(StandardCharsets.UTF_8);
@@ -107,7 +114,7 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
     public BitArray getBitArray() {
         return this.sampleBitArray;
     }
-
+    public int getLen() {return this.maxBloomSize;}
 
     /**
      * a method that prints this bitSet in the form a binary string
@@ -119,5 +126,6 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
     public  String toBinaryString() {
         return(this.sampleBitArray.toString());
     }
+
 
 }
