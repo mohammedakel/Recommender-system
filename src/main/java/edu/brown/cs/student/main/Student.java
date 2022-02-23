@@ -6,8 +6,6 @@ import java.util.List;
 
 /**
  * Student class with attributes, takes in a parsed line of data and assigns the attributes.
- *
- * @author kkmarcus
  */
 public class Student implements KdTreeNode {
   int cd;

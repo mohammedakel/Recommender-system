@@ -22,10 +22,8 @@ public class CreateBF implements Command {
   }
 
   public void execute(String[] args) {
-    if (args.length < 2) {
-      System.out.println("ERROR: Missing args, enter create_bf <r> <n> or create_bf <n>");
-    } else if (args.length > 3) {
-      System.out.println("ERROR: Too many args, enter create_bf <r> <n> or create_bf <n>");
+    if (args.length != 3 && args.length != 2) {
+      System.out.println("ERROR: Incorrect amount of args, run create_bf <r> <n> or create_bf <n>");
     } else {
       int n = 0;
       if (args.length == 3) { // create_bf <r> <n>
@@ -34,7 +32,8 @@ public class CreateBF implements Command {
           n = Integer.parseInt(args[2]);
           if (r > 0 && r < 1) {
             BloomFilterBuilder bloom = new BloomFilterBuilder(n, r);
-            REPL.addCommandObject("create_bf", bloom);
+            REPL.addCommandObject("create_bf",
+                bloom); // add the object to REPL hashmap so it can be accessed by other methods
           } else {
             System.out.println("ERROR: r must be between 0 and 1 (create_bf <r> <n>)");
           }
@@ -45,7 +44,7 @@ public class CreateBF implements Command {
         try {
           n = Integer.parseInt(args[1]);
           BloomFilterBuilder bloom = new BloomFilterBuilder(n);
-          REPL.addCommandObject("create_bf", bloom);
+          REPL.addCommandObject("create_bf", bloom); // add object to REPL hashmap
         } catch (NumberFormatException e) {
           System.out.println("ERROR: Invalid arg. <n> must be an Integer");
         }

@@ -16,9 +16,8 @@ Created new command: similar_kd
 Created new command: similar_bf
 Created new command: load_bf
 ERROR: No command with that name exists
-ERROR: Missing args, enter create_bf <r> <n> or create_bf <n>
+ERROR: Incorrect amount of args, run create_bf <r> <n> or create_bf <n>
 ERROR: Invalid arg. <n> must be an Integer
 ERROR: Invalid arg(s). <n> must be an Integer, <r> must be a Double
 ERROR: r must be between 0 and 1 (create_bf <r> <n>)
-building filter
 END

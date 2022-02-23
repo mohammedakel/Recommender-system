@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Input and Output learned from https://stackoverflow.com/questions/1647907/junit-how-to-simulate-system-in-testing
  * https://stackoverflow.com/questions/6415728/junit-testing-with-simulated-user-input
- * how to test system: https://stackoverflow.com/questions/47144489/testing-system-out-println-not-working-but-system-out-print-using-junit
+ * How to test system: https://stackoverflow.com/questions/47144489/testing-system-out-println-not-working-but-system-out-print-using-junit
  */
 public class CommandsTest {
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -31,8 +31,6 @@ public class CommandsTest {
   private void provideInput(String data) {
     testInput = new ByteArrayInputStream(data.getBytes(StandardCharsets.UTF_8));
     System.setIn(testInput);
-
-
   }
 
   /**
@@ -53,30 +51,29 @@ public class CommandsTest {
   }
 
 
+  /**
+   * Test addCommands method
+   */
   @Test
   public void testAddCommands() {
 
     Command newCommand = new Command() {
       @Override
       public void execute(String[] args) throws IOException {
-        System.out.println("HI");
       }
     };
     newCommand.addCommands("commandName", newCommand);
-
-    //Assert.assertEquals("Created new command: commandName" + System.getProperty("line.separator"), outContent.toString());
     Assert.assertTrue(outContent.toString().startsWith("Created new command: commandName"));
+    Assert.assertTrue(REPL.checkCommandExists("commandName"));
     outContent.reset();  // clear output stream
 
     Command newCommand2 = new Command() {
       @Override
       public void execute(String[] args) throws IOException {
-        System.out.println("HI");
       }
     };
     newCommand2.addCommands("commandName", newCommand2);
 
-    //Assert.assertEquals("ERROR: Command already exists using that name, choose different name", outContent.toString());
     Assert.assertTrue(outContent.toString()
         .startsWith("ERROR: Command already exists using that name, choose different name"));
 
@@ -84,21 +81,24 @@ public class CommandsTest {
 
     newCommand2.addCommands("commandName2", newCommand2); // add unique name
 
-    //Assert.assertEquals("Created new command: commandName2", outContent.toString());
     Assert.assertTrue(outContent.toString().startsWith("Created new command: commandName2"));
 
+    Assert.assertTrue(REPL.checkCommandExists("commandName2"));
   }
 
+  /**
+   * Test removeCommand method
+   */
   @Test
-  public void removeCommand() {
+  public void testRemoveCommand() {
     Command newCommand = new Command() {
       @Override
       public void execute(String[] args) throws IOException {
-        System.out.println("HI");
       }
     };
     newCommand.addCommands("commandToRemoveName", newCommand);
     Assert.assertTrue(outContent.toString().startsWith("Created new command: commandToRemoveName"));
+    Assert.assertTrue(REPL.checkCommandExists("commandToRemoveName"));
     outContent.reset();  // clear output stream
 
     newCommand.removeCommands("commandToRemoveNam", newCommand);
@@ -108,6 +108,7 @@ public class CommandsTest {
 
     newCommand.removeCommands("commandToRemoveName", newCommand);
     Assert.assertTrue(outContent.toString().startsWith("Removed command: commandToRemoveName"));
+    Assert.assertFalse(REPL.checkCommandExists("commandToRemoveName"));
   }
 
   @Test
@@ -115,13 +116,12 @@ public class CommandsTest {
     Command newCommand = new Command() {
       @Override
       public void execute(String[] args) throws IOException {
-        System.out.println("HI");
       }
     };
     newCommand.addCommands("", newCommand);
+    Assert.assertFalse(REPL.checkCommandExists(""));
     Assert.assertTrue(outContent.toString()
         .startsWith("ERROR: No command entered, command name must be non-empty string"));
-    //Assert.assertEquals("ERROR: No command entered, command name must be non-empty string", outContent.toString());
   }
 
 //  @Test

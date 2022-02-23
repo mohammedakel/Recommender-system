@@ -23,14 +23,10 @@ public class Stars {
 
   public Stars(String[] CSVParsedLine) {
     this.starID = CSVParsedLine[0];
-    //this.starID = Integer.parseInt(CSVParsedLine[0]);
     this.properName = CSVParsedLine[1];
     this.x = CSVParsedLine[2];
     this.y = CSVParsedLine[3];
     this.z = CSVParsedLine[4];
-//    this.x = Double.parseDouble(CSVParsedLine[2]);
-//    this.y = Double.parseDouble(CSVParsedLine[3]);
-//    this.z = Double.parseDouble(CSVParsedLine[4]);
   }
 
   public String getProperName() {

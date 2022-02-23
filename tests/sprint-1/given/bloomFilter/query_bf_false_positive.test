@@ -4,6 +4,15 @@ insert_bf cs1710
 query_bf cs1710
 query_bf cs0320
 OUTPUT
+Created new command: stars
+Created new command: naive_neighbors
+Created new command: load_kd
+Created new command: create_bf
+Created new command: insert_bf
+Created new command: query_bf
+Created new command: similar_kd
+Created new command: similar_bf
+Created new command: load_bf
 00
 10
 "cs1710" might be in the set.

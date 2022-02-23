@@ -3,7 +3,7 @@ package edu.brown.cs.student.main;
 /**
  * The query_bf command querys a Bloom filter to see whether it might contain
  * a given element
- * Run query_bf <element>
+ * Run query_bf [element]
  *
  *  It implements the REPL and Command interface, so it must add itself to the
  *  REPL hashMap and implement execute.
@@ -27,14 +27,14 @@ public class QueryBF implements Command {
    */
   public void execute(String[] args) {
     BloomFilterBuilder bloomFilter =
-        (BloomFilterBuilder) REPL.getCommandObject("create_bf");
-    if (bloomFilter == null) {
+        (BloomFilterBuilder) REPL.getCommandObject("create_bf"); //get bloom filter, if it exists
+    if (bloomFilter == null) { // create_bf hasn't been called if null
       System.out.println("ERROR: No Bloom Filter exists, run create_bf <r> <n>");
-    } else if (args.length < 2) {
-      System.out.println("ERROR: Missing args, enter query_bf <element>");
+    } else if (args.length != 2) {
+      System.out.println("ERROR: Incorrect amount of args, run query_bf <element>");
     } else {
       String element = args[1];
-      bloomFilter.mightContain(element);
+      bloomFilter.mightContain(element); // check if bloom filter contains given element
     }
   }
 }

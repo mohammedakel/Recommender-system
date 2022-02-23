@@ -1,9 +1,10 @@
 INPUT
 similar_kd
+load_kd data/project1/proj1_small.csv
 similar_kd 1
+similar_kd 1 2 3 4
 similar_kd string string
 similar_kd 1 string
-similar_kd 1 2 3 4
 OUTPUT
 Created new command: stars
 Created new command: naive_neighbors
@@ -14,9 +15,10 @@ Created new command: query_bf
 Created new command: similar_kd
 Created new command: similar_bf
 Created new command: load_bf
-ERROR: Not enough args, type similar_kd <k> <some_user_id>
-ERROR: Not enough args, type similar_kd <k> <some_user_id>
+ERROR: No student data, run load_kd <path/to/file.csv> first
+Read 20 students from data/project1/proj1_small.csv
+ERROR: Incorrect amount of args, run similar_kd <k> <some_user_id>
+ERROR: Incorrect amount of args, run similar_kd <k> <some_user_id>
 ERROR: Invalid arg(s). <k> and <some_user_id> must be Integer
 ERROR: Invalid arg(s). <k> and <some_user_id> must be Integer
-ERROR: Too many args, type similar_kd <k> <some_user_id>
 END

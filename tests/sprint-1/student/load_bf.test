@@ -15,7 +15,7 @@ Created new command: similar_kd
 Created new command: similar_bf
 Created new command: load_bf
 ERROR: No FileName
-ERROR: Too many args, type load_bf <path-to-data>
+ERROR: Too many args, run load_bf <path-to-data>
 Read 20 students from data/project1/proj1_small.csv
 Read 60 students from data/project1/proj1_medium.csv
 Read 500 students from data/project1/proj1_big.csv

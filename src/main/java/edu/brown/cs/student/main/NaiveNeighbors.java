@@ -7,11 +7,20 @@ import java.util.List;
 
 final class NaiveNeighbors implements REPL, Command {
 
+  /**
+   * Constructor must add itself to REPL hashmap containing command name and classes
+   */
   NaiveNeighbors() {
     String commandName = "naive_neighbors";
     this.addCommands(commandName, this);
   }
 
+  /**
+   * execute must check to see if star name exists
+   * and check if there are the correct amount and type of args
+   *
+   * @param args (array of strings)
+   */
   public void execute(String[] args) {
     List<Stars> stars = (List<Stars>) REPL.getCommandObject("stars");
 

@@ -18,10 +18,6 @@ import java.util.List;
  */
 public interface REPL {
   HashMap<String, Command> commandsHash = new HashMap<String, Command>();
-  int[] starsLoaded = new int[1];
-  int[] bloomFilterCreated = new int[1];
-  //ArrayList<String[]> stars = new ArrayList<String[]>();
-  List<Stars> stars = new ArrayList<>();
   BloomFilterBuilder bloom = null;
   HashMap<String, Object> objectsForCommands = new HashMap<>();
 
@@ -54,6 +50,7 @@ public interface REPL {
   }
 
   /**
+   * Gets the object a command creates, if any
    * @param commandName
    * @return object the command creates, if any
    */
@@ -62,7 +59,7 @@ public interface REPL {
   }
 
   /**
-   * Adds the object the command stores, if any
+   * Stores the object the command stores, if any
    * @param commandName
    * @param commandObject
    */
@@ -79,7 +76,6 @@ public interface REPL {
    */
   default void addCommands(String name, Command command) {
     if (commandsHash.containsKey(name)) {
-      //System.out.print("test");
       System.out.println("ERROR: Command already exists using that name, choose different name");
     } else if (name.isBlank()) {
       System.out.println("ERROR: No command entered, command name must be non-empty string");
@@ -90,6 +86,8 @@ public interface REPL {
   }
 
   /**
+   * Checks if the command with given name exists before calling execute
+   *
    * @param name of command (String)
    * @return true (command exists) or false (throw error)
    */
@@ -118,80 +116,6 @@ public interface REPL {
       System.out.println("ERROR: No command with name: " + name + " exists, cannot remove");
     }
   }
-
-//  /**
-//   * called by Stars class when file is loaded, stores stars data and sets
-//   * boolean (starsLoaded[0]) equal to 1 (true)
-//   *
-//   * @param starsToLoad
-//   */
-//  static void loadStars(List<Stars> starsToLoad) {
-//    starsLoaded[0] = 1;
-//    for (int i = 0; i < starsToLoad.size(); i++) {
-//      stars.add(i, starsToLoad.get(i));
-//    }
-//  }
-//
-//  /**
-//   * Used by naive_neighbors to both check if stars has loaded data and to
-//   * access list of stars
-//   *
-//   * @return
-//   */
-//  static List<Stars> starsLoaded() {
-//    if (starsLoaded[0] == 1) {
-//      return stars;
-//    }
-//    return null;
-//  }
-//
-//  /**
-//   * Used by create_bf command when bloom filter has been created
-//   */
-//  static BloomFilterBuilder<String> createdBloomFilter(Double r, int n) {
-//    bloomFilterCreated[0] = 1;
-//    if (r != null) {
-//      //bloom =new BloomFilterBuilder<String>(n, r);
-//    } else {
-//      BloomFilterBuilder bloom = new BloomFilterBuilder<String>(n);
-//    }
-//    return bloom;
-//  }
-//
-//  /**
-//   * Used by insert_bf and query_bf to make sure bloom filter exists
-//   *
-//   * @return true if create_bf has been called, false if not
-//   */
-//  static BloomFilterBuilder<String> bloomFilterExists() {
-//    if (bloomFilterCreated[0] == 1) {
-//      return bloom;
-//    }
-//    return null;
-//  }
-
-//  public BloomFilterBuilder<Student> bloom;
-//  public List<Stars> stars;
-//
-//  public Container() {
-//
-//  }
-//
-//  public void setBloom(BloomFilterBuilder<Student> bloom) {
-//    this.bloom = bloom;
-//  }
-//
-//  public BloomFilterBuilder<Student> getBloom() {
-//    return bloom;
-//  }
-//
-//  public void setStars(List<Stars> stars) {
-//    this.stars = stars;
-//  }
-//
-//  public List<Stars> getStars() {
-//    return stars;
-//  }
 }
 
 
