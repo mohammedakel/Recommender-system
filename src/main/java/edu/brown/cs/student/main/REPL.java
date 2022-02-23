@@ -65,12 +65,12 @@ public interface REPL {
   default void addCommands(String name, Command command) {
     if (commandsHash.containsKey(name)) {
       //System.out.print("test");
-      System.out.print("ERROR: Command already exists using that name, choose different name");
+      System.out.println("ERROR: Command already exists using that name, choose different name");
     } else if (name.isBlank()) {
-      System.out.print("ERROR: No command entered, command name must be non-empty string");
+      System.out.println("ERROR: No command entered, command name must be non-empty string");
     } else {
       commandsHash.put(name, command);
-      System.out.print("Created new command: " + name);
+      System.out.println("Created new command: " + name);
     }
   }
 
@@ -87,6 +87,21 @@ public interface REPL {
       return false;
     }
     return true; // command exists
+  }
+
+  /**
+   * Removes command from hashmap
+   * @param name of command to remove
+   * @param command class
+   */
+  default void removeCommands(String name, Command command) {
+    if (commandsHash.containsKey(name)) {
+      commandsHash.remove(name); // remove command
+      System.out.println("Removed command: " + name);
+    }
+    else {
+      System.out.println("ERROR: No command with name: " + name + " exists, cannot remove");
+    }
   }
 
   /**

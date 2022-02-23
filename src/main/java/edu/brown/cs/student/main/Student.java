@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author kkmarcus
  */
-public class Student implements KdTreeNode<KdTreeNode> {
+public class Student implements KdTreeNode {
   int cd;
   private int id;
   private String name;

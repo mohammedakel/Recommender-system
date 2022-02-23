@@ -5,6 +5,15 @@ create_bf 0.05 2
 insert_bf
 query_bf
 OUTPUT
+Created new command: stars
+Created new command: naive_neighbors
+Created new command: load_kd
+Created new command: create_bf
+Created new command: insert_bf
+Created new command: query_bf
+Created new command: similar_kd
+Created new command: similar_bf
+Created new command: load_bf
 ERROR: No Bloom Filter exists, run create_bf <r> <n>
 ERROR: No Bloom Filter exists, run create_bf <r> <n>
 building filter
