@@ -61,6 +61,9 @@ public final class Main {
     CreateBF createBF = new CreateBF();
     InsertBF insertBF = new InsertBF();
     QueryBF queryBF = new QueryBF();
+    SimilarKD similarKD = new SimilarKD();
+    SimilarBF similarBF = new SimilarBF();
+    LoadBF loadBF = new LoadBF();
 
     REPL.runREPL();
 
