@@ -2,13 +2,13 @@ package edu.brown.cs.student.main.kdtree;
 
 import java.util.List;
 
-public interface KdTreeNode<T>{
+public interface KdTreeNode{
   List<Double> getData();
   int getId();
-  T getLeft();
-  T getRight();
+  KdTreeNode getLeft();
+  KdTreeNode getRight();
   int getDimension();
-  void setLeft(T object);
-  void setRight(T object);
+  void setLeft(KdTreeNode object);
+  void setRight(KdTreeNode object);
   void setDimension(int cd);
 }

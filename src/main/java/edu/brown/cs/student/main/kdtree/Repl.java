@@ -43,15 +43,6 @@ public class Repl {
     nodeList.add(student8);
     nodeList.add(student9);
     Tree tree = new Tree(nodeList);
-    System.out.println(tree.getRoot().getId());
-    System.out.println(student7.getLeft().getId());
-    System.out.println(student7.getRight().getId());
-    System.out.println(student4.getLeft().getId());
-    System.out.println(student4.getRight().getId());
-    System.out.println(student1.getLeft().getId());
-    System.out.println(student1.getRight().getId());
-    System.out.println(student3.getRight().getId());
-    System.out.println(student6.getRight().getId());
-
+    System.out.println(tree.findNeighbor(2, 1));
   }
 }
