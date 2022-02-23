@@ -25,7 +25,7 @@ public interface REPL {
   //ArrayList<String[]> stars = new ArrayList<String[]>();
   List<Stars> stars = new ArrayList<>();
   BloomFilterBuilder<String> bloom = null;
-
+  HashMap<String, Object> objectsForCommands = new HashMap<>();
 
   /**
    * Reads user input and checks if the command exists, if it does, calls execute.
@@ -41,10 +41,9 @@ public interface REPL {
         aa:
         while ((str = input.readLine()) != null) {
           String[] args = str.split(" ");
-          if (args[0].equals("exit")){
+          if (args[0].equals("exit")) {
             break aa;
-          }
-          else if (checkCommandExists(args[0])) { // checks if command is in hashmap
+          } else if (checkCommandExists(args[0])) { // checks if command is in hashmap
             Command newCommand = commandsHash.get(args[0]);
             newCommand.execute(args); // command uses their own execute method
           }
@@ -55,6 +54,24 @@ public interface REPL {
       System.out.println("ERROR: invalid file input");
     }
   }
+
+  /**
+   * @param commandName
+   * @return object the command creates, if any
+   */
+  static Object getCommandObject(String commandName) {
+    return objectsForCommands.get(commandName);
+  }
+
+  /**
+   * Adds the object the command stores, if any
+   * @param commandName
+   * @param commandObject
+   */
+  static void addCommandObject(String commandName, Object commandObject) {
+    objectsForCommands.put(commandName, commandObject);
+  }
+
 
   /**
    * Adds a new command to the REPL HashMap
@@ -91,15 +108,15 @@ public interface REPL {
 
   /**
    * Removes command from hashmap
-   * @param name of command to remove
+   *
+   * @param name    of command to remove
    * @param command class
    */
   default void removeCommands(String name, Command command) {
     if (commandsHash.containsKey(name)) {
       commandsHash.remove(name); // remove command
       System.out.println("Removed command: " + name);
-    }
-    else {
+    } else {
       System.out.println("ERROR: No command with name: " + name + " exists, cannot remove");
     }
   }
@@ -135,11 +152,10 @@ public interface REPL {
    */
   static BloomFilterBuilder<String> createdBloomFilter(Double r, int n) {
     bloomFilterCreated[0] = 1;
-    if (r != null){
+    if (r != null) {
       //bloom =new BloomFilterBuilder<String>(n, r);
-    }
-    else {
-      BloomFilterBuilder bloom =new BloomFilterBuilder<String>(n);
+    } else {
+      BloomFilterBuilder bloom = new BloomFilterBuilder<String>(n);
     }
     return bloom;
   }

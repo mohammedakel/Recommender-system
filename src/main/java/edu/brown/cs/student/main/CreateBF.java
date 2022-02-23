@@ -37,21 +37,18 @@ public class CreateBF implements Command {
           n = Integer.parseInt(args[2]);
           if (r > 0 && r < 1) {
             BloomFilterBuilder bloom = new BloomFilterBuilder(n, r);
-            REPL.createdBloomFilter(r,
-                n); // set boolean to true so that insert and query know a bf has been created
+            REPL.addCommandObject("create_bf", bloom);
           } else {
             System.out.println("ERROR: r must be between 0 and 1 (create_bf <r> <n>)");
-            //throw new IllegalArgumentException();
           }
         } catch (NumberFormatException e) {
           System.out.println("ERROR: Invalid arg(s). <n> must be an Integer, <r> must be a Double");
         }
-      } else { // create_bf <n>
+      } else {
         try {
           n = Integer.parseInt(args[1]);
           BloomFilterBuilder bloom = new BloomFilterBuilder(n);
-          REPL.createdBloomFilter(null,
-              n); // set boolean to true so that insert and query know a bf has been created
+          REPL.addCommandObject("create_bf", bloom);
         } catch (NumberFormatException e) {
           System.out.println("ERROR: Invalid arg. <n> must be an Integer");
         }

@@ -28,7 +28,8 @@ public class InsertBF implements Command {
    * @param args (array of strings)
    */
   public void execute(String[] args) {
-    BloomFilterBuilder<String> bloomFilter = REPL.bloomFilterExists();
+    BloomFilterBuilder<String> bloomFilter =
+        (BloomFilterBuilder<String>) REPL.getCommandObject("create_bf");
     if (bloomFilter == null) {
       System.out.println("ERROR: No Bloom Filter exists, run create_bf <r> <n>");
     } else if (args.length < 2) {
@@ -36,7 +37,6 @@ public class InsertBF implements Command {
     } else {
       String element = args[1];
       bloomFilter.add(element);
-      //BloomFilterBuilder.add(element)
     }
   }
 }

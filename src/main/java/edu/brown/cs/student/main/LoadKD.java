@@ -20,19 +20,22 @@ public class LoadKD implements REPL, Command {
       String filePath = args[1];
       CSVParser newParser = new CSVParser(filePath, Student::new, true);
       newParser.readLine();
-      List<Student> students = newParser.getListOfObjects();
+      List<KdTreeNode> students = newParser.getListOfObjects();
       System.out.println("Read " + students.size() + " students from " + filePath);
-      Tree studentTree = new Tree(addNodes(students));
-
+      Tree studentTree = new Tree(students);
+      REPL.addCommandObject("load_kd", studentTree); // add object
+//
 //      System.out.println(studentTree.getRoot().getId());
-//      System.out.println(students.get(7).getLeft().getId());
-//      System.out.println(students.get(7).getRight().getId());
-//      System.out.println(students.get(4).getLeft().getId());
-//      System.out.println(students.get(4).getRight().getId());
-//      System.out.println(students.get(1).getLeft().getId());
-//      System.out.println(students.get(1).getRight().getId());
-//      System.out.println(students.get(3).getRight().getId());
-//      System.out.println(students.get(6).getRight().getId());
+//      System.out.println(studentTree.getRoot().getLeft().getId());
+//      System.out.println(studentTree.getRoot().getRight().getId());
+//      System.out.println(studentTree.get(7).getLeft().getId());
+//      System.out.println(studentTree.get(7).getRight().getId());
+//      System.out.println(studentTree.get(4).getLeft().getId());
+//      System.out.println(studentTree.get(4).getRight().getId());
+//      System.out.println(studentTree.get(1).getLeft().getId());
+//      System.out.println(studentTree.get(1).getRight().getId());
+//      System.out.println(studentTree.get(3).getRight().getId());
+//      System.out.println(studentTree.get(6).getRight().getId());
     }
   }
 
@@ -43,7 +46,4 @@ public class LoadKD implements REPL, Command {
     }
     return nodeList;
   }
-
-
-
 }

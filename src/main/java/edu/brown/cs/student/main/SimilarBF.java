@@ -16,6 +16,7 @@ public class SimilarBF implements Command {
       try {
         int k = Integer.parseInt(args[1]);
         int user_id = Integer.parseInt((args[2]));
+
       } catch (NumberFormatException e) {
         System.out.println("ERROR: Invalid arg(s). <k> and <some_user_id> must be Integers");
       }

@@ -4,7 +4,7 @@ public class CreateStudent implements CSVObject{
 
   @Override
   public Student createObjectWithLineOfData(String[] lineOfData) {
-    System.out.println("HI");
+    //System.out.println("HI");
     return new Student(lineOfData);
   }
 }
