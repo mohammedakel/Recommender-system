@@ -1,6 +1,8 @@
 package edu.brown.cs.student.main;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimilarBF implements Command {
 
@@ -16,6 +18,9 @@ public class SimilarBF implements Command {
       try {
         int k = Integer.parseInt(args[1]);
         int user_id = Integer.parseInt((args[2]));
+        // TODO
+        //List<Student> studentBloomFilters = (Student) REPL.getCommandObject("load_bf");
+        // call similar_bf(k, user_id) method
 
       } catch (NumberFormatException e) {
         System.out.println("ERROR: Invalid arg(s). <k> and <some_user_id> must be Integers");

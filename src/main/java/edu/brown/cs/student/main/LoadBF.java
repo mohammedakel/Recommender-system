@@ -20,6 +20,9 @@ public class LoadBF implements Command {
       newParser.readLine();
       List<Student> students = newParser.getListOfObjects();
       System.out.println("Read " + students.size() + " students from " + filePath);
+
+      REPL.addCommandObject("load_bf", students); // does this need to be bloomfilters? Adjust
+      // TO DO: load bloom filters for every student in the dataset
     }
   }
 }
