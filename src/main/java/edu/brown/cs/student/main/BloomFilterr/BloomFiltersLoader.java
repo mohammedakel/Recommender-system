@@ -95,7 +95,7 @@ public class BloomFiltersLoader {
      */
     public BloomFilterBuilder createStudentBloomFilter(HashSet<String> studentItems) {
         int n = this.getMaxNumItems();
-        BloomFilterBuilder studentBloom = new BloomFilterBuilder(n, this.falsePositivityRate);
+        BloomFilterBuilder studentBloom = new BloomFilterBuilder(n);
         for (String Item: studentItems
              ) {
             studentBloom.add(Item);

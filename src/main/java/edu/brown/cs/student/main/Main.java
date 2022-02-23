@@ -2,12 +2,10 @@ package edu.brown.cs.student.main;
 
 // look into using these imports for your REPL!
 
-<<<<<<< HEAD
 import edu.brown.cs.student.main.BloomFilterr.BloomFilterBuilder;
 import edu.brown.cs.student.main.BloomFilterr.BloomFiltersLoader;
 import edu.brown.cs.student.main.BloomFilterr.SBLTuple;
 import edu.brown.cs.student.main.BloomFilterr.SimilarityGenerator;
-=======
 
 import edu.brown.cs.student.main.BloomFilterr.BloomFilter;
 import edu.brown.cs.student.main.BloomFilterr.BloomFilterBuilder;
@@ -18,7 +16,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
->>>>>>> fb63d51cbd07892f4a802ba4fbe3261cff0c01d6
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
@@ -69,75 +66,37 @@ public final class Main {
         }
 
         // TODO: Add your REPL here!
-<<<<<<< HEAD
-        Student studentOne = new Student(1, "name", "email", "gender", "class year",
-                "ssn", "nationality", "race", 20, "communication style",
-                3, "meeting style", "meeting time", 10, "strength",
-                "weakness", "skills", "intrests");
-        Student studentTwo = new Student(2, "name", "email", "gender", "class year",
-                "ssn", "nationality", "race", 20, "written, email, " +
-                "before midnight", 3, "zoom", "mornings, afternoons", 10,
-                "a, b, c", "d, e, f", "aa, bb", "nothing");
+        String filePath = "data/project1/proj1_small.csv";
+        CSVParser newParser = new CSVParser(filePath, Student::new, true);
+        try{
+            newParser.readLine();}
+        catch (IOException e){
+            System.out.println("error");
+        }
+        List<Student> students = newParser.getListOfObjects();
 
-        Student studentThree = new Student(3, "name", "email", "gender", "class year",
-                "ssn", "nationality", "race", 20, "written, email, call" +
-                "before midnight", 3, "zoom, in person", "mornings, afternoons, nights", 10,
-                "a, b, c, k", "d, e, f, l", "aa, bb", "swimming, sports");
-        Student studentFour = new Student(4, "name", "email", "gender", "class year",
-                "ssn", "nationality", "race", 20, "communication style",
-                3, "meeting style", "meeting", 10, "strength",
-                "weakness", "skills", "int");
+        //create a bloom filter for all students using the BloomFilterLoader class which takes in
+        // a list of students and the loadAllbloom() method
+        BloomFiltersLoader loader = new BloomFiltersLoader(students);
+        HashMap<String, BloomFilterBuilder> idstoBlooms =  loader.loadAllBlooms();
 
+        //find similar using the similarity generator class which takes in the hashmap and number of neighbours as well
+        // as its findSimilar methods which takes in the id of the target student
+        // k represents the desired number of neighbours (from user)
+        SimilarityGenerator generator = new SimilarityGenerator(idstoBlooms, 5);
 
-        Student one = studentOne;
-        Student two = studentTwo;
-        Student three = studentThree;
-        Student four = studentFour;
-        List<Student> studentsList = new ArrayList<Student>() {{
-            add(one);
-            add(two);
-            add(three);
-            add(four);
-        } };
-        BloomFiltersLoader loader = new BloomFiltersLoader(studentsList, 0.01);
-        HashMap<String, BloomFilterBuilder>  idsToBlooms = loader.loadAllBlooms();
-        System.out.println(idsToBlooms.size());
-        SimilarityGenerator findSimilars = new SimilarityGenerator(idsToBlooms, 2);
-        PriorityQueue<SBLTuple> result = findSimilars.findSimilar(1);
-        System.out.println(result.size());
-        String SecondSimilar = String.valueOf(result.poll().id);
-        String firstSimilar = String.valueOf(result.poll().id);
-        System.out.println(result.size());
-        System.out.println("The most similar students to the student with id 1 are:");
-        System.out.println("The 1st most similar students: " + firstSimilar);
-        System.out.println("The 2nd most similar students: " + SecondSimilar);
-=======
+        // id is the student who we want to find similars for
+        PriorityQueue<SBLTuple> similarityResult = generator.findSimilar(1);
 
-        //given  the following user inputs:
-        int n = 5;
-        double r = 0.01;
+        //this limit variable must be set equal to the number of desired neighbours
+        //loop through the priority que and print the ids of the similar students
+        int limit = 5;
+        while(limit>0) {
+            SBLTuple current = similarityResult.poll();
+            System.out.println(current.id);
+            limit--;
+        }
 
-        BloomFilterBuilder<String> sampleBloomFilter = new BloomFilterBuilder<>(n, r);
-        System.out.println(sampleBloomFilter.toBinaryString() + "\n");
-        sampleBloomFilter.add("Java");
-        System.out.println(sampleBloomFilter.toBinaryString() + "\n");
-        System.out.println(sampleBloomFilter.mightContain("Java"));
-
-        BloomFilterBuilder<String> sampleBloomFilterTwo = new BloomFilterBuilder<>(n);
-        System.out.println(sampleBloomFilterTwo.toBinaryString() + "\n");
-        sampleBloomFilterTwo.add("Java");
-        System.out.println(sampleBloomFilterTwo.toBinaryString() + "\n");
-        System.out.println(sampleBloomFilterTwo.mightContain("Java"));
-      
-       Stars star = new Stars();
-       NaiveNeighbors naive = new NaiveNeighbors();
-       LoadKD load = new LoadKD();
-       CreateBF createBF = new CreateBF();
-       InsertBF insertBF = new InsertBF();
-       QueryBF queryBF = new QueryBF();
-
-       REPL.runREPL();
->>>>>>> fb63d51cbd07892f4a802ba4fbe3261cff0c01d6
     }
 
     private void runSparkServer(int port) {
