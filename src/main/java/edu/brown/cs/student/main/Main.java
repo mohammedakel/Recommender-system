@@ -2,10 +2,23 @@ package edu.brown.cs.student.main;
 
 // look into using these imports for your REPL!
 
+<<<<<<< HEAD
 import edu.brown.cs.student.main.BloomFilterr.BloomFilterBuilder;
 import edu.brown.cs.student.main.BloomFilterr.BloomFiltersLoader;
 import edu.brown.cs.student.main.BloomFilterr.SBLTuple;
 import edu.brown.cs.student.main.BloomFilterr.SimilarityGenerator;
+=======
+
+import edu.brown.cs.student.main.BloomFilterr.BloomFilter;
+import edu.brown.cs.student.main.BloomFilterr.BloomFilterBuilder;
+
+import java.io.BufferedReader;
+import java.io.FileDescriptor;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+>>>>>>> fb63d51cbd07892f4a802ba4fbe3261cff0c01d6
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
@@ -19,6 +32,7 @@ import static org.junit.Assert.assertEquals;
  * The Main class of our project. This is where execution begins.
  */
 public final class Main {
+
 
     // use port 4567 by default when running server
     private static final int DEFAULT_PORT = 4567;
@@ -55,6 +69,7 @@ public final class Main {
         }
 
         // TODO: Add your REPL here!
+<<<<<<< HEAD
         Student studentOne = new Student(1, "name", "email", "gender", "class year",
                 "ssn", "nationality", "race", 20, "communication style",
                 3, "meeting style", "meeting time", 10, "strength",
@@ -96,6 +111,33 @@ public final class Main {
         System.out.println("The most similar students to the student with id 1 are:");
         System.out.println("The 1st most similar students: " + firstSimilar);
         System.out.println("The 2nd most similar students: " + SecondSimilar);
+=======
+
+        //given  the following user inputs:
+        int n = 5;
+        double r = 0.01;
+
+        BloomFilterBuilder<String> sampleBloomFilter = new BloomFilterBuilder<>(n, r);
+        System.out.println(sampleBloomFilter.toBinaryString() + "\n");
+        sampleBloomFilter.add("Java");
+        System.out.println(sampleBloomFilter.toBinaryString() + "\n");
+        System.out.println(sampleBloomFilter.mightContain("Java"));
+
+        BloomFilterBuilder<String> sampleBloomFilterTwo = new BloomFilterBuilder<>(n);
+        System.out.println(sampleBloomFilterTwo.toBinaryString() + "\n");
+        sampleBloomFilterTwo.add("Java");
+        System.out.println(sampleBloomFilterTwo.toBinaryString() + "\n");
+        System.out.println(sampleBloomFilterTwo.mightContain("Java"));
+      
+       Stars star = new Stars();
+       NaiveNeighbors naive = new NaiveNeighbors();
+       LoadKD load = new LoadKD();
+       CreateBF createBF = new CreateBF();
+       InsertBF insertBF = new InsertBF();
+       QueryBF queryBF = new QueryBF();
+
+       REPL.runREPL();
+>>>>>>> fb63d51cbd07892f4a802ba4fbe3261cff0c01d6
     }
 
     private void runSparkServer(int port) {
@@ -105,4 +147,5 @@ public final class Main {
         // specify location of static resources (HTML, CSS, JS, images, etc.)
         Spark.externalStaticFileLocation("src/main/resources/static");
     }
+
 }
