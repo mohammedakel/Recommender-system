@@ -73,6 +73,12 @@ public class Student implements KdTreeNode {
     return dataList;
   }
 
+  public String[] getBloomData() {
+    String[] result = {this.communciation_style, this.meeting_style, this.meeting_time,
+        this.strengths, this.weaknesses, this.skills, this.interests};
+    return result;
+  }
+
   @Override
   public KdTreeNode getRight() {
     return right;

@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.bloomfilter;
+package edu.brown.cs.student.main;
 
 /**
  * An interface that represents a Bloom Filter of type T

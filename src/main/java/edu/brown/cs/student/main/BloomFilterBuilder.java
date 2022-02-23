@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.bloomfilter;
+package edu.brown.cs.student.main;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -6,11 +6,13 @@ import java.nio.charset.StandardCharsets;
 import static java.lang.Math.log;
 import static java.lang.Math.max;
 
-public class BloomFilterBuilder<T> implements BloomFilter<T> {
-  private BitArray sampleBitArray;
-  private int maxNumHash;
-  private int maxBloomSize;
+public class BloomFilterBuilder {
+  public BitArray sampleBitArray;
+  public int maxNumHash;
+  public int maxBloomSize;
   private BigInteger[] hashFunctions;
+
+
 
   /**
    * First constructor for the Bloom Filter. calculates the ideal size for the bloom filter.
@@ -20,21 +22,17 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
    *            maximum number of elements that will be inserted into the bloomfilter
    * @param r
    *            desired false positivity rate
+   *
    */
   public BloomFilterBuilder(int n, double r) {
-    if(0 < r && r < 1) {
-      System.out.println("building filter");
-      double log2r = (log(r) / log(2));
-      int k = (int) Math.ceil(-1 * log2r);
-      int m = (int) Math.ceil((k * n) / log(2));
-      this.sampleBitArray = new BitArray(m);
-      this.maxBloomSize = m;
-      this.maxNumHash = k;
-    }
-    else {
-      throw new IllegalArgumentException();
-    }
+    double log2r = (log(r) / log(2));
+    int k = (int) Math.ceil(-1 * log2r);
+    int m = (int) Math.ceil((k * n) / log(2));
+    this.sampleBitArray = new BitArray(m);
+    this.maxBloomSize = m;
+    this.maxNumHash = k;
   }
+
 
   /**
    * Second constructor for the Bloom Filter. uses deadfult value of 0.1 for desired positivity rate and
@@ -53,6 +51,18 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
     this.maxNumHash = k;
   }
 
+  /**
+   * third constructor that takes in a bitArray as input
+   * constructor meant to be used by the find neighbours method only
+   *
+   * @param bitArray
+   *            array to be added to the sample bitarray filed
+   *
+   */
+  public BloomFilterBuilder(BitArray bitArray) {
+    this.sampleBitArray = bitArray;
+  }
+
 
   /**
    * a method that adds an item to the given bloom filter
@@ -60,13 +70,14 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
    * @param item
    *            categorical item to be added to the bloom filter
    */
-  public void add(T item) {
+  public void add(String item) {
     HashGenerator hashFuncGenerator = new HashGenerator();
     String str = item.toString();
     byte[] b = str.getBytes(StandardCharsets.UTF_8);
     BigInteger[] hashFunctions = hashFuncGenerator.createHashes(b, this.maxNumHash);
     for (BigInteger hashfun: hashFunctions) {
-      BigInteger index = hashfun.mod(BigInteger.valueOf(this.maxBloomSize));
+      BigInteger b1 = new BigInteger(String.valueOf(this.maxBloomSize));
+      BigInteger index = hashfun.mod(b1);
       this.sampleBitArray.set(index.intValue(), true);
     }
   }
@@ -80,7 +91,7 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
    *              true if the item is in the bloom filter and false otherwise
    *
    */
-  public boolean mightContain(T item) {
+  public boolean mightContain(String item) {
     HashGenerator hashFuncGenerator = new HashGenerator();
     String str = item.toString();
     byte[] b = str.getBytes(StandardCharsets.UTF_8);
@@ -101,7 +112,7 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
   public BitArray getBitArray() {
     return this.sampleBitArray;
   }
-
+  public int getLen() {return this.maxBloomSize;}
 
   /**
    * a method that prints this bitSet in the form a binary string
@@ -113,5 +124,4 @@ public class BloomFilterBuilder<T> implements BloomFilter<T> {
   public  String toBinaryString() {
     return(this.sampleBitArray.toString());
   }
-
 }

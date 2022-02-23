@@ -36,7 +36,7 @@ public class SimilarKD implements REPL, Command {
 
   public void printNeighbors(ArrayList<Integer> neighbors) {
     if (neighbors.isEmpty()) {
-      //System.out.println("");
+      //System.out.println("");li
     } else {
       for (int i = 0; i < neighbors.size(); i++) {
         System.out.println(neighbors.get(i));

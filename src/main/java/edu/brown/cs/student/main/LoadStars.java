@@ -27,7 +27,7 @@ public class LoadStars implements REPL, Command {
         CSVParser newParser = new CSVParser(filePath, Stars::new, true);
         newParser.readLine();
         List<Stars> stars = newParser.getListOfObjects();
-        REPL.loadStars(stars);
+        REPL.addCommandObject("stars", stars);
         int t = stars.size();
         System.out.println("Read " + t + " stars from " + filePath); // print message
       }

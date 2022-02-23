@@ -1,7 +1,5 @@
 package edu.brown.cs.student.main;
 
-import edu.brown.cs.student.main.bloomfilter.BloomFilterBuilder;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,7 +22,7 @@ public interface REPL {
   int[] bloomFilterCreated = new int[1];
   //ArrayList<String[]> stars = new ArrayList<String[]>();
   List<Stars> stars = new ArrayList<>();
-  BloomFilterBuilder<String> bloom = null;
+  BloomFilterBuilder bloom = null;
   HashMap<String, Object> objectsForCommands = new HashMap<>();
 
   /**
@@ -121,56 +119,56 @@ public interface REPL {
     }
   }
 
-  /**
-   * called by Stars class when file is loaded, stores stars data and sets
-   * boolean (starsLoaded[0]) equal to 1 (true)
-   *
-   * @param starsToLoad
-   */
-  static void loadStars(List<Stars> starsToLoad) {
-    starsLoaded[0] = 1;
-    for (int i = 0; i < starsToLoad.size(); i++) {
-      stars.add(i, starsToLoad.get(i));
-    }
-  }
-
-  /**
-   * Used by naive_neighbors to both check if stars has loaded data and to
-   * access list of stars
-   *
-   * @return
-   */
-  static List<Stars> starsLoaded() {
-    if (starsLoaded[0] == 1) {
-      return stars;
-    }
-    return null;
-  }
-
-  /**
-   * Used by create_bf command when bloom filter has been created
-   */
-  static BloomFilterBuilder<String> createdBloomFilter(Double r, int n) {
-    bloomFilterCreated[0] = 1;
-    if (r != null) {
-      //bloom =new BloomFilterBuilder<String>(n, r);
-    } else {
-      BloomFilterBuilder bloom = new BloomFilterBuilder<String>(n);
-    }
-    return bloom;
-  }
-
-  /**
-   * Used by insert_bf and query_bf to make sure bloom filter exists
-   *
-   * @return true if create_bf has been called, false if not
-   */
-  static BloomFilterBuilder<String> bloomFilterExists() {
-    if (bloomFilterCreated[0] == 1) {
-      return bloom;
-    }
-    return null;
-  }
+//  /**
+//   * called by Stars class when file is loaded, stores stars data and sets
+//   * boolean (starsLoaded[0]) equal to 1 (true)
+//   *
+//   * @param starsToLoad
+//   */
+//  static void loadStars(List<Stars> starsToLoad) {
+//    starsLoaded[0] = 1;
+//    for (int i = 0; i < starsToLoad.size(); i++) {
+//      stars.add(i, starsToLoad.get(i));
+//    }
+//  }
+//
+//  /**
+//   * Used by naive_neighbors to both check if stars has loaded data and to
+//   * access list of stars
+//   *
+//   * @return
+//   */
+//  static List<Stars> starsLoaded() {
+//    if (starsLoaded[0] == 1) {
+//      return stars;
+//    }
+//    return null;
+//  }
+//
+//  /**
+//   * Used by create_bf command when bloom filter has been created
+//   */
+//  static BloomFilterBuilder<String> createdBloomFilter(Double r, int n) {
+//    bloomFilterCreated[0] = 1;
+//    if (r != null) {
+//      //bloom =new BloomFilterBuilder<String>(n, r);
+//    } else {
+//      BloomFilterBuilder bloom = new BloomFilterBuilder<String>(n);
+//    }
+//    return bloom;
+//  }
+//
+//  /**
+//   * Used by insert_bf and query_bf to make sure bloom filter exists
+//   *
+//   * @return true if create_bf has been called, false if not
+//   */
+//  static BloomFilterBuilder<String> bloomFilterExists() {
+//    if (bloomFilterCreated[0] == 1) {
+//      return bloom;
+//    }
+//    return null;
+//  }
 
 //  public BloomFilterBuilder<Student> bloom;
 //  public List<Stars> stars;

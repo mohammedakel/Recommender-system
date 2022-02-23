@@ -1,8 +1,5 @@
 package edu.brown.cs.student.main;
 
-import edu.brown.cs.student.main.bloomfilter.BloomFilter;
-import edu.brown.cs.student.main.bloomfilter.BloomFilterBuilder;
-
 /**
  * The create_bf command construct an empty, generic Bloom filter given:
  * r, a desired false positive rate

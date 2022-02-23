@@ -13,7 +13,7 @@ final class NaiveNeighbors implements REPL, Command {
   }
 
   public void execute(String[] args) {
-    List<Stars> stars = REPL.starsLoaded();
+    List<Stars> stars = (List<Stars>) REPL.getCommandObject("stars");
 
     if (stars == null) { // if boolean false, stars data hasn't been loaded
       System.out.println("ERROR: No stars file loaded, run stars <filename> first");

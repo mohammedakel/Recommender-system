@@ -1,7 +1,5 @@
 package edu.brown.cs.student.main;
 
-import edu.brown.cs.student.main.bloomfilter.BloomFilterBuilder;
-
 /**
  * The insert_bf command inserts elemented into a bloom filter
  * Run insert_bf <element>
@@ -28,8 +26,8 @@ public class InsertBF implements Command {
    * @param args (array of strings)
    */
   public void execute(String[] args) {
-    BloomFilterBuilder<String> bloomFilter =
-        (BloomFilterBuilder<String>) REPL.getCommandObject("create_bf");
+    BloomFilterBuilder bloomFilter =
+        (BloomFilterBuilder) REPL.getCommandObject("create_bf");
     if (bloomFilter == null) {
       System.out.println("ERROR: No Bloom Filter exists, run create_bf <r> <n>");
     } else if (args.length < 2) {
