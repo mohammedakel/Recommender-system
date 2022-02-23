@@ -4,12 +4,14 @@ package edu.brown.cs.student.main;
 
 import edu.brown.cs.student.main.BloomFilterr.BloomFilterBuilder;
 import edu.brown.cs.student.main.BloomFilterr.BloomFiltersLoader;
+import edu.brown.cs.student.main.BloomFilterr.SBLTuple;
+import edu.brown.cs.student.main.BloomFilterr.SimilarityGenerator;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -36,7 +38,7 @@ public final class Main {
         this.args = args;
     }
 
-    private void run() {
+    private void run()  {
         // set up parsing of command line flags
         OptionParser parser = new OptionParser();
 
@@ -53,46 +55,47 @@ public final class Main {
         }
 
         // TODO: Add your REPL here!
-
-        //given  the following user inputs:
-        int n = 10;
-        double r = 0.01;
-
-
-        BloomFilterBuilder sampleBloomFilter = new BloomFilterBuilder(n, r);
-        System.out.println(sampleBloomFilter.toBinaryString() + "\n");
-        sampleBloomFilter.add("Java");
-        System.out.println(sampleBloomFilter.toBinaryString() + "\n");
-        System.out.println(sampleBloomFilter.mightContain("Java"));
-
-        BloomFilterBuilder sampleBloomFilterTwo = new BloomFilterBuilder(n);
-        System.out.println(sampleBloomFilterTwo.toBinaryString() + "\n");
-        sampleBloomFilterTwo.add("Java");
-        System.out.println(sampleBloomFilterTwo.toBinaryString() + "\n");
-        System.out.println(sampleBloomFilterTwo.mightContain("Java"));
-        System.out.println(sampleBloomFilterTwo.mightContain("Python"));
-
-
-        Student one = new Student(1, "name", "email", "gender", "class year",
+        Student studentOne = new Student(1, "name", "email", "gender", "class year",
                 "ssn", "nationality", "race", 20, "communication style",
                 3, "meeting style", "meeting time", 10, "strength",
                 "weakness", "skills", "intrests");
-        Student two = new Student(2, "name", "email", "gender", "class year",
+        Student studentTwo = new Student(2, "name", "email", "gender", "class year",
                 "ssn", "nationality", "race", 20, "written, email, " +
                 "before midnight", 3, "zoom", "mornings, afternoons", 10,
                 "a, b, c", "d, e, f", "aa, bb", "nothing");
-        Student three = new Student(2, "name", "email", "gender", "class year",
+
+        Student studentThree = new Student(3, "name", "email", "gender", "class year",
                 "ssn", "nationality", "race", 20, "written, email, call" +
                 "before midnight", 3, "zoom, in person", "mornings, afternoons, nights", 10,
                 "a, b, c, k", "d, e, f, l", "aa, bb", "swimming, sports");
+        Student studentFour = new Student(4, "name", "email", "gender", "class year",
+                "ssn", "nationality", "race", 20, "communication style",
+                3, "meeting style", "meeting", 10, "strength",
+                "weakness", "skills", "int");
+
+
+        Student one = studentOne;
+        Student two = studentTwo;
+        Student three = studentThree;
+        Student four = studentFour;
         List<Student> studentsList = new ArrayList<Student>() {{
             add(one);
             add(two);
             add(three);
+            add(four);
         } };
         BloomFiltersLoader loader = new BloomFiltersLoader(studentsList, 0.01);
-        //HashMap<String, BloomFilterBuilder> result = loader.loadAllBlooms();
-        //assertEquals(3, result.size());
+        HashMap<String, BloomFilterBuilder>  idsToBlooms = loader.loadAllBlooms();
+        System.out.println(idsToBlooms.size());
+        SimilarityGenerator findSimilars = new SimilarityGenerator(idsToBlooms, 2);
+        PriorityQueue<SBLTuple> result = findSimilars.findSimilar(1);
+        System.out.println(result.size());
+        String SecondSimilar = String.valueOf(result.poll().id);
+        String firstSimilar = String.valueOf(result.poll().id);
+        System.out.println(result.size());
+        System.out.println("The most similar students to the student with id 1 are:");
+        System.out.println("The 1st most similar students: " + firstSimilar);
+        System.out.println("The 2nd most similar students: " + SecondSimilar);
     }
 
     private void runSparkServer(int port) {

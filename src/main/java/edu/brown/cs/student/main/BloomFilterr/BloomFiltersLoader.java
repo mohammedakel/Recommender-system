@@ -18,16 +18,29 @@ public class BloomFiltersLoader {
     public double falsePositivityRate;
 
     /**
-     * A class constructor that takes in a list of student of data
+     * A class constructor that takes in a list of student of data and falsePositivityrate
      *
      * @param studentsData
      *          list of all valid students in the data set
-     *
+     * @param falsePositivityRate
+     *          desired false positivity rate
      */
     public BloomFiltersLoader(List<Student> studentsData, double falsePositivityRate) {
         this.students = studentsData;
         this.falsePositivityRate = falsePositivityRate;
     }
+
+    /**
+     * A class constructor that takes in a list of student of data and uses 0.01 as default values for fpr
+     *
+     * @param studentsData
+     *          list of all valid students in the data set
+     *
+     */
+    public BloomFiltersLoader(List<Student> studentsData) {
+        this.students = studentsData;
+    }
+
 
 
     /**

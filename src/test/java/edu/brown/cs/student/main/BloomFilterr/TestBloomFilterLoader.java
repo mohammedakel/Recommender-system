@@ -61,7 +61,7 @@ public class TestBloomFilterLoader {
      *
      */
     private Student createStudentsThree() {
-        Student studentThree = new Student(2, "name", "email", "gender", "class year",
+        Student studentThree = new Student(3, "name", "email", "gender", "class year",
                 "ssn", "nationality", "race", 20, "written, email, call" +
                 "before midnight", 3, "zoom, in person", "mornings, afternoons, nights", 10,
                 "a, b, c, k", "d, e, f, l", "aa, bb", "swimming, sports");
@@ -123,10 +123,12 @@ public class TestBloomFilterLoader {
     }
 
 
+
     /**
      * a method that tests if a bloom filter is created given a student
      *
      */
+    @Test
     public void testIndividualStudentBloomFilter(){
         Student one = this.createStudentsOne();
         Student two = this.createStudentsTwo();
@@ -138,8 +140,9 @@ public class TestBloomFilterLoader {
         } };
         BloomFiltersLoader loader = new BloomFiltersLoader(studentsList, 0.01);
         HashSet<String> oneInfo = loader.extractStudentInformation(one);
+        assertEquals(7, oneInfo.size());
         BloomFilterBuilder result = loader.createStudentBloomFilter(oneInfo);
-        BloomFilterBuilder expected = new BloomFilterBuilder(7);
+        BloomFilterBuilder expected = new BloomFilterBuilder(loader.getMaxNumItems());
         expected.add("communication style");
         expected.add("meeting style");
         expected.add("meeting time");
@@ -148,7 +151,7 @@ public class TestBloomFilterLoader {
         expected.add("skills");
         expected.add("intrests");
         assertEquals(expected.getLen(), result.getLen());
-        assertEquals(expected, result);
+        assertEquals(expected.toBinaryString(), result.toBinaryString());
     }
 
     /**
@@ -156,6 +159,7 @@ public class TestBloomFilterLoader {
      * to their corresponding bloom filters
      *
      */
+    @Test
     public void testLoadStudentsBloomFilters() {
         Student one = this.createStudentsOne();
         Student two = this.createStudentsTwo();
@@ -165,6 +169,7 @@ public class TestBloomFilterLoader {
             add(two);
             add(three);
         } };
+        assertEquals(3, studentsList.size());
         BloomFiltersLoader loader = new BloomFiltersLoader(studentsList, 0.01);
         HashSet<String> oneInfo = loader.extractStudentInformation(one);
         HashSet<String> twoInfo = loader.extractStudentInformation(two);
@@ -175,7 +180,10 @@ public class TestBloomFilterLoader {
             put("3", loader.createStudentBloomFilter(threeInfo));
         }};
         HashMap<String, BloomFilterBuilder> result = loader.loadAllBlooms();
-        assertEquals(expected, result);
+        assertEquals(3, result.size());
+        String binaryStrExpected = expected.get("1").toBinaryString();
+        String binaryStrResult = result.get("1").toBinaryString();
+        assertEquals(binaryStrExpected, binaryStrResult);
     }
 
 

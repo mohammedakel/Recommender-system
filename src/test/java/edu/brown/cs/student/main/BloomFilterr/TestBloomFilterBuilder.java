@@ -67,10 +67,7 @@ public class TestBloomFilterBuilder {
         assertEquals("01010010", sampleBloom.toBinaryString());
     }
 
-    @Test (expected = IllegalArgumentException.class)
-    public void testInvalidRate() {
-        BloomFilterBuilder sampleBloom = new BloomFilterBuilder(1, 3);
-    }
+
 
 
 
