@@ -55,7 +55,7 @@ public final class Main {
     if (options.has("gui")) {
       runSparkServer((int) options.valueOf("port"));
     }
-    Stars star = new Stars();
+    LoadStars star = new LoadStars();
     NaiveNeighbors naive = new NaiveNeighbors();
     LoadKD load = new LoadKD();
     CreateBF createBF = new CreateBF();

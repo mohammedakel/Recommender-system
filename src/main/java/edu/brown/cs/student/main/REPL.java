@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Generic REPL that provides generic way to add arbitrary command
@@ -21,7 +22,8 @@ public interface REPL {
   HashMap<String, Command> commandsHash = new HashMap<String, Command>();
   int[] starsLoaded = new int[1];
   int[] bloomFilterCreated = new int[1];
-  ArrayList<String[]> stars = new ArrayList<String[]>();
+  //ArrayList<String[]> stars = new ArrayList<String[]>();
+  List<Stars> stars = new ArrayList<>();
   BloomFilterBuilder<String> bloom = null;
 
 
@@ -32,13 +34,17 @@ public interface REPL {
    */
   static void runREPL() throws IOException {
     try {
+
       while (true) {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         String str;
-
+        aa:
         while ((str = input.readLine()) != null) {
           String[] args = str.split(" ");
-          if (checkCommandExists(args[0])) { // if command is in hashmap
+          if (args[0].equals("exit")){
+            break aa;
+          }
+          else if (checkCommandExists(args[0])) { // checks if command is in hashmap
             Command newCommand = commandsHash.get(args[0]);
             newCommand.execute(args); // command uses their own execute method
           }
@@ -58,11 +64,13 @@ public interface REPL {
    */
   default void addCommands(String name, Command command) {
     if (commandsHash.containsKey(name)) {
-      System.out.println("ERROR: Command already exists using that name, choose different name");
+      //System.out.print("test");
+      System.out.print("ERROR: Command already exists using that name, choose different name");
     } else if (name.isBlank()) {
-      System.out.println("ERROR: No command entered, command name must be non-empty string");
+      System.out.print("ERROR: No command entered, command name must be non-empty string");
     } else {
       commandsHash.put(name, command);
+      System.out.print("Created new command: " + name);
     }
   }
 
@@ -87,7 +95,7 @@ public interface REPL {
    *
    * @param starsToLoad
    */
-  static void loadStars(ArrayList<String[]> starsToLoad) {
+  static void loadStars(List<Stars> starsToLoad) {
     starsLoaded[0] = 1;
     for (int i = 0; i < starsToLoad.size(); i++) {
       stars.add(i, starsToLoad.get(i));
@@ -100,7 +108,7 @@ public interface REPL {
    *
    * @return
    */
-  static ArrayList<String[]> starsLoaded() {
+  static List<Stars> starsLoaded() {
     if (starsLoaded[0] == 1) {
       return stars;
     }
@@ -133,6 +141,28 @@ public interface REPL {
     return null;
   }
 
+//  public BloomFilterBuilder<Student> bloom;
+//  public List<Stars> stars;
+//
+//  public Container() {
+//
+//  }
+//
+//  public void setBloom(BloomFilterBuilder<Student> bloom) {
+//    this.bloom = bloom;
+//  }
+//
+//  public BloomFilterBuilder<Student> getBloom() {
+//    return bloom;
+//  }
+//
+//  public void setStars(List<Stars> stars) {
+//    this.stars = stars;
+//  }
+//
+//  public List<Stars> getStars() {
+//    return stars;
+//  }
 }
 
 
