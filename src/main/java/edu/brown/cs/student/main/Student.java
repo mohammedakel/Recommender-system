@@ -31,6 +31,53 @@ public class Student implements KdTreeNode {
   private KdTreeNode right;
   private KdTreeNode left;
 
+  /**
+   * Alternative Constructor for Testing
+   * @param id
+   * @param name
+   * @param email
+   * @param gender
+   * @param class_year
+   * @param ssn
+   * @param nationality
+   * @param race
+   * @param years
+   * @param communciation_style
+   * @param hours
+   * @param meeting_style
+   * @param meeting_time
+   * @param confidence
+   * @param strengths
+   * @param weaknesses
+   * @param skills
+   * @param interests
+   */
+  public Student(int id, String name, String email, String gender,
+                 String class_year, String ssn, String nationality, String race, double years,
+                 String communciation_style, double hours, String meeting_style,
+                 String meeting_time,
+                 double confidence, String strengths, String weaknesses, String skills,
+                 String interests) {
+    this.id = id;
+    this.name = name;
+    this.years = years;
+    this.hours = hours;
+    this.confidence = confidence;
+    this.email = email;
+    this.gender = gender;
+    this.class_year = class_year;
+    this.ssn = ssn;
+    this.nationality = nationality;
+    this.race = race;
+    this.communciation_style = communciation_style;
+    this.meeting_style = meeting_style;
+    this.meeting_time = meeting_time;
+    this.strengths = strengths;
+    this.weaknesses = weaknesses;
+    this.skills = skills;
+    this.interests = interests;
+  }
+
 
   /**
    * Student constructor
