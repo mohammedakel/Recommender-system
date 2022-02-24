@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.kdtree;
+package edu.brown.cs.student.main;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,17 +6,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class Tree implements NearestNeighbor{
-  private int k = 3;
+/**
+ * This class is the main class for building a tree. It implements NearestNeighbor interface for
+ * calculating distance between nodes and returning a list of closest neighbors id
+ */
+public class Tree implements NearestNeighbor {
+  private int k;
   private KdTreeNode root;
   private List<KdTreeNode> nodeList;
   private HashMap<KdTreeNode, Double> distanceMap;
   private PriorityQueue<KdTreeNode> neighborsPq;
+
+  /**
+   * The constructor instantiates the hashmap for later use and takes in the nodeList, which is the
+   * list of students, to build the tree using buildTree().
+   * @param nodeList List of student objects parsed from csv file
+   */
   public Tree(List<KdTreeNode> nodeList){
+    k = 3;
     distanceMap = new HashMap<>();
     this.nodeList = nodeList;
     this.root=buildTree(0,this.nodeList.size()-1,0,nodeList);
   }
+
+  /**
+   * buildTree recursively builds a balanced k dimensional tree using the given list of nodes
+   * @param start starting index
+   * @param end ending index
+   * @param cd current dimension of the tree
+   * @param list list of nodes
+   * @return KdTreeNode root node
+   */
   public KdTreeNode buildTree(int start, int end, int cd, List<KdTreeNode> list){
     if(start > end){
       return null;
@@ -24,20 +44,30 @@ public class Tree implements NearestNeighbor{
     int mid = (start + end)/2;
     int mid2 = (int) Math.ceil((double)(start + end)/2);
     Collections.sort(list,new SortByData(cd));
-    KdTreeNode root = list.get(mid);
-    root.setDimension(cd);
+    KdTreeNode newRoot = list.get(mid);
+    newRoot.setDimension(cd);
     cd = (cd+1)%k;
     List<KdTreeNode> leftList = list.subList(start,mid);
     List<KdTreeNode> rightList = list.subList(mid+1,end+1);
-    root.setLeft(buildTree(start,mid-1,cd,leftList));
-    root.setRight(buildTree(start,mid2-1,cd,rightList));
-    return root;
+    newRoot.setLeft(buildTree(start,mid-1,cd,leftList));
+    newRoot.setRight(buildTree(start,mid2-1,cd,rightList));
+    return newRoot;
   }
 
+  /**
+   * returns the root node of the tree
+   * @return KdTreeNode root node
+   */
   public KdTreeNode getRoot(){
     return root;
   }
 
+  /**
+   * Finds the Euclidean distance between the two given nodes and returns it
+   * @param nodeOne First node
+   * @param nodeTwo Second node
+   * @return double Euclidean distance between two nodes
+   */
   public double findDistance(KdTreeNode nodeOne, KdTreeNode nodeTwo){
     double distance = 0;
     for (int i = 0; i < k; i++) {
@@ -46,6 +76,13 @@ public class Tree implements NearestNeighbor{
     return Math.sqrt(distance);
   }
 
+  /**
+   * This function actually finds and compiles a list of Ids for the closest neighbors using helper
+   * function traverse() and returns the list to be printed out.
+   * @param n number of neighbors
+   * @param userId target node
+   * @return ArrayList<Integer> list of Id for nearest neighbors
+   */
   public ArrayList<Integer> findNeighbor(int n, int userId){
     ArrayList<Integer> neighbors = new ArrayList<>();
 
@@ -68,6 +105,9 @@ public class Tree implements NearestNeighbor{
       }
     }
 
+    neighbors.clear();
+    distanceMap.clear();
+
     //Instantiate priority queue with appropriate comparator that takes in n number of objects
     neighborsPq = new PriorityQueue<>(n, (distanceOne, distanceTwo) -> {
       if (distanceMap.get(distanceOne) > distanceMap.get(distanceTwo)) {
@@ -82,7 +122,7 @@ public class Tree implements NearestNeighbor{
     if (targetNode != null) {
       traverse(root, targetNode, n);
     } else {
-      System.out.println("ERROR: ID not in kd tree");
+      System.out.println("ERROR: Student does not exist");
       return neighbors;
     }
 
@@ -100,28 +140,33 @@ public class Tree implements NearestNeighbor{
     return neighbors;
   }
 
+  /**
+   * Traverses through the tree to calculate and find the nearest node and stores it in priority
+   * queue
+   * @param current current node
+   * @param target target node
+   * @param n number of neighbors
+   */
   public void traverse(KdTreeNode current, KdTreeNode target, int n){
     double distance = this.findDistance(current, target);
     //store distance in hash map
     distanceMap.put(current, distance);
 
-    //if the distance for the current node is lower than the distance for any of the stored nodes
-    //with the target point (or if the collection of stored nodes is not complete)
+    //Case 1: The collection of nodes is incomplete or distance for the current node is lower than
+    // the distance for any of the stored
     if ((neighborsPq.size() < n + 1)) {
-      //add to the priority queue - this is an edge case
       neighborsPq.add(current);
     } else if ((!neighborsPq.isEmpty()) && distance < findDistance(neighborsPq.peek(), target)) {
-      //update the stored nodes accordingly
       neighborsPq.remove();
       neighborsPq.add(current);
     }
 
-    //find the relevant axis according to the depth
+    //find the relevant axis distance
     double currentRelevantAxis = current.getData().get(current.getDimension());
     double targetRelevantAxis = target.getData().get(current.getDimension());
     double relevantAxisDistance = Math.abs(targetRelevantAxis - currentRelevantAxis);
 
-    //if the distance between the farthest stored node and the target point is greater than the
+    //Case 2: distance between the farthest stored node and the target point is greater than the
     //difference between the current node and target point on the relevant axis
     double farthestEuclideanDistance = findDistance(neighborsPq.peek(), target);
     if ((!this.neighborsPq.isEmpty()) && farthestEuclideanDistance >= relevantAxisDistance) {
@@ -132,15 +177,15 @@ public class Tree implements NearestNeighbor{
       if (current.getRight() != null) {
         this.traverse(current.getRight(), target, n);
       }
-    } else { //if the previous condition is false then check:
-      //if the current node's coordinate on the relevant axis is less than the
+    } else {
+      //Case 3: if the current node's coordinate on the relevant axis is less than the
       //target's coordinate on the relevant axis
       if (currentRelevantAxis< targetRelevantAxis) {
         //recur on the right child
         if (current.getRight() != null) {
           this.traverse(current.getRight(), target, n);
         }
-        //else if the current node's coordinate on the relevant axis is greater than
+        //Case 4: if the current node's coordinate on the relevant axis is greater than
         //the target's coordinate on the relevant axis
       } else if (currentRelevantAxis > targetRelevantAxis) {
         //recur on the left child

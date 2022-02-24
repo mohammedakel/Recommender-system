@@ -1,13 +1,10 @@
-package edu.brown.cs.student.main;
+package edu.brown.cs.student.main;// look into using these imports for your REPL!
 
-// look into using these imports for your REPL!
-
-import java.io.IOException;
-
-import edu.brown.cs.student.main.kdtree.Repl;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
+
+import java.io.IOException;
 
 /**
  * The Main class of our project. This is where execution begins.
@@ -48,7 +45,11 @@ public final class Main {
       runSparkServer((int) options.valueOf("port"));
     }
 
-    new Repl();
+
+    LoadKD load = new LoadKD();
+    SimilarKD similarKD = new SimilarKD();
+
+    REPL.runREPL();
   }
 
   private void runSparkServer(int port) {

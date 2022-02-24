@@ -1,6 +1,11 @@
-package edu.brown.cs.student.main.kdtree;
+package edu.brown.cs.student.main;
 
 import java.util.List;
+
+/**
+ * Interface for storing tree-related functions to be used when building a tree/finding knn.
+ * Allows the kdtree to be generic.
+ */
 
 public interface KdTreeNode{
   List<Double> getData();
