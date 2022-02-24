@@ -5,6 +5,9 @@ package edu.brown.cs.student.main;
  * a given element
  * Run query_bf [element]
  *
+ * query_bf outputs whether the input element might have been inserted into the Bloom filter or
+ * definitely has not been inserted into the Bloom filter
+ *
  *  It implements the REPL and Command interface, so it must add itself to the
  *  REPL hashMap and implement execute.
  *

@@ -1,8 +1,11 @@
 package edu.brown.cs.student.main;
 
 /**
- * The insert_bf command inserts elemented into a bloom filter
- * Run insert_bf <element>
+ * The insert_bf command inserts elements into a bloom filter
+ * Run insert_bf [element]
+ *
+ *  Insert_bf outputs the Bloom filter’s bitset after setting the proper bits
+ *  based on the k hashes of the input element
  *
  * It implements the REPL and Command interface, so it must add itself to the
  * commands hashMap and implement execute.

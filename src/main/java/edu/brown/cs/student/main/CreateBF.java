@@ -4,8 +4,11 @@ package edu.brown.cs.student.main;
  * The create_bf command construct an empty, generic Bloom filter given:
  * r, a desired false positive rate
  * n, the expected maximum number of elements the Bloom filter will contain
- * Run create_bf <r> <n>
- * <p>
+ * Run create_bf [r] [n]
+ *
+ * Create_bf outputs the Bloom filter’s bitset of length m based on the input
+ * values for r and n.
+ *
  * It implements the REPL and Command interface, so it must add itself to the
  * commands hashMap and implement execute.
  *

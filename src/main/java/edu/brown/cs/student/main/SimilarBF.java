@@ -53,6 +53,12 @@ public class SimilarBF implements Command {
     }
   }
 
+  /**
+   * Prints out the k most similar students to the student whose ID
+   * is user_id
+   * @param similarityResult
+   * @param k
+   */
   public void printNeighbors(PriorityQueue<SBLTuple> similarityResult, int k){
     while(k>0) {
       SBLTuple current = similarityResult.poll();
