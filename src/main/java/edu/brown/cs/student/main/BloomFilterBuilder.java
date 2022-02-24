@@ -121,7 +121,7 @@ public class BloomFilterBuilder {
    *
    * @return "01010000" binary string
    */
-  public  String toBinaryString() {
+  public String toBinaryString() {
     return(this.sampleBitArray.toString());
   }
 }

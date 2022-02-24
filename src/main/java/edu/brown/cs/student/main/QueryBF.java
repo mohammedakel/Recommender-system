@@ -34,7 +34,13 @@ public class QueryBF implements Command {
       System.out.println("ERROR: Incorrect amount of args, run query_bf <element>");
     } else {
       String element = args[1];
-      bloomFilter.mightContain(element); // check if bloom filter contains given element
+      boolean contains = bloomFilter.mightContain(element); // check if bloom filter contains given element
+      if (contains) {
+        System.out.println('"' + element + '"' + " might be in the set.");
+      }
+      else {
+        System.out.println('"' + element + '"' + " is definitely not in the set.");
+      }
     }
   }
 }

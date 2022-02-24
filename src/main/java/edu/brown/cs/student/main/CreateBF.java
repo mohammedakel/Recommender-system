@@ -34,6 +34,8 @@ public class CreateBF implements Command {
             BloomFilterBuilder bloom = new BloomFilterBuilder(n, r);
             REPL.addCommandObject("create_bf",
                 bloom); // add the object to REPL hashmap so it can be accessed by other methods
+            String bitset = bloom.toBinaryString();
+            System.out.println(bitset);
           } else {
             System.out.println("ERROR: r must be between 0 and 1 (create_bf <r> <n>)");
           }
@@ -45,6 +47,8 @@ public class CreateBF implements Command {
           n = Integer.parseInt(args[1]);
           BloomFilterBuilder bloom = new BloomFilterBuilder(n);
           REPL.addCommandObject("create_bf", bloom); // add object to REPL hashmap
+          String bitset = bloom.toBinaryString();
+          System.out.println(bitset);
         } catch (NumberFormatException e) {
           System.out.println("ERROR: Invalid arg. <n> must be an Integer");
         }

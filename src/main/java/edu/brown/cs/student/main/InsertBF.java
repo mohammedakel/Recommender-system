@@ -36,6 +36,8 @@ public class InsertBF implements Command {
     } else {
       String element = args[1]; // get element
       bloomFilter.add(element); // call add method to insert element into bloom filter
+      String bitset = bloomFilter.toBinaryString();
+      System.out.println(bitset);
     }
   }
 }
