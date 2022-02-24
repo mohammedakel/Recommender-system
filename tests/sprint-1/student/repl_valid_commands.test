@@ -20,4 +20,5 @@ ERROR: Incorrect amount of args, run create_bf <r> <n> or create_bf <n>
 ERROR: Invalid arg. <n> must be an Integer
 ERROR: Invalid arg(s). <n> must be an Integer, <r> must be a Double
 ERROR: r must be between 0 and 1 (create_bf <r> <n>)
+00000000
 END
