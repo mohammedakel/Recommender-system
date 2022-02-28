@@ -1,8 +1,6 @@
 INPUT
-create_bf 0.05 1
-insert_bf username
-query_bf hunter2
-query_bf *******
+headers_load
+headers_load abc abc
 OUTPUT
 Created new command: stars
 Created new command: naive_neighbors
@@ -16,8 +14,6 @@ Created new command: load_bf
 Created new command: headers_load
 Created new command: recsys_load
 Created new command: recommend
-00000000
-01010010
-"hunter2" is definitely not in the set.
-"*******" is definitely not in the set.
+ERROR: No FileName
+ERROR: Incorrect amount of args: run headers_load <header_types.csv PATH
 END

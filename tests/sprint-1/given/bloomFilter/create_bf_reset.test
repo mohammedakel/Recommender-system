@@ -13,6 +13,9 @@ Created new command: query_bf
 Created new command: similar_kd
 Created new command: similar_bf
 Created new command: load_bf
+Created new command: headers_load
+Created new command: recsys_load
+Created new command: recommend
 000000000000000000000000000000000000000000000000000
 010000000001000000000000000110000001000000001000000
 000000000000000000000000000000000000000000000000000

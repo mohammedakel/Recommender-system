@@ -64,6 +64,9 @@ public final class Main {
     SimilarKD similarKD = new SimilarKD();
     SimilarBF similarBF = new SimilarBF();
     LoadBF loadBF = new LoadBF();
+    LoadHeaders loadHeaders = new LoadHeaders();
+    LoadRecSys loadRecSys = new LoadRecSys();
+    Recommend recommend = new Recommend();
 
     REPL.runREPL();
 

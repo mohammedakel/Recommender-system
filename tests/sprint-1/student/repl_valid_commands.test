@@ -15,6 +15,9 @@ Created new command: query_bf
 Created new command: similar_kd
 Created new command: similar_bf
 Created new command: load_bf
+Created new command: headers_load
+Created new command: recsys_load
+Created new command: recommend
 ERROR: No command with that name exists
 ERROR: Incorrect amount of args, run create_bf <r> <n> or create_bf <n>
 ERROR: Invalid arg. <n> must be an Integer

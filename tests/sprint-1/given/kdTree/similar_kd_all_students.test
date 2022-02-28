@@ -11,6 +11,9 @@ Created new command: query_bf
 Created new command: similar_kd
 Created new command: similar_bf
 Created new command: load_bf
+Created new command: headers_load
+Created new command: recsys_load
+Created new command: recommend
 Read 20 students from data/project1/proj1_small.csv
 15
 10
