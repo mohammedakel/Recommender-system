@@ -2,10 +2,12 @@ package edu.brown.cs.student.main;
 
 // look into using these imports for your REPL!
 
-
+import edu.brown.cs.student.main.kdtree.Repl;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
+
+import java.io.IOException;
 
 /**
  * The Main class of our project. This is where execution begins.
@@ -20,7 +22,8 @@ public final class Main {
    *
    * @param args An array of command line arguments
    */
-
+  public static void main(String[] args) throws IOException {
+    new Main(args).run();
   }
 
   private String[] args;
@@ -44,6 +47,9 @@ public final class Main {
     if (options.has("gui")) {
       runSparkServer((int) options.valueOf("port"));
     }
+
+    new Repl();
+  }
 
   private void runSparkServer(int port) {
     // set port to run the server on
