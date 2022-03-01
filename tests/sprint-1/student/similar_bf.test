@@ -1,0 +1,24 @@
+INPUT
+similar_bf
+load_bf data/project1/proj1_small.csv
+similar_bf 1
+similar_bf 1 2 3 4
+similar_bf string string
+similar_bf 1 string
+OUTPUT
+Created new command: stars
+Created new command: naive_neighbors
+Created new command: load_kd
+Created new command: create_bf
+Created new command: insert_bf
+Created new command: query_bf
+Created new command: similar_kd
+Created new command: similar_bf
+Created new command: load_bf
+ERROR: No bloom filter data for students, run load_bf [path-to-data] first
+Read 20 students from data/project1/proj1_small.csv
+ERROR: Incorrect amount of args, run similar_bf <k> <user_id>
+ERROR: Incorrect amount of args, run similar_bf <k> <user_id>
+ERROR: Invalid arg(s). <k> and <some_user_id> must be Integer
+ERROR: Invalid arg(s). <k> and <some_user_id> must be Integer
+END

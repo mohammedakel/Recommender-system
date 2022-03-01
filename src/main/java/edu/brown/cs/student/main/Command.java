@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author kkmarcus
  */
-public interface Command extends REPL {
+public interface Command extends REPL{
 
 
   // pass in the entire parsed repl line and have each respective class expect the arguments at certain indices

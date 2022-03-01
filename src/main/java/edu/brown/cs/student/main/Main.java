@@ -2,6 +2,7 @@ package edu.brown.cs.student.main;
 
 // look into using these imports for your REPL!
 
+<<<<<<< HEAD
 import edu.brown.cs.student.main.BloomFilterr.BloomFilterBuilder;
 import edu.brown.cs.student.main.BloomFilterr.BloomFiltersLoader;
 import edu.brown.cs.student.main.BloomFilterr.SBLTuple;
@@ -16,6 +17,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+=======
+
+>>>>>>> 626b2bd90c3a71135cd25fe9bb0d1e0ce61a0f38
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
@@ -30,6 +34,19 @@ import static org.junit.Assert.assertEquals;
  */
 public final class Main {
 
+<<<<<<< HEAD
+=======
+  // use port 4567 by default when running server
+  private static final int DEFAULT_PORT = 4567;
+
+  /**
+   * The initial method called when execution begins.
+   *
+   * @param args An array of command line arguments
+   */
+
+  }
+>>>>>>> 626b2bd90c3a71135cd25fe9bb0d1e0ce61a0f38
 
     // use port 4567 by default when running server
     private static final int DEFAULT_PORT = 4567;
@@ -99,6 +116,7 @@ public final class Main {
 
     }
 
+<<<<<<< HEAD
     private void runSparkServer(int port) {
         // set port to run the server on
         Spark.port(port);
@@ -106,5 +124,10 @@ public final class Main {
         // specify location of static resources (HTML, CSS, JS, images, etc.)
         Spark.externalStaticFileLocation("src/main/resources/static");
     }
+=======
+  private void runSparkServer(int port) {
+    // set port to run the server on
+    Spark.port(port);
+>>>>>>> 626b2bd90c3a71135cd25fe9bb0d1e0ce61a0f38
 
 }

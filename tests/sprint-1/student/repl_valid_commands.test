@@ -1,0 +1,24 @@
+INPUT
+create_b
+create_bf
+create_bf abc
+create_bf ab 2
+create_bf 1 2
+create_bf 0.05 1
+OUTPUT
+Created new command: stars
+Created new command: naive_neighbors
+Created new command: load_kd
+Created new command: create_bf
+Created new command: insert_bf
+Created new command: query_bf
+Created new command: similar_kd
+Created new command: similar_bf
+Created new command: load_bf
+ERROR: No command with that name exists
+ERROR: Incorrect amount of args, run create_bf <r> <n> or create_bf <n>
+ERROR: Invalid arg. <n> must be an Integer
+ERROR: Invalid arg(s). <n> must be an Integer, <r> must be a Double
+ERROR: r must be between 0 and 1 (create_bf <r> <n>)
+00000000
+END

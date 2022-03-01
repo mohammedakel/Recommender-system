@@ -1,0 +1,22 @@
+INPUT
+load_bf
+load_bf 1 2
+load_bf data/project1/proj1_small.csv
+load_bf data/project1/proj1_medium.csv
+load_bf data/project1/proj1_big.csv
+OUTPUT
+Created new command: stars
+Created new command: naive_neighbors
+Created new command: load_kd
+Created new command: create_bf
+Created new command: insert_bf
+Created new command: query_bf
+Created new command: similar_kd
+Created new command: similar_bf
+Created new command: load_bf
+ERROR: No FileName
+ERROR: Too many args, run load_bf <path-to-data>
+Read 20 students from data/project1/proj1_small.csv
+Read 60 students from data/project1/proj1_medium.csv
+Read 500 students from data/project1/proj1_big.csv
+END

@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StarsTest {
 
@@ -23,46 +24,63 @@ public class StarsTest {
 
   @Test
   public void testStarName() {
-    String[] args = {"naive_neighbors", "2", "'Sol'"};
-    String starName = NaiveNeighbors.getStarName(args);
+    String[] args = {"0", "Sol", "0", "0", "0"};
+    Stars star = new Stars(args);
+    String starName = star.getProperName();
     assertEquals("Sol", starName);
   }
 
   @Test
   public void testWrongStarName() {
-    String[] args = {"naive_neighbors", "2", "'Sols'"};
-    ArrayList<String[]> stars = new ArrayList<String[]>();
-    String[] star = {"0", "Sol", "0", "0", "0"};
-    String[] star2 = {"87666", "Barnard's Star", "-0.01729", "-1.81533", "0.14824"};
-    stars.add(star);
-    stars.add(star2);
-    String starName = "Sols";
-    NaiveNeighbors.getNeighborsFromName(args, stars, 1 );
+//    String[] args = {"naive_neighbors", "2", "'Sols'"};
+//    List<Stars> stars = new ArrayList<>();
+//    Stars star = new Stars(new String[] {"0, Sol, 0, 0, 0"});
+//    Stars star2 = new Stars(new String[] {"87666, Barnard's Star, -0.01729, -1.81533, 0.14824"});
+//    stars.add(star);
+//    stars.add(star2);
+//    String starName = "Sols";
+//    NaiveNeighbors.getNeighborsFromName(starName, stars, 1 );
     // need to make code more testable ... lots of void function hard to test output
 
   }
 
   @Test
   public void testReadFileGetsCorrectNumStars() throws IOException {
-    ArrayList<String[]> stars = Stars.findStars("data/stars/ten-star.csv");
+    String filePath = "data/stars/ten-star.csv";
+    CSVParser newParser = new CSVParser(filePath, Stars::new, true);
+    newParser.readLine();
+    List<Stars> stars = newParser.getListOfObjects();
+    //ArrayList<String[]> stars = Stars.findStars("data/stars/ten-star.csv");
     assertEquals(10, stars.size());
 
-    ArrayList<String[]> stars2 = Stars.findStars("data/stars/one-star.csv");
+    String filePath2 = "data/stars/one-star.csv";
+    CSVParser newParser2 = new CSVParser(filePath2, Stars::new, true);
+    newParser2.readLine();
+    List<Stars> stars2 = newParser2.getListOfObjects();
+    //ArrayList<String[]> stars2 = Stars.findStars("data/stars/one-star.csv");
     assertEquals(1, stars2.size());
 
-    ArrayList<String[]> stars3 = Stars.findStars("data/stars/three-star.csv");
+    String filePath3 = "data/stars/three-star.csv";
+    CSVParser newParser3 = new CSVParser(filePath3, Stars::new, true);
+    newParser3.readLine();
+    List<Stars> stars3 = newParser3.getListOfObjects();
+    //ArrayList<String[]> stars3 = Stars.findStars("data/stars/three-star.csv");
     assertEquals(3, stars3.size());
   }
 
   @Test
   public void testReadFilesReadsCSV() throws IOException {
-    ArrayList<String[]> stars = Stars.findStars("data/stars/ten-star.csv");
+    String filePath = "data/stars/ten-star.csv";
+    CSVParser newParser = new CSVParser(filePath, Stars::new, true);
+    newParser.readLine();
+    List<Stars> stars = newParser.getListOfObjects();
+//    ArrayList<String[]> stars = Stars.findStars("data/stars/ten-star.csv");
 
-    String[] star = stars.get(0);
-    assertEquals("Sol", star[1]);
+    Stars starOne = stars.get(0);
+    assertEquals("Sol", starOne.getProperName());
 
-    String[] star2 = stars.get(8);
-    assertEquals("Barnard's Star", star2[1]);
+    Stars starTwo = stars.get(8);
+    assertEquals("Barnard's Star", starTwo.getProperName());
   }
 
 }

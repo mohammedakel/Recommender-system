@@ -2,5 +2,14 @@ INPUT
 load_kd data/project1/proj1_small.csv
 similar_kd 0 1
 OUTPUT
+Created new command: stars
+Created new command: naive_neighbors
+Created new command: load_kd
+Created new command: create_bf
+Created new command: insert_bf
+Created new command: query_bf
+Created new command: similar_kd
+Created new command: similar_bf
+Created new command: load_bf
 Read 20 students from data/project1/proj1_small.csv
 END
