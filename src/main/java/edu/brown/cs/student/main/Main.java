@@ -65,9 +65,9 @@ public final class Main {
         SimilarKD similarKD = new SimilarKD();
         SimilarBF similarBF = new SimilarBF();
         LoadBF loadBF = new LoadBF();
-
+        APIActive active = new APIActive();
+        APIapi api = new APIapi();
         REPL.runREPL();
-
     }
 
     private void runSparkServer(int port) {

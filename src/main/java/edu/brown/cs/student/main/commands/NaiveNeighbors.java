@@ -1,5 +1,6 @@
-package edu.brown.cs.student.main;
+package edu.brown.cs.student.main.commands;
 
+import edu.brown.cs.student.main.REPL;
 import edu.brown.cs.student.main.commands.Command;
 import edu.brown.cs.student.main.stars.Stars;
 
@@ -8,12 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-final class NaiveNeighbors implements REPL, Command {
+public final class NaiveNeighbors implements REPL, Command {
 
     /**
      * Constructor must add itself to REPL hashmap containing command name and classes
      */
-    NaiveNeighbors() {
+    public NaiveNeighbors() {
         String commandName = "naive_neighbors";
         this.addCommands(commandName, this);
     }
