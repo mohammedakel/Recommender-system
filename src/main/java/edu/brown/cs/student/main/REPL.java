@@ -55,6 +55,12 @@ public interface REPL {
    * @return object the command creates, if any
    */
   static Object getCommandObject(String commandName) {
+//    if (checkCommandExists(commandName) != false) {
+//      return objectsForCommands.get(commandName);
+//    }
+//    //System.out.println("ERROR: Cannot retrieve object from command that does not exist");
+//    return null;
+
     return objectsForCommands.get(commandName);
   }
 

@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,16 +45,23 @@ public class BloomFiltersLoader {
    * A method that extract relevant information from a given students
    *
    * @param student
-   *          given student with relvent information
+   *          given student with relevant information
    * @return HashSet<String>
    *     a set of  individual string items of all the information in the given student
    */
   public HashSet<String> extractStudentInformation(Student student) {
     HashSet<String> allItems = new HashSet<>();
-    String[] relevantFields = student.getBloomData();
-    for (String attribute: relevantFields
-    ) {
-      String[] attributeValues = attribute.split(",");
+    //String[] relevantFields = student.getBloomData();
+    ArrayList relevantFields;
+    //List<String> relevantFields = student.getBloomData();
+    if (REPL.getCommandObject("headers_load") != null) {
+      relevantFields = student.getQualitativeData();
+    } else {
+      relevantFields = student.getBloomData();
+    }
+
+    for (Object attribute: relevantFields) {
+      String[] attributeValues = ((String) attribute).split(",");
       for (String value: attributeValues
       ) {
         allItems.add(value);

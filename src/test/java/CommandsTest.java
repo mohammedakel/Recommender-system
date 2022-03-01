@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 
 /**
@@ -122,6 +123,26 @@ public class CommandsTest {
     Assert.assertFalse(REPL.checkCommandExists(""));
     Assert.assertTrue(outContent.toString()
         .startsWith("ERROR: No command entered, command name must be non-empty string"));
+  }
+
+  @Test
+  public void getCommandObject() throws IOException {
+    HashMap<String, String> headers =
+        (HashMap<String, String>) REPL.getCommandObject("headers_load");
+    Assert.assertTrue(headers == null);
+   //Assert.assertTrue(outContent.toString().startsWith("ERROR: No command with that name exists"));
+    outContent.reset();
+
+    String[] load = {"headers_load", "data/sprint2/header_types.csv"};
+    LoadHeaders loadHeaders = new LoadHeaders();
+    loadHeaders.execute(load);
+    Assert.assertTrue(outContent.toString().startsWith("Created new command: headers_load"));
+    Assert.assertTrue(REPL.checkCommandExists("headers_load"));
+    outContent.reset();  // clear output stream
+
+//    HashMap<String, String> headers =
+//        (HashMap<String, String>) REPL.getCommandObject("headers_load");
+//
   }
 
 //  @Test

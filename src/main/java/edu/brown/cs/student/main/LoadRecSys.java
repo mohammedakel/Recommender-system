@@ -1,6 +1,7 @@
 package edu.brown.cs.student.main;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,15 +37,20 @@ public class LoadRecSys implements REPL, Command {
    * @param args (array of strings)
    */
   public void execute(String[] args) throws IOException {
-    List headers = (List) REPL.getCommandObject("headers_load");
+    HashMap<String, String> headers =
+        (HashMap<String, String>) REPL.getCommandObject("headers_load");
     if (headers == null){
       System.out.println("ERROR: No headers loaded. First run headers_load <header_types.csv PATH>");
     }
     else if (args.length == 1) {
       System.out.println("ERROR: No FileName");
-    } else if (args.length != 5) {
+    } else if (args.length != 2) { // change to 5 later on
       System.out.println("ERROR: Incorrect amount of args: run recsys_load <4 provideed CSVs>");
     } else {
+      String filePath = args[1];
+      CSVParser newParser = new CSVParser(filePath, Student::new, true); // instantiate parser w type of object specified
+      newParser.readLine();
+      System.out.println("Loaded Recommender with K student(s).");
       REPL.addCommandObject("recsys_load", null);
     }
   }

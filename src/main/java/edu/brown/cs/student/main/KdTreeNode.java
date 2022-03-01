@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -8,6 +9,10 @@ import java.util.List;
  */
 public interface KdTreeNode {
   List<Double> getData();
+
+  List<Double> getQuantitativeData();
+
+  void setHeaderType ();
 
   int getId();
 

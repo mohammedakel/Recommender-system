@@ -144,14 +144,19 @@ public class CSVParser<T extends CSVObject> {
   public void sortHeaderType(BufferedReader csvReader) throws IOException {
     HashMap<String, String> headersTypes = new HashMap<String, String>();
     String input;
-
+    int i = 0;
     while ((input = csvReader.readLine()) != null) {
-      String[] args;
+      if (i != 0) {
 
-      args = input.split(",");
-      String headerName = args[0];
-      String headerDescription = cleanString(args[1]);
-      headersTypes.put(headerName, headerDescription); // put headername w value header type in hashmap
+        String[] args;
+
+        args = input.split(",");
+        String headerName = args[0];
+        String headerDescription = cleanString(args[1]);
+        headersTypes.put(headerName,
+            headerDescription); // put headername w value header type in hashmap
+      }
+      i++;
     }
     this.headerTypes = headersTypes;
   }
@@ -159,13 +164,13 @@ public class CSVParser<T extends CSVObject> {
   /**
    * Cleans data in case inconsistenties - there may be punctuation and indent inconsistencies
    * or other mismatches
+   *
    * @param dataToClean string to clean up
    * @return cleaned string
    */
   public String cleanString(String dataToClean) {
     dataToClean = dataToClean.replaceAll("\\s", "");
     dataToClean = dataToClean.toLowerCase();
-
     return dataToClean;
   }
 }

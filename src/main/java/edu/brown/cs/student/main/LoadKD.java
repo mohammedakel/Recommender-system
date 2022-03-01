@@ -40,9 +40,13 @@ public class LoadKD implements REPL, Command {
       CSVParser newParser = new CSVParser(filePath, Student::new, true); // instantiate parser w type of object specified
       newParser.readLine();
       List<KdTreeNode> students = newParser.getListOfObjects(); // get list of KdTreeNodes
+      if (REPL.getCommandObject("headers_load") != null) {
+        System.out.println("Using quantitative data to create kd_tree");
+      }
       System.out.println("Read " + students.size() + " students from " + filePath);
       Tree studentTree = new Tree(students); // create new tree
       REPL.addCommandObject("load_kd", studentTree); // add object to REPL hashmap
+
     }
   }
 }

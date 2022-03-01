@@ -1,6 +1,8 @@
 INPUT
 headers_load
 headers_load abc abc
+headers_load data/sprint2/header_types.csv
+headers_load data/sprint2/header_typess.csv
 OUTPUT
 Created new command: stars
 Created new command: naive_neighbors
@@ -16,4 +18,6 @@ Created new command: recsys_load
 Created new command: recommend
 ERROR: No FileName
 ERROR: Incorrect amount of args: run headers_load <header_types.csv PATH
+Loaded header types.
+ERROR: invalid file input
 END

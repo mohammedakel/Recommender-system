@@ -8,7 +8,7 @@ import java.util.List;
  * node in a list by their relevant axis coordinate. An instance of this class will be created
  * inside Collection.sort() method in Tree class.
  */
-public class SortByData implements Comparator<KdTreeNode> {
+public class SortByData implements Comparator<KdTreeNode>, REPL {
   private int cd;
 
 
@@ -25,8 +25,16 @@ public class SortByData implements Comparator<KdTreeNode> {
    * @return int result which could be 1 or -1
    */
   public int compare(KdTreeNode node1, KdTreeNode node2) {
-    List<Double> list1 = node1.getData();
-    List<Double> list2 = node2.getData();
+    List<Double> list1;
+    List<Double> list2;
+    if (REPL.getCommandObject("headers_load") != null) {
+      list1 = node1.getQuantitativeData(); // use quantitative data struct
+      list2 = node2.getQuantitativeData();
+    } else {
+      list1 = node1.getData(); // else default
+      list2 = node2.getData();
+    }
+
     if (list1.get(cd) > list2.get(cd)) {
       return 1;
     } else if (list1.get(cd) < list2.get(cd)) {
