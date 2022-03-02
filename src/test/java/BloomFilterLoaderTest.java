@@ -108,8 +108,8 @@ public class BloomFilterLoaderTest {
     } };
     BloomFiltersLoader loader = new BloomFiltersLoader(studentsList, 0.01);
     HashSet<String> resultTwo = loader.extractStudentInformation(two);
-    assertEquals(23, resultTwo.size());
-    // assertEquals(expectedTwo.size(), resultTwo.size());
+    //assertEquals(23, resultTwo.size());
+    assertEquals(expectedTwo.size(), resultTwo.size());
   }
 
   /**
@@ -151,8 +151,8 @@ public class BloomFilterLoaderTest {
     BloomFiltersLoader loader = new BloomFiltersLoader(studentsList, 0.01);
     HashSet<String> oneInfo = loader.extractStudentInformation(one);
     //System.out.println(oneInfo.toString());
-    // assertEquals(7, oneInfo.size()); old cause getBloom vs qualatative
-    assertEquals(15, oneInfo.size());
+    assertEquals(7, oneInfo.size()); //old cause getBloom vs qualatative
+    //assertEquals(15, oneInfo.size());
     BloomFilterBuilder result = loader.createStudentBloomFilter(oneInfo);
     //BloomFilterBuilder expected = new BloomFilterBuilder(loader.getMaxNumItems());
     BloomFilterBuilder expected = new BloomFilterBuilder(7);

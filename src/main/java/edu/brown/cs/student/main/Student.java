@@ -108,28 +108,49 @@ public class Student implements KdTreeNode {
   }
 
   /**
-   * Student constructor
+   * Other Student constructor that takes in parsed CSV line and hashmap of attribute/types
+   * To be used for recommender system, load_headers
    * @param CSVParsedLine
    */
   public Student(String[] CSVParsedLine, HashMap<String, String> attributeType) {
+    this.quantitativeData = new ArrayList();
+    this.qualitativeData = new ArrayList();
     this.id = Integer.parseInt(CSVParsedLine[0]);
+    setAttributeType(attributeType,"id", String.valueOf(this.id));
     this.name = CSVParsedLine[1];
+    setAttributeType(attributeType,"name", this.name);
     this.email = CSVParsedLine[2];
+    setAttributeType(attributeType,"email", this.email);
     this.gender = CSVParsedLine[3];
+    setAttributeType(attributeType,"gender", this.gender);
     this.class_year = CSVParsedLine[4];
+    setAttributeType(attributeType,"class_year", this.class_year);
     this.ssn = CSVParsedLine[5];
+    setAttributeType(attributeType,"ssn", this.ssn);
     this.nationality = CSVParsedLine[6];
+    setAttributeType(attributeType,"nationality", this.nationality);
     this.race = CSVParsedLine[7];
+    setAttributeType(attributeType,"race", this.race);
     this.years = Double.parseDouble(CSVParsedLine[8]);
+    setAttributeType(attributeType,"years_experience", this.years);
     this.communciation_style = CSVParsedLine[9];
+    setAttributeType(attributeType,"communciation_style", this.communciation_style);
     this.hours = Double.parseDouble(CSVParsedLine[10]);
+    setAttributeType(attributeType,"weekly_avail_hours", this.hours);
     this.meeting_style = CSVParsedLine[11];
+    setAttributeType(attributeType,"meeting_style", this.meeting_style);
     this.meeting_time = CSVParsedLine[12];
+    setAttributeType(attributeType,"meeting_time", this.meeting_time);
     this.confidence = Double.parseDouble(CSVParsedLine[13]);
+    setAttributeType(attributeType,"software_engn_confidence", this.confidence);
     this.strengths = CSVParsedLine[14];
+    setAttributeType(attributeType,"strengths", this.strengths);
     this.weaknesses = CSVParsedLine[15];
+    setAttributeType(attributeType,"weaknesses", this.id);
     this.skills = CSVParsedLine[16];
+    setAttributeType(attributeType,"skills", this.skills);
     this.interests = CSVParsedLine[17];
+    setAttributeType(attributeType,"interests", this.interests);
   }
 
 
@@ -146,6 +167,10 @@ public class Student implements KdTreeNode {
     return dataList;
   }
 
+  /**
+   * GetBloomData is used by bloomLoader
+   * @return
+   */
   public ArrayList getBloomData() {
 //    String[] result = {this.communciation_style, this.meeting_style, this.meeting_time,
 //        this.strengths, this.weaknesses, this.skills, this.interests};
@@ -160,6 +185,62 @@ public class Student implements KdTreeNode {
     return result;
   }
 
+  /**
+   *
+   * @param headerType hashMap of headers and type
+   * @param attributeName String name of attribute to use as key in map
+   * @param attribute actual value of attribute to be added to either qualitative data list or quantitative data list
+   */
+  public void setAttributeType(HashMap<String, String> headerType, String attributeName, Object attribute) {
+    if (headerType.get(attributeName).equals("qualitative")) { // checks value of key
+      this.qualitativeData.add(attribute);
+    } else {
+      this.quantitativeData.add(attribute);
+    }
+  }
+
+
+  public ArrayList getQualitativeData(){
+    //setHeaderType();
+    return qualitativeData;
+  }
+
+  @Override
+  public List<Double> getQuantitativeData() {
+    //setHeaderType();
+    return quantitativeData;
+  }
+
+  @Override
+  public KdTreeNode getRight() {
+    return right;
+  }
+
+  @Override
+  public KdTreeNode getLeft() {
+    return left;
+  }
+
+  @Override
+  public int getDimension() {
+    return cd;
+  }
+
+  @Override
+  public void setRight(KdTreeNode right) {
+    this.right = right;
+  }
+
+  @Override
+  public void setLeft(KdTreeNode left) {
+    this.left = left;
+  }
+
+  @Override
+  public void setDimension(int cd) {
+    this.cd = cd;
+  }
+
   @Override
   public void setHeaderType () {
     this.quantitativeData = new ArrayList();
@@ -168,9 +249,6 @@ public class Student implements KdTreeNode {
     HashMap<String, String> headerType =
         (HashMap<String, String>) REPL.getCommandObject("headers_load");
 
-    int numQualitative = Collections.frequency(headerType.values(), "qualitative");
-    //this.qualitativeData = new String[numQualitative];
-    int i  = 0;
 
     if (headerType.get("id").equals("qualitative")) {
       this.qualitativeData.add(String.valueOf(this.id));
@@ -281,46 +359,5 @@ public class Student implements KdTreeNode {
     else {
       this.quantitativeData.add(this.interests);
     }
-  }
-
-  public ArrayList getQualitativeData(){
-    setHeaderType();
-    return qualitativeData;
-  }
-
-  @Override
-  public List<Double> getQuantitativeData() {
-    setHeaderType();
-    return quantitativeData;
-  }
-
-  @Override
-  public KdTreeNode getRight() {
-    return right;
-  }
-
-  @Override
-  public KdTreeNode getLeft() {
-    return left;
-  }
-
-  @Override
-  public int getDimension() {
-    return cd;
-  }
-
-  @Override
-  public void setRight(KdTreeNode right) {
-    this.right = right;
-  }
-
-  @Override
-  public void setLeft(KdTreeNode left) {
-    this.left = left;
-  }
-
-  @Override
-  public void setDimension(int cd) {
-    this.cd = cd;
   }
 }

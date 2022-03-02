@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Stars class
@@ -22,6 +23,14 @@ public class Stars {
   private String z;
 
   public Stars(String[] CSVParsedLine) {
+    this.starID = CSVParsedLine[0];
+    this.properName = CSVParsedLine[1];
+    this.x = CSVParsedLine[2];
+    this.y = CSVParsedLine[3];
+    this.z = CSVParsedLine[4];
+  }
+
+  public Stars(String[] CSVParsedLine, HashMap<String, String> attributeType) {
     this.starID = CSVParsedLine[0];
     this.properName = CSVParsedLine[1];
     this.x = CSVParsedLine[2];

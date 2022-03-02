@@ -54,12 +54,14 @@ public class BloomFiltersLoader {
     //String[] relevantFields = student.getBloomData();
     ArrayList relevantFields;
     //List<String> relevantFields = student.getBloomData();
-    if (REPL.getCommandObject("headers_load") != null) {
-      relevantFields = student.getQualitativeData();
-    } else {
-      relevantFields = student.getBloomData();
-    }
+//    if (REPL.getCommandObject("headers_load") != null) {
+//      System.out.println("NULL");
+//      relevantFields = student.getQualitativeData();
+//    } else {
+//      relevantFields = student.getBloomData();
+//    }
 
+    relevantFields = student.getBloomData();
     for (Object attribute: relevantFields) {
       String[] attributeValues = ((String) attribute).split(",");
       for (String value: attributeValues

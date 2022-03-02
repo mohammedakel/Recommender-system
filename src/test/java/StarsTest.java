@@ -47,21 +47,21 @@ public class StarsTest {
   @Test
   public void testReadFileGetsCorrectNumStars() throws IOException {
     String filePath = "data/stars/ten-star.csv";
-    CSVParser newParser = new CSVParser(filePath, Stars::new, true);
+    CSVParser newParser = new CSVParser(filePath, Stars::new, true, false);
     newParser.readLine();
     List<Stars> stars = newParser.getListOfObjects();
     //ArrayList<String[]> stars = Stars.findStars("data/stars/ten-star.csv");
     assertEquals(10, stars.size());
 
     String filePath2 = "data/stars/one-star.csv";
-    CSVParser newParser2 = new CSVParser(filePath2, Stars::new, true);
+    CSVParser newParser2 = new CSVParser(filePath2, Stars::new, true, false);
     newParser2.readLine();
     List<Stars> stars2 = newParser2.getListOfObjects();
     //ArrayList<String[]> stars2 = Stars.findStars("data/stars/one-star.csv");
     assertEquals(1, stars2.size());
 
     String filePath3 = "data/stars/three-star.csv";
-    CSVParser newParser3 = new CSVParser(filePath3, Stars::new, true);
+    CSVParser newParser3 = new CSVParser(filePath3, Stars::new, true, false);
     newParser3.readLine();
     List<Stars> stars3 = newParser3.getListOfObjects();
     //ArrayList<String[]> stars3 = Stars.findStars("data/stars/three-star.csv");
@@ -71,7 +71,7 @@ public class StarsTest {
   @Test
   public void testReadFilesReadsCSV() throws IOException {
     String filePath = "data/stars/ten-star.csv";
-    CSVParser newParser = new CSVParser(filePath, Stars::new, true);
+    CSVParser newParser = new CSVParser(filePath, Stars::new, true, false);
     newParser.readLine();
     List<Stars> stars = newParser.getListOfObjects();
 //    ArrayList<String[]> stars = Stars.findStars("data/stars/ten-star.csv");

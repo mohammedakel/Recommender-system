@@ -28,6 +28,7 @@ public class CSVParser<T extends CSVObject> {
   private Boolean headersIncluded;
   private Boolean justHeaders;
   public HashMap<String, String> headerTypes;
+  public boolean recSys;
 
   /**
    * One constructor that does not take in a delimiter type, so the default refex
@@ -42,13 +43,14 @@ public class CSVParser<T extends CSVObject> {
    * @param type
    * @param headersIncluded
    */
-  public CSVParser(String filePath, T type, Boolean headersIncluded) {
+  public CSVParser(String filePath, T type, Boolean headersIncluded, Boolean recSys) {
     this.filePath = filePath;
     this.delimiter = null; // sets to null so that default is used
     this.object = type;
     this.listOfObjects = new ArrayList<>(); // list of objects to return
     this.headersIncluded = headersIncluded;
     this.justHeaders = false;
+    this.recSys = recSys;
   }
 
   /**
@@ -62,33 +64,33 @@ public class CSVParser<T extends CSVObject> {
    * @param type
    * @param headersIncluded
    */
-  public CSVParser(String filePath, T type, String delimiter, Boolean headersIncluded) {
+  public CSVParser(String filePath, T type, String delimiter, Boolean headersIncluded, Boolean recSys) {
     this.filePath = filePath;
     this.delimiter = delimiter;
     this.object = type;
     this.listOfObjects = new ArrayList<>();
     this.headersIncluded = headersIncluded;
     this.justHeaders = false;
+    this.recSys = recSys;
   }
 
   /**
-   * Third constructor that does take in a delimiter type, which tells how to parse the data.
-   * Takes in a string filePath, T type of object, and the same boolean as other constructor
-   * <p>
-   * Each class is to instantiate a CSVParser and specify the "strategy" for parsing (delimiter),
-   * and the type of object to make, as well as other params.
+   * Third constructor is for the command load_headers.
+   * It takes in a delimiter type in case the default is not wanted.
+   * Also takes in a string filePath for the headers file.
+   *
    *
    * @param filePath
-   * @param headersIncluded
+   * @param delimiter
    */
-  public CSVParser(String filePath, String delimiter, Boolean headersIncluded,
-                   Boolean justHeaders) {
+  public CSVParser(String filePath, String delimiter) {
     this.filePath = filePath;
     this.delimiter = delimiter;
     this.object = null;
     this.listOfObjects = new ArrayList<>();
-    this.headersIncluded = headersIncluded;
-    this.justHeaders = justHeaders;
+    this.headersIncluded = false;
+    this.justHeaders = true;
+    this.recSys = false;
   }
 
   /**
@@ -116,7 +118,16 @@ public class CSVParser<T extends CSVObject> {
             args = input.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
           }
           listOfObjects.add(object.createObjectWithLineOfData(
-              args)); // calls the createObjectWithLineOfData method and adds to list
+              args, (HashMap<String, String>) REPL.getCommandObject("headers_load"))); // calls the createObjectWithLineOfData method and adds to list
+
+//          if (this.recSys) {
+//            listOfObjects.add(object.createObjectWithLineOfData(
+//                args, (HashMap<String, String>) REPL.getCommandObject("headers_load"))); // calls the createObjectWithLineOfData method and adds to list
+//          } else {
+//            System.out.println("NULL");
+//            listOfObjects.add(object.createObjectWithLineOfData(
+//                args, null)); // calls the createObjectWithLineOfData method and adds to list
+//          }
         }
         i++;
       }
@@ -137,8 +148,8 @@ public class CSVParser<T extends CSVObject> {
   }
 
   /**
+   * sortHeaderType creates a hashmap of headernames nad their type (qualatative vs quanatative, etc)
    * @param csvReader
-   * @return
    * @throws IOException
    */
   public void sortHeaderType(BufferedReader csvReader) throws IOException {
@@ -146,23 +157,27 @@ public class CSVParser<T extends CSVObject> {
     String input;
     int i = 0;
     while ((input = csvReader.readLine()) != null) {
-      if (i != 0) {
-
+      if (i != 0) { // skip the first line because it is just description
         String[] args;
 
-        args = input.split(",");
+        if (this.delimiter == null){
+          args = input.split(",");  // use default if not specified
+        } else {
+          args = input.split(this.delimiter);
+        }
+
         String headerName = args[0];
-        String headerDescription = cleanString(args[1]);
+        String headerDescription = cleanString(args[1]); // clean string to check for inconsistencies
         headersTypes.put(headerName,
             headerDescription); // put headername w value header type in hashmap
       }
       i++;
     }
-    this.headerTypes = headersTypes;
+    this.headerTypes = headersTypes; // set headerTypes hashmap
   }
 
   /**
-   * Cleans data in case inconsistenties - there may be punctuation and indent inconsistencies
+   * Cleans data in case inconsistencies - there may be punctuation and indent inconsistencies
    * or other mismatches
    *
    * @param dataToClean string to clean up

@@ -37,13 +37,13 @@ public class LoadBF implements Command {
     } else {
       String filePath = args[1];
       CSVParser newParser =
-          new CSVParser(filePath, Student::new, true); // create parser specifying type of object
+          new CSVParser(filePath, Student::new, true, false); // create parser specifying type of object
       newParser.readLine(); // read data
       List<Student> students = newParser.getListOfObjects(); // get list of students
 
-      if (REPL.getCommandObject("headers_load") != null) {
-        System.out.println("Using qualatative data to create bf");
-      }
+//      if (REPL.getCommandObject("headers_load") != null) {
+//        System.out.println("Using qualatative data to create bf");
+//      }
 
       System.out.println("Read " + students.size() + " students from " + filePath);
 

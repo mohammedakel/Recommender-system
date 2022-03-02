@@ -40,8 +40,7 @@ public class LoadStars implements REPL, Command {
         System.out.println("ERROR: Incorrect amount of args: run load_kd <path/to/file.csv>");
       }else {
         String filePath = args[1];
-        Stars star = null;
-        CSVParser newParser = new CSVParser(filePath, Stars::new, true);
+        CSVParser newParser = new CSVParser(filePath, Stars::new, true, false);
         newParser.readLine();
         List<Stars> stars = newParser.getListOfObjects();
         REPL.addCommandObject("stars", stars);

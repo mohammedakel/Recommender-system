@@ -1,5 +1,7 @@
 package edu.brown.cs.student.main;
 
+import java.util.HashMap;
+
 /**
  * CSVObject interface allows the CSVParser to create any type of object
  * Each object needs a class that implements the method createObjectWithLineOfData
@@ -12,7 +14,6 @@ public interface CSVObject<T> {
   /**
    * To be implemented by classes
    */
-  T createObjectWithLineOfData(String[] lineOfData);
-
+  T createObjectWithLineOfData(String[] lineOfData, HashMap<String, String> attributeTypes);
 
 }
