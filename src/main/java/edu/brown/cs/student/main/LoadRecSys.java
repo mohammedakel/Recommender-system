@@ -48,20 +48,31 @@ public class LoadRecSys implements REPL, Command {
       System.out.println("ERROR: Incorrect amount of args: run recsys_load <4 provided CSVs>");
     } else {
       String filePath = args[1];
-      CSVParser newParserKDTree = new CSVParser(filePath, Student::new, true, true); // instantiate parser w type of object specified
-      newParserKDTree.readLine();
-      List<KdTreeNode> students = newParserKDTree.getListOfObjects(); // get list of KdTreeNodes
-      Tree studentTree = new Tree(students); // create new tree
-      REPL.addCommandObject("load_kd", studentTree);
-      System.out.println("Using quantitative data to create kd_tree");
-
-      CSVParser newParserBF = new CSVParser(filePath, Student::new, true, true); // instantiate parser w type of object specified
-      newParserBF.readLine();
-      System.out.println("Using qualatative data to create bf");
-
-      System.out.println("Loaded Recommender with " + students.size() + " student(s).");
-
-      REPL.addCommandObject("recsys_load", null);
+      loadStudents(filePath);
     }
   }
+
+  /**
+   * Helper method that loads kdtree and bf with correct attributes.
+   * @param filePath to create Students from
+   * @throws IOException
+   */
+  public void loadStudents(String filePath) throws IOException {
+    CSVParser newParserKDTree = new CSVParser(filePath, Student::new, true, true); // instantiate parser w type of object specified
+    newParserKDTree.readLine();
+
+    List<KdTreeNode> students = newParserKDTree.getListOfObjects(); // get list of KdTreeNodes
+    Tree studentTree = new Tree(students); // create new tree
+    REPL.addCommandObject("load_kd", studentTree);
+    System.out.println("Using quantitative data to create kd_tree");
+
+    CSVParser newParserBF = new CSVParser(filePath, Student::new, true, true); // instantiate parser w type of object specified
+    newParserBF.readLine();
+    System.out.println("Using qualitative data to create bf");
+
+    System.out.println("Loaded Recommender with " + students.size() + " student(s).");
+
+    REPL.addCommandObject("recsys_load", null);
+  }
+
 }

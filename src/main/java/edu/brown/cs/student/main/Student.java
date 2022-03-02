@@ -115,6 +115,7 @@ public class Student implements KdTreeNode {
   public Student(String[] CSVParsedLine, HashMap<String, String> attributeType) {
     this.quantitativeData = new ArrayList();
     this.qualitativeData = new ArrayList();
+    System.out.println("Assigning data");
     this.id = Integer.parseInt(CSVParsedLine[0]);
     setAttributeType(attributeType,"id", String.valueOf(this.id));
     this.name = CSVParsedLine[1];
@@ -134,7 +135,7 @@ public class Student implements KdTreeNode {
     this.years = Double.parseDouble(CSVParsedLine[8]);
     setAttributeType(attributeType,"years_experience", this.years);
     this.communciation_style = CSVParsedLine[9];
-    setAttributeType(attributeType,"communciation_style", this.communciation_style);
+    setAttributeType(attributeType,"communication_style", this.communciation_style);
     this.hours = Double.parseDouble(CSVParsedLine[10]);
     setAttributeType(attributeType,"weekly_avail_hours", this.hours);
     this.meeting_style = CSVParsedLine[11];
@@ -146,7 +147,7 @@ public class Student implements KdTreeNode {
     this.strengths = CSVParsedLine[14];
     setAttributeType(attributeType,"strengths", this.strengths);
     this.weaknesses = CSVParsedLine[15];
-    setAttributeType(attributeType,"weaknesses", this.id);
+    setAttributeType(attributeType,"weaknesses", this.weaknesses);
     this.skills = CSVParsedLine[16];
     setAttributeType(attributeType,"skills", this.skills);
     this.interests = CSVParsedLine[17];
@@ -186,7 +187,7 @@ public class Student implements KdTreeNode {
   }
 
   /**
-   *
+   * Checks the description of the header attribute and adds to respective list
    * @param headerType hashMap of headers and type
    * @param attributeName String name of attribute to use as key in map
    * @param attribute actual value of attribute to be added to either qualitative data list or quantitative data list
