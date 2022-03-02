@@ -3,6 +3,7 @@ package edu.brown.cs.student.main;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
@@ -44,6 +45,10 @@ public interface REPL {
       }
     } catch (IOException e) {
       System.out.println("ERROR: invalid file input");
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
     }
   }
 

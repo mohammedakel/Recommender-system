@@ -1,6 +1,7 @@
 package edu.brown.cs.student.main;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * The command interface is used to create new commands.
@@ -25,5 +26,5 @@ public interface Command extends REPL {
    * @param args (array of strings)
    * @throws IOException
    */
-  void execute(String[] args) throws IOException;
+  void execute(String[] args) throws IOException, SQLException, ClassNotFoundException;
 }
