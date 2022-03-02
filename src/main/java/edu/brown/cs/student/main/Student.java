@@ -33,6 +33,7 @@ public class Student implements KdTreeNode {
   private KdTreeNode left;
   public ArrayList qualitativeData;
   public List quantitativeData;
+  public HashMap attributeData;
 
   /**
    * Alternative Constructor for Testing
@@ -152,6 +153,7 @@ public class Student implements KdTreeNode {
     setAttributeType(attributeType,"skills", this.skills);
     this.interests = CSVParsedLine[17];
     setAttributeType(attributeType,"interests", this.interests);
+    this.attributeData = attributeType;
   }
 
 
@@ -200,15 +202,21 @@ public class Student implements KdTreeNode {
     }
   }
 
-
+  /**
+   * Returns the list of qualitative data, to be used by the bloom filter.
+   */
   public ArrayList getQualitativeData(){
-    //setHeaderType();
-    return qualitativeData;
+    if (this.attributeData != null){
+      return qualitativeData;
+    }
+    return getBloomData();
   }
 
+  /**
+   * Returns the list of quantitative data, to be used by the KD tree.
+   */
   @Override
   public List<Double> getQuantitativeData() {
-    //setHeaderType();
     return quantitativeData;
   }
 
@@ -242,123 +250,126 @@ public class Student implements KdTreeNode {
     this.cd = cd;
   }
 
+  /**
+   * Old, hardcoded method to add attributes to qualitative/quantitative list
+   */
   @Override
   public void setHeaderType () {
-    this.quantitativeData = new ArrayList();
-    this.qualitativeData = new ArrayList();
-
-    HashMap<String, String> headerType =
-        (HashMap<String, String>) REPL.getCommandObject("headers_load");
-
-
-    if (headerType.get("id").equals("qualitative")) {
-      this.qualitativeData.add(String.valueOf(this.id));
-      //this.qualitativeData.add(this.id);
-    }
-    else {
-      this.quantitativeData.add(this.id);
-    }
-    if (headerType.get("name").equals("qualitative")) {
-      this.qualitativeData.add(this.name);
-    }
-    else {
-      this.quantitativeData.add(this.name);
-    }
-    if (headerType.get("email").equals("qualitative")) {
-      this.qualitativeData.add(this.email);
-    }
-    else {
-      this.quantitativeData.add(this.email);
-    }
-    if (headerType.get("gender").equals("qualitative")) {
-      this.qualitativeData.add(this.gender);
-    }
-    else {
-      this.quantitativeData.add(this.gender);
-    }
-    if (headerType.get("class_year").equals("qualitative")) {
-      this.qualitativeData.add(this.class_year);
-    }
-    else {
-      this.quantitativeData.add(this.class_year);
-    }
-    if (headerType.get("ssn").equals("qualitative")) {
-      this.qualitativeData.add(this.ssn);
-    }
-    else {
-      this.quantitativeData.add(this.ssn);
-    }
-    if (headerType.get("nationality").equals("qualitative")) {
-      this.qualitativeData.add(this.nationality);
-    }
-    else {
-      this.quantitativeData.add(this.nationality);
-    }
-    if (headerType.get("race").equals("qualitative")) {
-      this.qualitativeData.add(this.race);
-    }
-    else {
-      this.quantitativeData.add(this.race);
-    }
-    if (headerType.get("years_experience").equals("qualitative")) {
-      this.qualitativeData.add(this.years);
-    }
-    else {
-      this.quantitativeData.add(this.years);
-    }
-    if (headerType.get("communication_style").equals("qualitative")) {
-      this.qualitativeData.add(this.communciation_style);
-    }
-    else {
-      this.quantitativeData.add(this.communciation_style);
-    }
-    if (headerType.get("weekly_avail_hours").equals("qualitative")) {
-      this.qualitativeData.add(this.hours);
-    }
-    else {
-      this.quantitativeData.add(this.hours);
-    }
-    if (headerType.get("meeting_style").equals("qualitative")) {
-      this.qualitativeData.add(this.meeting_style);
-    }
-    else {
-      this.quantitativeData.add(this.meeting_style);
-    }
-    if (headerType.get("meeting_time").equals("qualitative")) {
-      this.qualitativeData.add(this.meeting_time);
-    }
-    else {
-      this.quantitativeData.add(this.meeting_time);
-    }
-    if (headerType.get("software_engn_confidence").equals("qualitative")) {
-      this.qualitativeData.add(this.confidence);
-    }
-    else {
-      this.quantitativeData.add(this.confidence);
-    }
-    if (headerType.get("strengths").equals("qualitative")) {
-      this.qualitativeData.add(this.strengths);
-    }
-    else {
-      this.quantitativeData.add(this.strengths);
-    }
-    if (headerType.get("weaknesses").equals("qualitative")) {
-      this.qualitativeData.add(this.weaknesses);
-    }
-    else {
-      this.quantitativeData.add(this.weaknesses);
-    }
-    if (headerType.get("skills").equals("qualitative")) {
-      this.qualitativeData.add(this.skills);
-    }
-    else {
-      this.quantitativeData.add(this.skills);
-    }
-    if (headerType.get("interests").equals("qualitative")) {
-      this.qualitativeData.add(this.interests);
-    }
-    else {
-      this.quantitativeData.add(this.interests);
-    }
+//    this.quantitativeData = new ArrayList();
+//    this.qualitativeData = new ArrayList();
+//
+//    HashMap<String, String> headerType =
+//        (HashMap<String, String>) REPL.getCommandObject("headers_load");
+//
+//
+//    if (headerType.get("id").equals("qualitative")) {
+//      this.qualitativeData.add(String.valueOf(this.id));
+//      //this.qualitativeData.add(this.id);
+//    }
+//    else {
+//      this.quantitativeData.add(this.id);
+//    }
+//    if (headerType.get("name").equals("qualitative")) {
+//      this.qualitativeData.add(this.name);
+//    }
+//    else {
+//      this.quantitativeData.add(this.name);
+//    }
+//    if (headerType.get("email").equals("qualitative")) {
+//      this.qualitativeData.add(this.email);
+//    }
+//    else {
+//      this.quantitativeData.add(this.email);
+//    }
+//    if (headerType.get("gender").equals("qualitative")) {
+//      this.qualitativeData.add(this.gender);
+//    }
+//    else {
+//      this.quantitativeData.add(this.gender);
+//    }
+//    if (headerType.get("class_year").equals("qualitative")) {
+//      this.qualitativeData.add(this.class_year);
+//    }
+//    else {
+//      this.quantitativeData.add(this.class_year);
+//    }
+//    if (headerType.get("ssn").equals("qualitative")) {
+//      this.qualitativeData.add(this.ssn);
+//    }
+//    else {
+//      this.quantitativeData.add(this.ssn);
+//    }
+//    if (headerType.get("nationality").equals("qualitative")) {
+//      this.qualitativeData.add(this.nationality);
+//    }
+//    else {
+//      this.quantitativeData.add(this.nationality);
+//    }
+//    if (headerType.get("race").equals("qualitative")) {
+//      this.qualitativeData.add(this.race);
+//    }
+//    else {
+//      this.quantitativeData.add(this.race);
+//    }
+//    if (headerType.get("years_experience").equals("qualitative")) {
+//      this.qualitativeData.add(this.years);
+//    }
+//    else {
+//      this.quantitativeData.add(this.years);
+//    }
+//    if (headerType.get("communication_style").equals("qualitative")) {
+//      this.qualitativeData.add(this.communciation_style);
+//    }
+//    else {
+//      this.quantitativeData.add(this.communciation_style);
+//    }
+//    if (headerType.get("weekly_avail_hours").equals("qualitative")) {
+//      this.qualitativeData.add(this.hours);
+//    }
+//    else {
+//      this.quantitativeData.add(this.hours);
+//    }
+//    if (headerType.get("meeting_style").equals("qualitative")) {
+//      this.qualitativeData.add(this.meeting_style);
+//    }
+//    else {
+//      this.quantitativeData.add(this.meeting_style);
+//    }
+//    if (headerType.get("meeting_time").equals("qualitative")) {
+//      this.qualitativeData.add(this.meeting_time);
+//    }
+//    else {
+//      this.quantitativeData.add(this.meeting_time);
+//    }
+//    if (headerType.get("software_engn_confidence").equals("qualitative")) {
+//      this.qualitativeData.add(this.confidence);
+//    }
+//    else {
+//      this.quantitativeData.add(this.confidence);
+//    }
+//    if (headerType.get("strengths").equals("qualitative")) {
+//      this.qualitativeData.add(this.strengths);
+//    }
+//    else {
+//      this.quantitativeData.add(this.strengths);
+//    }
+//    if (headerType.get("weaknesses").equals("qualitative")) {
+//      this.qualitativeData.add(this.weaknesses);
+//    }
+//    else {
+//      this.quantitativeData.add(this.weaknesses);
+//    }
+//    if (headerType.get("skills").equals("qualitative")) {
+//      this.qualitativeData.add(this.skills);
+//    }
+//    else {
+//      this.quantitativeData.add(this.skills);
+//    }
+//    if (headerType.get("interests").equals("qualitative")) {
+//      this.qualitativeData.add(this.interests);
+//    }
+//    else {
+//      this.quantitativeData.add(this.interests);
+//    }
   }
 }

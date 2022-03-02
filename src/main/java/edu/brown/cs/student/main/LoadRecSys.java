@@ -1,6 +1,7 @@
 package edu.brown.cs.student.main;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,21 +59,30 @@ public class LoadRecSys implements REPL, Command {
    * @throws IOException
    */
   public void loadStudents(String filePath) throws IOException {
-    CSVParser newParserKDTree = new CSVParser(filePath, Student::new, true, true); // instantiate parser w type of object specified
-    newParserKDTree.readLine();
+    CSVParser newParser = new CSVParser(filePath, Student::new, true, true); // instantiate parser w type of object specified
+    newParser.readLine();
 
-    List<KdTreeNode> students = newParserKDTree.getListOfObjects(); // get list of KdTreeNodes
-    Tree studentTree = new Tree(students); // create new tree
+    List<KdTreeNode> studentNodes = newParser.getListOfObjects(); // get list of KdTreeNodes
+    Tree studentTree = new Tree(studentNodes); // create new tree
     REPL.addCommandObject("load_kd", studentTree);
     System.out.println("Using quantitative data to create kd_tree");
 
-    CSVParser newParserBF = new CSVParser(filePath, Student::new, true, true); // instantiate parser w type of object specified
-    newParserBF.readLine();
+    List<Student> students = newParser.getListOfObjects();
+
+    BloomFiltersLoader bloomLoader =
+        new BloomFiltersLoader(students); // create new BloomFiltersLoader
+    HashMap<String, BloomFilterBuilder> idsToBlooms = bloomLoader.loadAllBlooms();
     System.out.println("Using qualitative data to create bf");
+    REPL.addCommandObject("load_bf",
+        idsToBlooms);
+
+    List filterAndTree = new ArrayList<>();
+    filterAndTree.add(studentTree);
+    filterAndTree.add(idsToBlooms);
 
     System.out.println("Loaded Recommender with " + students.size() + " student(s).");
 
-    REPL.addCommandObject("recsys_load", null);
+    REPL.addCommandObject("recsys_load", filterAndTree);
   }
 
 }

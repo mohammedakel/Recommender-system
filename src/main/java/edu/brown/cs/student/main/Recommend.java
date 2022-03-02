@@ -41,7 +41,7 @@ public class Recommend implements REPL, Command{
     } else if (args.length != 2) {
       System.out.println("ERROR: Incorrect amount of args: run load_kd <path/to/file.csv>");
     } else {
-
+       // TO DO: implement recommendation system
     }
   }
 }

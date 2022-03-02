@@ -126,8 +126,24 @@ public class BloomFilterLoaderTest {
       add(two);
       add(three);
     } };
+    assertEquals(3, studentsList.size());
     BloomFiltersLoader loader = new BloomFiltersLoader(studentsList, 0.01);
+    try {
+      loader.toString();
+      HashSet<String> allItems1 = loader.extractStudentInformation(one);
+      System.out.println("is allItems1 null: " + (allItems1==null));
+    } catch(NullPointerException e) {
+      System.out.println("NULL POINTER CAUGHT");
+    }
+
+    HashSet<String> allItems2 = loader.extractStudentInformation(two);
+    HashSet<String> allItems = loader.extractStudentInformation(three);
+
+    System.out.println("is allItems2 null: " + (allItems2==null));
+    System.out.println("is allItems null: " + (allItems==null));
+    System.out.println("is loader null: " + (loader.extractStudentInformation(three)==null));
     int expectedMax = loader.extractStudentInformation(three).size();
+
     int result = loader.getMaxNumItems();
     assertEquals(expectedMax, result);
   }
@@ -148,9 +164,10 @@ public class BloomFilterLoaderTest {
       add(two);
       add(three);
     } };
+
     BloomFiltersLoader loader = new BloomFiltersLoader(studentsList, 0.01);
     HashSet<String> oneInfo = loader.extractStudentInformation(one);
-    //System.out.println(oneInfo.toString());
+
     assertEquals(7, oneInfo.size()); //old cause getBloom vs qualatative
     //assertEquals(15, oneInfo.size());
     BloomFilterBuilder result = loader.createStudentBloomFilter(oneInfo);

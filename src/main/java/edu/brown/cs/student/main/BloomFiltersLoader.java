@@ -52,23 +52,27 @@ public class BloomFiltersLoader {
   public HashSet<String> extractStudentInformation(Student student) {
     HashSet<String> allItems = new HashSet<>();
     //String[] relevantFields = student.getBloomData();
-    ArrayList relevantFields;
+    ArrayList relevantFields = student.getQualitativeData();
     //List<String> relevantFields = student.getBloomData();
 //    if (REPL.getCommandObject("headers_load") != null) {
-//      System.out.println("NULL");
-//      relevantFields = student.getQualitativeData();
+//
+//      relevantFields.addAll(student.getQualitativeData());
+//      //relevantFields = student.getQualitativeData();
 //    } else {
-//      relevantFields = student.getBloomData();
+//      relevantFields.addAll(student.getBloomData());
 //    }
 
-    relevantFields = student.getBloomData();
+    //relevantFields = student.getBloomData();
     for (Object attribute: relevantFields) {
+
       String[] attributeValues = ((String) attribute).split(",");
+
       for (String value: attributeValues
       ) {
         allItems.add(value);
       }
     }
+
     return allItems;
   }
 
