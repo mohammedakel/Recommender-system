@@ -67,6 +67,8 @@ public final class Main {
         LoadBF loadBF = new LoadBF();
         APIActive active = new APIActive();
         APIapi api = new APIapi();
+        Aggregate apiAggregate = new Aggregate();
+        aggregateAll apiAggregateAll = new aggregateAll();
         REPL.runREPL();
     }
 

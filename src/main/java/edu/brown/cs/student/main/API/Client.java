@@ -8,6 +8,7 @@ import java.time.Duration;
 
 /**
  * a generic class that handles the logistics of requests
+ *
  */
 
 public class Client {
@@ -19,13 +20,19 @@ public class Client {
     public Client() {
         this.client = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
-                .connectTimeout(Duration.ofSeconds(60)).build();
+                .connectTimeout(Duration.ofSeconds(60))
+                .build();
     }
 
     /**
      * a  method that handles generic requests
-     * @param req HttpRequest to be processed
-     * @return HttpResponse<String> responce of the request
+     * recursively calls the method until valid status code is obtaibed
+     *
+     * @param
+     *      req HttpRequest to be processed
+     * @return
+     *      HttpResponse<String> response of the request
+     *
      * @throws IOException
      * @throws InterruptedException
      * @throws IllegalArgumentException

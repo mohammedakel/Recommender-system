@@ -63,9 +63,14 @@ public class ReqGenerator {
 
     /**
      * Method that makes a Get request
-     * @param url
-     * @param params
-     * @return HttpRequest
+     * @param
+     *          url
+     * @param
+     *          params
+     * @return
+     *          HttpRequest
+     * FORMAT: key=<key>;auth=<cslogin> //
+     * FORMAT: auth=<cslogin>;key=<key>
      */
     public static HttpRequest makeGetRequest(String url, String params) {
         StringBuilder urlParams = new StringBuilder("?");
@@ -76,15 +81,17 @@ public class ReqGenerator {
         }
         urlParams.deleteCharAt(urlParams.length() - 1);
         String reqUri = url + urlParams;
-        System.out.println(reqUri);
         return HttpRequest.newBuilder().uri(URI.create(reqUri)).build();
     }
 
     /**
      * Method that makes a Get request
-     * @param url
-     * @param params
-     * @return HttpRequest
+     * @param
+     *      url
+     * @param
+     *      params
+     * @return
+     *      HttpRequest
      */
     public static HttpRequest makePostRequest(String url, String params) {
         String[] parameters = params.split(";");
