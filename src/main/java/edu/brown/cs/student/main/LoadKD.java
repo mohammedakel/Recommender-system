@@ -37,7 +37,7 @@ public class LoadKD implements REPL, Command {
       System.out.println("ERROR: Incorrect amount of args: run load_kd <path/to/file.csv>");
     } else {
       String filePath = args[1];
-      CSVParser newParser = new CSVParser(filePath, Student::new, true,false); // instantiate parser w type of object specified
+      CSVParser newParser = new CSVParser(filePath, Student::new, true); // instantiate parser w type of object specified
       newParser.readLine();
       List<KdTreeNode> students = newParser.getListOfObjects(); // get list of KdTreeNodes
 //      if (REPL.getCommandObject("headers_load") != null) { // show that header_load was called

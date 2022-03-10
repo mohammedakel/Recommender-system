@@ -62,7 +62,6 @@ public class Student implements KdTreeNode {
                  String meeting_time,
                  double confidence, String strengths, String weaknesses, String skills,
                  String interests) {
-    //System.out.println("Created student manually");
     this.id = id;
     this.name = name;
     this.years = years;
@@ -85,7 +84,7 @@ public class Student implements KdTreeNode {
 
 
   /**
-   * Student constructor
+   * Student constructor for testing purposes
    *
    * @param CSVParsedLine
    */
@@ -112,13 +111,14 @@ public class Student implements KdTreeNode {
 
   /**
    * Other Student constructor that takes in parsed CSV line and hashmap of attribute/types
-   * To be used for recommender system, load_headers
+   * If hashmap is null, just acts like regular constructor
+   * If hashmap is not null, it adds data to respective lists of header types
+   * to be used for recommender system, load_headers
    *
    * @param CSVParsedLine
    */
   public Student(String[] CSVParsedLine, HashMap<String, String> attributeType) {
     if (attributeType == null) {
-      //System.out.println("made new student w just line");
       this.id = Integer.parseInt(CSVParsedLine[0]);
       this.name = CSVParsedLine[1];
       this.email = CSVParsedLine[2];
@@ -211,18 +211,11 @@ public class Student implements KdTreeNode {
    * @return
    */
   public ArrayList<String> getBloomData() {
-//    String[] result = {this.communication_style, this.meeting_style, this.meeting_time,
-//        this.strengths, this.weaknesses, this.skills, this.interests};
     ArrayList<String> result = new ArrayList<>();
 
     result.add(communication_style);
-//    System.out.println("comstyle: " + communication_style);
     result.add(this.meeting_style);
-//    System.out.println("meeting_style: " + this.meeting_style);
     result.add(this.meeting_time);
-//    System.out.println("meeting_time: " + this.meeting_time);
-//    System.out.println("strengths: " + this.strengths);
-//    System.out.println("weaknesses: " + this.weaknesses);
     result.add(this.strengths);
     result.add(this.weaknesses);
     result.add(this.skills);
@@ -251,10 +244,6 @@ public class Student implements KdTreeNode {
    */
   public ArrayList<String> getQualitativeData() {
     return qualitativeData;
-//    if (this.attributeData != null){
-//      return qualitativeData;
-//    }
-//    return getBloomData();
   }
 
   /**

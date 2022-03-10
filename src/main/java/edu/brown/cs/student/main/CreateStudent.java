@@ -20,14 +20,4 @@ public class CreateStudent implements CSVObject{
     System.out.println("attributeTypes not null");
     return new Student(lineOfData, attributeTypes);
   }
-
-//  @Override
-//  public Student createObjectWithLineOfData(String[] lineOfData) {
-//    return new Student(lineOfData);
-//  }
-
-//  @Override
-//  public Student createObjectAndUseHeaderTypes(String[] lineOfData, HashMap attributeTypes) {
-//    return new Student(lineOfData, attributeTypes);
-//  }
 }

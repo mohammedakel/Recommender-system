@@ -16,14 +16,4 @@ public class CreateStar implements CSVObject {
     }
     return new Stars(lineOfData, attributeTypes);
   }
-//
-//  @Override
-//  public Stars createObjectWithLineOfData(String[] lineOfData) {
-//    return new Stars(lineOfData);
-//  }
-
-//  @Override
-//  public Stars createObjectAndUseHeaderTypes(String[] lineOfData, HashMap attributeTypes) {
-//    return null;
-//  }
 }

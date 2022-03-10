@@ -15,9 +15,4 @@ public interface CSVObject<T> {
    * To be implemented by classes
    */
   T createObjectWithLineOfData(String[] lineOfData, HashMap<String, String> attributeTypes);
-//
-//  /**
-//   * To be implemented by classes
-//   */
-//  Object createObjectWithLineOfData(String[] lineOfData);
 }

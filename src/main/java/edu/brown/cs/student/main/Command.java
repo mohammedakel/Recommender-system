@@ -16,8 +16,7 @@ public interface Command extends REPL{
 
 
   // pass in the entire parsed repl line and have each respective class expect the arguments at certain indices
-  // pass the parsed REPL line as a string array of ar    guments to each of your command classes
-
+  // pass the parsed REPL line as a string array of arguments to each of your command classes
 
   /**
    * To be filled in by each Command object, must parse args themselves

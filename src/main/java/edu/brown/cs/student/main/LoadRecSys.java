@@ -133,8 +133,7 @@ public class LoadRecSys implements REPL, Command {
    * @throws IOException
    */
   public void getStudentsFromCSV(String filePath) throws IOException {
-    CSVParser newParser = new CSVParser(filePath, Student::new, true,
-        true); // instantiate parser w type of object specified
+    CSVParser newParser = new CSVParser(filePath, Student::new, true); // instantiate parser w type of object specified
     newParser.readLine();
     List<Student> students = newParser.getListOfObjects();
     List<KdTreeNode> studentNodes = newParser.getListOfObjects();

@@ -28,13 +28,12 @@ public class CSVParser<T extends CSVObject> {
   private Boolean headersIncluded;
   private Boolean justHeaders;
   public HashMap<String, String> headerTypes;
-  public boolean recSys;
 
   /**
-   * One constructor that does not take in a delimiter type, so the default refex
+   * One constructor that does not take in a delimiter type, so the default regex
    * parser is used. Takes in a string filePath, T type of object, and a boolean
    * that tells whether or not the headers are included (if so the first line of data should be skipped
-   * and not made an object)
+   * and not made an object).
    * <p>
    * Each class is to instantiate a CSVParser
    * and specify the type of object to make, as well as other params.
@@ -43,14 +42,13 @@ public class CSVParser<T extends CSVObject> {
    * @param type
    * @param headersIncluded
    */
-  public CSVParser(String filePath, T type, Boolean headersIncluded, Boolean recSys) {
+  public CSVParser(String filePath, T type, Boolean headersIncluded) {
     this.filePath = filePath;
     this.delimiter = null; // sets to null so that default is used
     this.object = type;
     this.listOfObjects = new ArrayList<>(); // list of objects to return
     this.headersIncluded = headersIncluded;
     this.justHeaders = false;
-    this.recSys = recSys;
   }
 
   /**
@@ -64,15 +62,13 @@ public class CSVParser<T extends CSVObject> {
    * @param type
    * @param headersIncluded
    */
-  public CSVParser(String filePath, T type, String delimiter, Boolean headersIncluded,
-                   Boolean recSys) {
+  public CSVParser(String filePath, T type, String delimiter, Boolean headersIncluded) {
     this.filePath = filePath;
     this.delimiter = delimiter;
     this.object = type;
     this.listOfObjects = new ArrayList<>();
     this.headersIncluded = headersIncluded;
     this.justHeaders = false;
-    this.recSys = recSys;
   }
 
   /**
@@ -90,7 +86,6 @@ public class CSVParser<T extends CSVObject> {
     this.listOfObjects = new ArrayList<>();
     this.headersIncluded = false;
     this.justHeaders = true;
-    this.recSys = false;
     this.headerTypes = new HashMap<>();
   }
 
@@ -121,16 +116,6 @@ public class CSVParser<T extends CSVObject> {
           listOfObjects.add(object.createObjectWithLineOfData(
               args, (HashMap<String, String>) REPL.getCommandObject(
                   "headers_load"))); // calls the createObjectWithLineOfData method and adds to list
-
-
-//          if (this.recSys) {
-//            listOfObjects.add(object.createObjectWithLineOfData(
-//                args, (HashMap<String, String>) REPL.getCommandObject("headers_load"))); // calls the createObjectWithLineOfData method and adds to list
-//          } else {
-//            System.out.println("NULL");
-//            listOfObjects.add(object.createObjectWithLineOfData(
-//                args, null)); // calls the createObjectWithLineOfData method and adds to list
-//          }
         }
         i++;
       }
