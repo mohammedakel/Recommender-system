@@ -5,6 +5,8 @@ import edu.brown.cs.student.main.REPL;
 
 import java.io.IOException;
 
+import static edu.brown.cs.student.main.API.ApiAggregate.*;
+
 public class Aggregate implements Command {
 
     public Aggregate() {
@@ -16,13 +18,13 @@ public class Aggregate implements Command {
     public void execute(String[] args) throws IOException {
         if (args.length < 2) {System.out.println("ERROR: invalid args");}
         String method = args[1];
-        ApiAggregate aggregator = new ApiAggregate();
-        aggregator.aggregate(method);
+        ApiAggregate agregator = new ApiAggregate();
+        agregator.aggregate(method);
         if (method.equals("info")) {
-            REPL.addCommandObject("aggregate_info", aggregator.getStudents);
+            REPL.addCommandObject("aggregate_info", agregator.getInfoStudents());
         }
         else if (method.equals("match")) {
-            REPL.addCommandObject("aggregate_match", aggregator.postStudents);
+            REPL.addCommandObject("aggregate_match", agregator.getMatchStudents());
         }
         else {
             System.out.println("Error: Invalid Arguments");

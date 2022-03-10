@@ -14,14 +14,14 @@ import java.util.List;
  *
  */
 
-public class JsonStudentsParser {
+public class JsonParser {
 
     /**
      *
      * class constructor
      *
      */
-    public JsonStudentsParser(){}
+    public JsonParser(){}
 
     /**
      * Extracts the message parameter from a JSON object and stores it into a Message object.
@@ -37,35 +37,33 @@ public class JsonStudentsParser {
     }
 
     /**
-     * Method to parse and store all the student info extracted from info end points
+     * Method to parse and store all the student info extracted from info API
      * @param apiResponse
      *          - HttpResponse containing JSON student data
      * @return
      *          - a list of InfoStudents
      */
     public static List<InfoStudents> storeInfo(HttpResponse<String> apiResponse) {
+        assert apiResponse.statusCode() == 200;
         Gson parser = new Gson();
-        if (apiResponse.statusCode() == 200) {
-            InfoStudents[] infoStudentsList = parser.fromJson(apiResponse.body(), InfoStudents[].class);
-            return Arrays.asList(infoStudentsList);
-        }
-        return new ArrayList<>();
+        InfoStudents[] infoStudentsList = parser.fromJson(apiResponse.body(), InfoStudents[].class);
+        return Arrays.asList(infoStudentsList);
     }
 
+
+
     /**
-     * Method to parse and store all the student info extracted from Match end points
+     * Method to parse and store all the student info extracted from Match API
      * @param apiResponse
      *          - HttpResponse containing JSON student data
      * @return
      *          - a list of MatchStudents
      */
     public static List<MatchStudents> storeMatch(HttpResponse<String> apiResponse) {
+        assert apiResponse.statusCode() == 200;
         Gson parser = new Gson();
-        if (apiResponse.statusCode() == 200) {
-            MatchStudents[] matchStudentsList = parser.fromJson(apiResponse.body(), MatchStudents[].class);
-            return Arrays.asList(matchStudentsList);
-        }
-        return new ArrayList<>();
+        MatchStudents[] matchStudentsList = parser.fromJson(apiResponse.body(), MatchStudents[].class);
+        return Arrays.asList(matchStudentsList);
     }
 
 }

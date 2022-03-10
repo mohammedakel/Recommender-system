@@ -7,10 +7,9 @@ import java.io.IOException;
 
 /**
  * A generic file parser.
- * Citations:
+ * Reference:
  *      cs0320-s2022/project-1-avonderg-bpiekarz-kku2
  *      https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html
- *      @kmarcus for her previous implementation of a CSV parser
  *
  */
 

@@ -2,13 +2,14 @@ package edu.brown.cs.student.main.API;
 
 /**
  * Class for storing information on student objects extracted from API aggregation calls
+ * Info: id, name, class_year, years_experience, communication_style, weekly_avail_hours, meeting_style, meeting_time
  */
 
 public class InfoStudents {
     private  int id;
     private  String name;
-    private  String email;
     private  String class_year;
+    private  String email;
     private  int years_experience;
     private  String communication_style;
     private  int weekly_avail_hours;

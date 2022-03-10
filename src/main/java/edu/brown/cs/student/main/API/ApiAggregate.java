@@ -5,6 +5,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -12,42 +15,63 @@ import java.util.List;
  *
  */
 public class ApiAggregate {
-    private String method = "";
-    private Client client = new Client();
-    public List<InfoStudents> getStudents= new ArrayList<InfoStudents>();
-    public List<MatchStudents> postStudents = new ArrayList<MatchStudents>();;
+    private  String method = "";
+    private  Client client;
+    private  List<InfoStudents> getStudents;
+    private  List<MatchStudents> postStudents;
 
     /**
      * A class constructor
      *
      */
     public ApiAggregate(){
+        client = new Client();
+        getStudents=  new ArrayList<InfoStudents>();
+        postStudents =  new ArrayList<MatchStudents>();
     }
 
     /**
-     * A method that aggregated data from the studentInfo APi. returns void but populates
-     * and prints the student info list
-     *
+     * Parses input JSON string, removing items stored within quotation marks
+     * @param parse - JSON string to parse
+     * @return - List<String> of parsed JSON tokens
+     * from: https://github.com/cs0320-s2022/project-1-avonderg-bpiekarz-kku2
      */
+    private List<String> parseActive(String parse) {
+        List<String> tokens = new ArrayList<>();
+        Pattern p = Pattern.compile("\"([^\"]*)\""); // regex to find matches on
+        Matcher m = p.matcher(parse);
+        while (m.find()) {
+            tokens.add(m.group(1));
+        }
+        return tokens;
+    }
+
+    /**
+     * A method that aggregated data from the studentInfo APi. returns list of info students
+     */
+
     public void InfoAggregate() {
-        String requestStr = "https://studentinfoapi.herokuapp.com";
-        ReqGenerator generator = new ReqGenerator();
+        String infoAPI = "https://studentinfoapi.herokuapp.com";
+        String infoAPIActive = "https://studentinfoapi.herokuapp.com/get-active";
+        HttpResponse<String>  activeEndPoints = client.makeRequest(ReqGenerator.getActive(infoAPIActive));
+        assert  activeEndPoints != null;
         System.out.println("Students: ");
-        HttpResponse<String>  activeEndPoints = client.makeRequest(generator.getActive("https://studentinfoapi.herokuapp.com/get-active"));
-        System.out.println("Current Active Endpoints Are: " + activeEndPoints);
         String endPoints = activeEndPoints.body();
-        String[] endPointsClean = endPoints.substring(1, endPoints.length()-1).split(", ");
-        for (String token : endPointsClean) {
+        List<String> tokens = parseActive(endPoints);
+        for (String token : tokens) {
+            assert !Objects.equals(token, "");
+            System.out.println(token);
             HttpResponse<String> response = null;
-            requestStr += token.substring(1, token.length()-1); // append correct token to the URL
+            String temp = infoAPI + token;
             String apiKey = ClientAuth.getApiKey();
             String parameters = "auth=makel;key=" + apiKey;
-            response = client.makeRequest(generator.makeGetRequest(requestStr, parameters));
-            if (response.statusCode() != 200) {
-                response = client.makeRequest(generator.makeGetRequest(requestStr, parameters));
+            response = client.makeRequest(ReqGenerator.makeGetRequest(temp, parameters));
+            while (response.statusCode() != 200) {
+                response = client.makeRequest(ReqGenerator.makeGetRequest(String.valueOf(infoAPI), parameters));
             }
-            getStudents = JsonStudentsParser.storeInfo(response);
-            for (InfoStudents student : getStudents) {
+            List<InfoStudents> getStudentsToken = JsonParser.storeInfo(response);
+            for (InfoStudents student : getStudentsToken) {
+                getStudents.add(student);
                 System.out.println(student.convertToString());
             }
         }
@@ -60,30 +84,25 @@ public class ApiAggregate {
      */
     public void MatchAggregate() {
         String requestStr = "https://studentmatchapi.herokuapp.com";
-        ReqGenerator generator = new ReqGenerator();
+        String requestStrActive = "https://studentmatchapi.herokuapp.com/get-active";
+        HttpResponse<String>  activeEndPoints = client.makeRequest(ReqGenerator.getActive(requestStrActive));
+        assert  activeEndPoints != null;
         System.out.println("Students: ");
-        HttpResponse<String>  activeEndPoints = client.makeRequest(generator.getActive("https://studentmatchapi.herokuapp.com/get-active"));
         String endPoints = activeEndPoints.body();
-        String[] endPointsClean = endPoints.substring(1, endPoints.length()-1).split(", ");
-        String baseString = "";
-        for (String token : endPointsClean) {
-            HttpRequest activeRequest = null;
+        List<String> tokens = parseActive(endPoints);
+        for (String token : tokens) {
+            System.out.println(token);
             HttpResponse<String> response = null;
-            baseString = requestStr;
-            baseString +=  token.substring(1, token.length()-1);;
-            System.out.println(baseString);
-            String auth = "makel";
+            String temp = requestStr + token;
             String apiKey = ClientAuth.getApiKey();
-            activeRequest = HttpRequest.newBuilder().uri(URI.create(baseString))
-                    .header("x-api-key", apiKey)
-                    .POST(HttpRequest.BodyPublishers.ofString("{\"auth\":\"" + auth + "\"}"))
-                    .build();
-            response = client.makeRequest(activeRequest);
-            if (response.statusCode() != 200) {
-                response = client.makeRequest(activeRequest);
+            String parameters = "auth=makel;key=" + apiKey;
+            response = client.makeRequest(ReqGenerator.makePostRequest(temp, parameters));
+            while (response.statusCode() != 200) {
+                response = client.makeRequest(ReqGenerator.makePostRequest(temp, parameters));
             }
-            postStudents = JsonStudentsParser.storeMatch(response);
-            for (MatchStudents student : postStudents) {
+            List<MatchStudents> postStudentsToken = JsonParser.storeMatch(response);
+            for (MatchStudents student : postStudentsToken) {
+                postStudents.add(student);
                 System.out.println(student.convertToString());
             }
         }
@@ -101,10 +120,6 @@ public class ApiAggregate {
         } else if (method.equals("match")) {
             this.MatchAggregate();
         }
-        else if (method.equals("all")) {
-            this.InfoAggregate();
-            this.MatchAggregate();
-        }
         else {
             System.out.println("Error: Invalid method argument");
         }
@@ -114,7 +129,7 @@ public class ApiAggregate {
      * a getter for students obtained from info API
      * @return  List<InfoStudents>
      * */
-    public List<InfoStudents> getInfoStudents(){
+    public  List<InfoStudents> getInfoStudents(){
         return this.getStudents;
     }
 
@@ -122,7 +137,7 @@ public class ApiAggregate {
      * a getter for students obtained from match API
      * @return List<MatchStudents>
      * */
-    public List<MatchStudents> getMatchStudents(){
+    public  List<MatchStudents> getMatchStudents(){
         return this.postStudents;
     }
 

@@ -7,6 +7,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 
 /**
+ *
  * a generic class that handles the logistics of requests
  *
  */
@@ -33,10 +34,9 @@ public class Client {
      * @return
      *      HttpResponse<String> response of the request
      *
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws IllegalArgumentException
-     * @throws SecurityException
+     * catches the following errors and prints relevant messages:
+     * IOException, InterruptedException, IllegalArgumentException, SecurityException
+     *
      *
      */
     public HttpResponse<String> makeRequest(HttpRequest req) {

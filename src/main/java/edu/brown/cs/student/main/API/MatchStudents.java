@@ -1,7 +1,9 @@
 package edu.brown.cs.student.main.API;
 
 /**
+ *
  * Class for storing information on student objects extracted from API aggregation calls
+ * info = id, name, gender, ssn, nationality, race, software_eng_confidence
  */
 
 public class MatchStudents {
@@ -11,7 +13,7 @@ public class MatchStudents {
     private  String ssn;
     private  String nationality;
     private  String race;
-    private  int software_confidence;
+    private  int software_eng_confidence;
 
 
     /**
@@ -31,7 +33,7 @@ public class MatchStudents {
         this.ssn = ssn;
         this.nationality = nationality;
         this.race = race;
-        this.software_confidence = software_confidence;
+        this.software_eng_confidence = software_confidence;
     }
 
     /**
@@ -87,7 +89,7 @@ public class MatchStudents {
      * @return software confidence
      */
     public String getSoftwareConfidence() {
-        return String.valueOf(software_confidence);
+        return String.valueOf(software_eng_confidence);
     }
 
     /**
@@ -102,7 +104,7 @@ public class MatchStudents {
                 this.ssn,
                 this.nationality,
                 this.race,
-                Integer.toString(this.software_confidence));
+                Integer.toString(this.software_eng_confidence));
     }
 
 }
