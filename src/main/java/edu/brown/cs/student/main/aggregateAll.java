@@ -16,10 +16,8 @@ public class aggregateAll implements Command{
     ApiAggregate aggregator = new ApiAggregate();
     aggregator.aggregate("info");
     List<InfoStudents> infoStudents = aggregator.getInfoStudents();
-    System.out.println("HERE " + infoStudents.size());
     aggregator.aggregate("match");
     List<MatchStudents> matchStudents = aggregator.getMatchStudents();
-    System.out.println("HERE 2 " + matchStudents.size());
     List<Integer> studentsIds = new ArrayList<Integer>();
     List<ApiStudent> finalAPI = new ArrayList<ApiStudent>();
     for (InfoStudents student: infoStudents

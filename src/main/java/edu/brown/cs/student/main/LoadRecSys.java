@@ -89,10 +89,10 @@ public class LoadRecSys implements REPL, Command {
   public void loadStudentsAPIDB(String filePath, List<ApiStudent> apiStudentList,
                                 HashMap<Integer, DatabaseStudent> dbStudentList)
       throws IOException {
-    System.out.println("using api-db to get students");
 
     List<Student> students = new ArrayList<>();
     List<KdTreeNode> nodes = new ArrayList<>();
+
     // loop through APIStudent list
     for (ApiStudent apiStudent : apiStudentList) {
       String[] attributes = apiStudent.getStudentAttributes(); // get string array of attributes

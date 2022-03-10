@@ -25,8 +25,7 @@ public class Database {
   private boolean write;
   private LoadingCache<String, ResultSet> cache;
 
-  public Database(String filename, Map<String, String> permissions)
-      throws ClassNotFoundException {
+  public Database(String filename, Map<String, String> permissions)throws ClassNotFoundException{
     try {
       Class.forName("org.sqlite.JDBC");
       String urlToDB = "jdbc:sqlite:" + filename;

@@ -10,7 +10,6 @@ public class ClientAuth {
    * @return a String of the api key.
    */
   public static String getApiKey() {
-    System.out.println("In here");
     FileParser parser = new FileParser("config/secret/apikey.txt");
     return parser.readNewLine();
   }

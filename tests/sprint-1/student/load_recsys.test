@@ -1,0 +1,38 @@
+INPUT
+recsys_load
+recsys_load CSV
+recsys_load a b c d e
+recsys_load API-DB data/sprint2/sql/data.sqlite3
+recsys_load data/project1/proj1_small.csv file file2 file3
+headers_load data/sprint2/header_types.csv
+recsys_load data/project1/proj1_small.csv file file2 file3
+OUTPUT
+Created new command: stars
+Created new command: naive_neighbors
+Created new command: load_kd
+Created new command: create_bf
+Created new command: insert_bf
+Created new command: query_bf
+Created new command: similar_kd
+Created new command: similar_bf
+Created new command: load_bf
+Created new command: headers_load
+Created new command: recsys_load
+Created new command: recommend
+Created new command: active
+Created new command: api
+Created new command: api_aggregate
+Created new command: api_aggregate_all
+Created new command: data_names
+Created new command: add_students
+Created new command: h_delete
+ERROR: Incorrect amount of args: run recsys_load CSV <4 provided CSVs> or recsys_load API-DB <data.sqlite3 PATH>
+ERROR: Incorrect amount of args: run recsys_load CSV <4 provided CSVs> or recsys_load API-DB <data.sqlite3 PATH>
+ERROR: Incorrect amount of args: run recsys_load CSV <4 provided CSVs> or recsys_load API-DB <data.sqlite3 PATH>
+ERROR: No students loaded from API. First run api_aggregate_all
+ERROR: No headers loaded. First run headers_load <header_types.csv PATH>
+Loaded header types.
+Using quantitative data to create kd_tree
+Using qualitative data to create bf
+Loaded Recommender with 20 student(s).
+END
