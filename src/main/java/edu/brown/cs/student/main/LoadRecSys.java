@@ -6,18 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Run recsys_load [4 provideded CSVs] or recsys_load API-DB <data.sqlite3 PATH>
- * <p>
+ * Run recsys_load [4 provideded CSVs] or recsys_load API-DB [data.sqlite3 PATH]
  * Only when headers are loaded, load consolidated student data from the
  * 4 provided CSVs into a k-d tree and Bloom filters
- * <p>
+ * **
  * Also can be used via API-DB
- * <p>
+ * **
  * Implements REPL and Command interface
- * <p>
  * Output: (where k is the number of students in the dataset):
  * Loaded Recommender with k student(s).
- * <p>
+ * **
  * Acceptance criterion: the data are loaded into a suitable data structure
  * which is accessible for use by other REPL commands.
  *

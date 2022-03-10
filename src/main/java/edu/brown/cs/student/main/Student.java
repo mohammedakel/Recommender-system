@@ -37,24 +37,24 @@ public class Student implements KdTreeNode {
   /**
    * Alternative Constructor for Testing
    *
-   * @param id
-   * @param name
-   * @param email
-   * @param gender
-   * @param class_year
-   * @param ssn
-   * @param nationality
-   * @param race
-   * @param years
-   * @param communication_style
-   * @param hours
-   * @param meeting_style
-   * @param meeting_time
-   * @param confidence
-   * @param strengths
-   * @param weaknesses
-   * @param skills
-   * @param interests
+   * @param id student's id
+   * @param name student's name
+   * @param email student's email
+   * @param gender student's gender
+   * @param class_year student's class year
+   * @param ssn student's ssn
+   * @param nationality student's nationality
+   * @param race student's race
+   * @param years student's years of experience
+   * @param communication_style student's preferred communication style
+   * @param hours student's available hours
+   * @param meeting_style student's preferred meeting style
+   * @param meeting_time student's preferred meeting time
+   * @param confidence student's confidence level
+   * @param strengths student's strengths
+   * @param weaknesses student's weaknesses
+   * @param skills student's skills
+   * @param interests student's interests
    */
   public Student(int id, String name, String email, String gender,
                  String class_year, String ssn, String nationality, String race, double years,
@@ -86,7 +86,7 @@ public class Student implements KdTreeNode {
   /**
    * Student constructor for testing purposes
    *
-   * @param CSVParsedLine
+   * @param CSVParsedLine line of data parsed from CSV parser
    */
   public Student(String[] CSVParsedLine) {
     this.id = Integer.parseInt(CSVParsedLine[0]);
@@ -115,7 +115,7 @@ public class Student implements KdTreeNode {
    * If hashmap is not null, it adds data to respective lists of header types
    * to be used for recommender system, load_headers
    *
-   * @param CSVParsedLine
+   * @param CSVParsedLine line of data parsed from CSV parser
    */
   public Student(String[] CSVParsedLine, HashMap<String, String> attributeType) {
     if (attributeType == null) {
@@ -208,7 +208,7 @@ public class Student implements KdTreeNode {
   /**
    * GetBloomData is used by bloomLoader
    *
-   * @return
+   * @return ArrayList of student's data
    */
   public ArrayList<String> getBloomData() {
     ArrayList<String> result = new ArrayList<>();
@@ -241,6 +241,7 @@ public class Student implements KdTreeNode {
 
   /**
    * Returns the list of qualitative data, to be used by the bloom filter.
+   * @return list of qualitative data
    */
   public ArrayList<String> getQualitativeData() {
     return qualitativeData;
@@ -248,6 +249,7 @@ public class Student implements KdTreeNode {
 
   /**
    * Returns the list of quantitative data, to be used by the KD tree.
+   * @return list of qualitative data
    */
   @Override
   public List<Double> getQuantitativeData() {

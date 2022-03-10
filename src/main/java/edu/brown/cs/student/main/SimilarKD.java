@@ -6,11 +6,8 @@ import java.util.List;
 
 /**
  * Run similar_kd [k] [some_user_id]
- * <p>
  * similar_kd print out the user_ids of the most similar k users [closest in distance of years experience,
  * weekly available hours, and software engineering confidence]
- * <p>
- * <p>
  * It implements the REPL and Command interface, so it must add itself to the
  * commands hashMap and implement execute.
  *

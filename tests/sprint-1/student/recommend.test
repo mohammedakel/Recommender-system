@@ -4,9 +4,13 @@ headers_load data/sprint2/header_types.csv
 recsys_load data/project1/proj1_small.csv file file2 file3
 recommend
 recommend -2 2
+recommend 2 hi
+recommend hi 2
 recommend 0 1
 recommend 2 22
+recommend 0 0
 recommend 3 5
+recommend 21 20
 OUTPUT
 Created new command: stars
 Created new command: naive_neighbors
@@ -34,9 +38,33 @@ Using qualitative data to create bf
 Loaded Recommender with 20 student(s).
 ERROR: Incorrect amount of args: run recommend <num_recommendations> <student_id>
 ERROR: Number on recommendations must be non-negative
+ERROR: Incorrect type of argument(s). num_recommendations and studentID must be an integers
+ERROR: Incorrect type of argument(s). num_recommendations and studentID must be an integers
 ERROR: No student with studentID: 22 exists.
+ERROR: No student with studentID: 0 exists.
 Recommending 3 students for student 5...
 Student 11 : 0.0
 Student 18 : 0.2485135707503352
 Student 13 : 0.5
+Cannot recommend 21 students, only 20 students' data loaded.
+Recommending 19 students for student 20 instead...
+Student 6 : 0.0
+Student 2 : 0.07808679571886683
+Student 18 : 0.09189142910500743
+Student 16 : 0.10046852682578934
+Student 5 : 0.11190773084233309
+Student 11 : 0.1472212197707758
+Student 17 : 0.1674818092746375
+Student 9 : 0.1832404847888867
+Student 15 : 0.2002239339490837
+Student 13 : 0.21198496534752903
+Student 10 : 0.22854050264792805
+Student 19 : 0.2342865975914424
+Student 3 : 0.25559368896094786
+Student 4 : 0.32654111880092496
+Student 14 : 0.3267010817600669
+Student 7 : 0.3397775558007143
+Student 1 : 0.3425630217648969
+Student 12 : 0.42985270122945535
+Student 8 : 0.5
 END
