@@ -188,4 +188,11 @@ public class CSVParser<T extends CSVObject> {
     dataToClean = dataToClean.toLowerCase();
     return dataToClean;
   }
+
+  public void useApiDb() {
+
+    // TO DO:
+    Aggregate aggregate = new Aggregate();
+
+  }
 }

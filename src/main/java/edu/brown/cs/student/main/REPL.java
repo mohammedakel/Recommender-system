@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.sql.SQLException;
 
 /**
  * Generic REPL that provides generic way to add arbitrary command
@@ -46,11 +47,16 @@ public interface REPL {
       }
     } catch (java.io.IOException e) {
       System.out.println("ERROR: invalid file input");
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
     }
   }
 
   /**
    * Gets the object a command creates, if any
+   *
    * @param commandName
    * @return object the command creates, if any
    */
@@ -59,7 +65,7 @@ public interface REPL {
 //      return objectsForCommands.get(commandName);
 //    }
 //    return null;
-    if (objectsForCommands.containsKey(commandName)){
+    if (objectsForCommands.containsKey(commandName)) {
       return objectsForCommands.get(commandName);
     }
     //System.out.println("ERROR: Cannot retrieve object from command that does not exist");
@@ -68,6 +74,7 @@ public interface REPL {
 
   /**
    * Stores the object the command stores, if any
+   *
    * @param commandName
    * @param commandObject
    */
@@ -113,7 +120,7 @@ public interface REPL {
   /**
    * Removes command from hashmap
    *
-   * @param commandName    of command to remove
+   * @param commandName of command to remove
    */
   static void removeCommands(String commandName) {
     if (commandsHash.containsKey(commandName)) {

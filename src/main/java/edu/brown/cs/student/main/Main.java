@@ -67,6 +67,10 @@ public final class Main {
     LoadHeaders loadHeaders = new LoadHeaders();
     LoadRecSys loadRecSys = new LoadRecSys();
     Recommend recommend = new Recommend();
+    APIActive active = new APIActive();
+    APIapi api = new APIapi();
+    Aggregate apiAggregate = new Aggregate();
+    aggregateAll apiAggregateAll = new aggregateAll();
 
     REPL.runREPL();
 

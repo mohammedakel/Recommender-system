@@ -1,0 +1,123 @@
+package edu.brown.cs.student.main;
+
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Database {
+  private static Connection conn = null;
+  private Map<String, String> tablePermissions;
+  private Map<String, String> sqlPermissions;
+
+  public Database(String filename, Map<String, String> permissions)
+      throws SQLException, ClassNotFoundException {
+    Class.forName("org.sqlite.JDBC");
+    String urlToDB = "jdbc:sqlite:" + filename;
+    conn = DriverManager.getConnection(urlToDB);
+    Statement stat = conn.createStatement();
+    stat.executeUpdate("PRAGMA foreign_keys=ON;");
+    tablePermissions = permissions;
+    sqlPermissions = new HashMap<>();
+    this.SqlPermissions();
+  }
+
+  public void SqlPermissions() {
+    sqlPermissions.put("SELECT", "R");
+    sqlPermissions.put("INSERT", "W");
+    sqlPermissions.put("DROP", "RW");
+    sqlPermissions.put("UPDATE", "RW");
+    sqlPermissions.put("DELETE", "RW");
+    sqlPermissions.put("ALTER", "RW");
+    sqlPermissions.put("JOIN", "R");
+    sqlPermissions.put("TRUNCATE", "RW");
+  }
+
+  public boolean checkAccess(String sql) {
+    boolean permission = true;
+    String[] token = sql.split(" ");
+    List<String> tables = new ArrayList<>();
+    List<Integer> indices = new ArrayList<>();
+
+    for (int i = 0; i < token.length; i++) {
+      if (tablePermissions.containsKey(token[i].toUpperCase())) {
+        tables.add(token[i].toUpperCase());
+        indices.add(i);
+      }
+
+    }
+    for (int i = 0; i < token.length; i++) {
+      if (sqlPermissions.containsKey(token[i].toUpperCase())) {
+        if (token[i].equals("JOIN")) {
+          String sqlVal = sqlPermissions.get(token[i].toUpperCase());
+          String tableVal = tablePermissions.get(token[i + 1].toLowerCase());
+          String tableVal2 = tablePermissions.get(token[i - 1].toLowerCase());
+          if (!hasAccess(sqlVal, tableVal) || !hasAccess(sqlVal, tableVal2)) {
+            permission = false;
+          }
+        } else {
+          for (int j = i + 1; j < token.length; j++) {
+            if (tablePermissions.containsKey(token[j].toLowerCase())) {
+              String sqlVal = sqlPermissions.get(token[i].toUpperCase());
+              String tableVal = tablePermissions.get(token[j].toLowerCase());
+              if (!hasAccess(sqlVal, tableVal)) {
+                permission = false;
+              }
+              break;
+            }
+          }
+        }
+      } else if (token[i].charAt(token[i].length() - 1) == ',') { //Implicit JOIN case
+        String t = token[i];
+        t = t.replace(",", "");
+        String tableVal = tablePermissions.get(token[i + 1].toLowerCase());
+        if (!hasAccess("R", tableVal) || !hasAccess("R", t)) {
+          permission = false;
+        }
+      }
+
+    }
+    System.out.println(permission);
+    return permission;
+  }
+
+  public boolean hasAccess(String sql, String table) {
+    if (sql.equals("RW")) {
+      if (table.equals("RW")) {
+        return true;
+      }
+    } else if (sql.equals("R")) {
+      if (table.equals("R") || table.equals("RW")) {
+        return true;
+      }
+    } else if (sql.equals("W")) {
+      if (table.equals("W") || table.equals("RW")) {
+        return true;
+      }
+    } else {
+      System.out.println("ERROR: Access");
+    }
+    return false;
+  }
+
+  public ResultSet executeSQL(String sql) throws SQLException {
+    if (!checkAccess(sql)) {
+      return null;
+    }
+    try {
+      PreparedStatement command = conn.prepareStatement(sql);
+      ResultSet rs = command.executeQuery();
+      return rs;
+    } catch (SQLException e) {
+      System.out.println("ERROR: SQL");
+      return null;
+    }
+  }
+}
