@@ -16,6 +16,13 @@ Created new command: load_bf
 Created new command: headers_load
 Created new command: recsys_load
 Created new command: recommend
+Created new command: active
+Created new command: api
+Created new command: api_aggregate
+Created new command: api_aggregate_all
+Created new command: data_names
+Created new command: add_students
+Created new command: h_delete
 000000000000000000000000000000000000000000000000000
 010000000001000000000000000110000001000000001000000
 000000000000000000000000000000000000000000000000000

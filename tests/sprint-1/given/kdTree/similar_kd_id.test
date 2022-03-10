@@ -14,6 +14,13 @@ Created new command: load_bf
 Created new command: headers_load
 Created new command: recsys_load
 Created new command: recommend
+Created new command: active
+Created new command: api
+Created new command: api_aggregate
+Created new command: api_aggregate_all
+Created new command: data_names
+Created new command: add_students
+Created new command: h_delete
 Read 20 students from data/project1/proj1_small.csv
 15
 10

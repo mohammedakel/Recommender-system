@@ -64,7 +64,8 @@ public class Recommend implements REPL, Command {
           return;
         }
         student_id = Integer.parseInt(args[2]);
-        List<Student> students = (List<Student>) REPL.getCommandObject("recsys_load_students");
+        List<Student> students = (List<Student>) REPL.getCommandObject("recsys_load_students"); // get list of students that was loaded from recsys_load
+        int numStudents = students.size();
         boolean studentExists = false;
         for (Student currStudent : students) { // check if studentID exists in loaded data
           if (currStudent.getId() == student_id) {
@@ -78,30 +79,45 @@ public class Recommend implements REPL, Command {
         if (num_recommendations == 0) {
           return;
         }
-        System.out.println("Recommending " + num_recommendations + " students for student " + student_id + "...");
-        recommendationAlgorithm();
+        if (numStudents <= num_recommendations) {
+          System.out.println("Cannot recommend " + num_recommendations + " students, only " + numStudents + " students' data loaded." );
+          num_recommendations = numStudents - 1; // don't include given student id
+          System.out.println("Recommending " + num_recommendations + " students for student " + student_id + " instead...");
+        } else {
+          System.out.println("Recommending " + num_recommendations + " students for student " + student_id + "...");
+        }
+        recommendationAlgorithm(); // create recommendations
 
       } catch (NumberFormatException e) {
         System.out.println(
             "ERROR: Incorrect type of argument(s). num_recommendations and studentID must be an integers");
         return;
       }
-
-      // TO DO: implement recommendation system
     }
   }
 
 
+  /**
+   * The recommendationAlgorithm takes the union of the set of students
+   * recommended by the bloom filter and kd tree. The distances are normalized,
+   * and the average of these distances is computer and assigned as the new value
+   * for that student. Finally, these new distances are used to sort
+   */
   public void recommendationAlgorithm() {
 
+    // get BloomFilter from stored data
     HashMap<String, BloomFilterBuilder> idsToBlooms =
         (HashMap<String, BloomFilterBuilder>) REPL.getCommandObject("recsys_load_bf");
+    // create similarity generator
     SimilarityGenerator generator = new SimilarityGenerator(idsToBlooms, num_recommendations);
-    //PriorityQueue<SBLTuple> similarityResult = generator.findSimilar(student_id);
 
+    // get KDTree from stored data
     Tree studentTree = (Tree) REPL.getCommandObject("recsys_load_kdtree");
+    // create list of nearest neighbors using tree
     ArrayList<Integer> neighbors = studentTree.findNeighbor(num_recommendations, student_id);
 
+    // get the map containing studentIDs and their respective distances from the target student
+    // for both kd tree and bloom filter
     kd_distances = studentTree.getDistanceIDMap();
     bf_distances = generator.getDistanceMap();
 
@@ -145,6 +161,9 @@ public class Recommend implements REPL, Command {
     // using min-max normalization
 //    HashMap<Integer, Double> new_kd_distances = normalizeValues(kd_distances);
 //    HashMap<Integer, Double> new_bf_distances = normalizeValues(bf_distances);
+
+    // Since these distances are not proportional, need to make them comparable
+    // using min-max normalization
     normalizeValues(kd_distances);
     normalizeValues(bf_distances);
 
@@ -154,12 +173,14 @@ public class Recommend implements REPL, Command {
 //    System.out.println("AFTER BF Distances Map Results: ");
 //    printResults(bf_distances.values(), false);
 
+    // get the set of student ids from both maps with recommended students
     Set<Integer> student_ids = kd_distances.keySet();
     Set<Integer> student_ids_2 = bf_distances.keySet();
 
 //    System.out.println("student_ids.size: " + student_ids.size());
 //    System.out.println("student_ids2.size: " + student_ids_2.size());
 
+    // take the union of this set, so we can check all students that were recommended
     Set<Integer> unionSet = new HashSet<>();
     unionSet.addAll(student_ids);
     unionSet.addAll(student_ids_2);
@@ -170,47 +191,60 @@ public class Recommend implements REPL, Command {
 //    System.out.println("Union Results: ");
 //    printResults(unionSet, false);
 
-    // 3. for each student, you will need to take an average of both normalized distances
+    // for each student, take an average of both normalized distances
     // (i.e., the bit vector distance and the Euclidean distance), weighting them equally
     // 0.5 * <AND distance for student 1> + 0.5 * <Euclidean distance for student 1>
-    // 4. you can rank and confidently select from the pool of recommended students based on
-    // these composite distances
     HashMap<Integer, Double> normalizedValues = new HashMap<>();
-    Set<Double> distances = new HashSet<>();
+    Set<Double> distances = new HashSet<>(); // keep track of distances to use for tiebreak
+    int t = 0;
     for (Integer student : unionSet) {
       Double KDDistance = 0.0;
       Double BFDistance = 0.0;
       if (student_ids.contains(student)) {
-        KDDistance = kd_distances.get(student);
+        KDDistance = kd_distances.get(student); // check if student is in kd recommended students list
       }
       if (student_ids_2.contains(student)){
-        BFDistance = bf_distances.get(student);
+        BFDistance = bf_distances.get(student); // check if student is in bf recommended students list
       }
 
       double average = (0.5 * KDDistance ) + (0.5 * BFDistance);
 
-      if (distances.contains(average)) { // tiebreak
+      if (distances.contains(average) && t == num_recommendations -1 ) { // tiebreak if at last recommendation
         average = (0.4 * KDDistance ) + (0.6 * BFDistance); // weight qualitative data more
         if (distances.contains(average)) {
           average = (0.3 * KDDistance ) + (0.7 * BFDistance); // weight qualitative data more
         }
       }
       distances.add(average);
-      normalizedValues.put(student, average);
+      normalizedValues.put(student, average); // put average value in map with student id as key
+      t++;
     }
 
+    //  rank and confidently select from the pool of recommended students based on
+    // these composite distances
     List<Map.Entry<Integer, Double>> normalizedList = new ArrayList<>(normalizedValues.entrySet());
-    Collections.sort(normalizedList, Map.Entry.comparingByValue());
+    Collections.sort(normalizedList, Map.Entry.comparingByValue()); // sort using value
 
-    printRecommendations(normalizedList);
+    printRecommendations(normalizedList); // print the recommendations
 
   }
 
+  /**
+   * Helper class that prints out the recommended students with their student ids and distances.
+   * @param recs
+   */
   public void printRecommendations(List<Map.Entry<Integer, Double>> recs) {
     for (int i = 0; i < num_recommendations && i < recs.size(); i++) {
       System.out.println("Student " + recs.get(i).getKey() + " : " + recs.get(i).getValue());
     }
   }
+
+  /**
+   * Used for testing, prints out results, uses boolean BF to print tuples specifically,
+   * otherwise generic
+   * @param toEnumerate collection to iterate through
+   * @param BF
+   */
   public void printResults(Collection toEnumerate, boolean BF) {
 
     for (Object currObject : toEnumerate) {
@@ -226,53 +260,48 @@ public class Recommend implements REPL, Command {
   /**
    * https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap for entry set
    *
-   * @param map
-   * @return new map with normalized values
+   * @param map of student ids and distances
    */
   public void normalizeValues(HashMap<Integer, Double> map) {
-//    HashMap<Integer, Double> normalizedMap = new HashMap<>();
-    double min = getMin(map.values());
-    double max = getMax(map.values());
+    double min = getMin(map.values()); // get min of distances
+    double max = getMax(map.values()); // get max of all distances
 
     for (HashMap.Entry<Integer, Double> entry : map.entrySet()) {
       // min-max scaling/normalization, https://en.wikipedia.org/wiki/Feature_scaling
       Double normalizedValue = (entry.getValue() - min) / (max - min);
-//      System.out.println("normalizedVal: " + normalizedValue);
+      // replace student ids distance with new normalized value
       map.replace(entry.getKey(), normalizedValue);
-//      normalizedMap.put(entry.getKey(), normalizedValue);
-//      System.out.println("entry.getKey: " + entry.getValue());
     }
-//    return normalizedMap;
   }
 
 
+  /**
+   * Helper method for normalize values, finds min of distances
+   * @param values to search for min
+   * @return min value
+   */
   public static double getMin(Collection<Double> values) {
     double min = Double.MAX_VALUE;
     for (double currVal : values) {
-      //System.out.println("currVal: " + currVal);
       if (currVal < min) {
         min = currVal;
       }
     }
-    //System.out.println("min: " + min);
     return min;
   }
 
   /**
-   * Returns the maximum value
-   *
-   * @param values
-   * @return
+   * Helper method for normalize values, finds max of distances
+   * @param values to search for max
+   * @return max value
    */
   public static double getMax(Collection<Double> values) {
     double max = Double.MIN_VALUE;
     for (double currVal : values) {
-      //System.out.println("currVal: " + currVal);
       if (currVal > max) {
         max = currVal;
       }
     }
-    //System.out.println("max: " + max);
     return max;
   }
 }

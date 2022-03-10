@@ -45,25 +45,36 @@ public class ApiAggregate {
    */
 
   public void InfoAggregate() {
+    System.out.println("HI4");
     String infoAPI = "https://studentinfoapi.herokuapp.com";
     String infoAPIActive = "https://studentinfoapi.herokuapp.com/get-active";
     HttpResponse<String>  activeEndPoints = client.makeRequest(ReqGenerator.getActive(infoAPIActive));
+    System.out.println("HI5");
     assert  activeEndPoints != null;
+    System.out.println("HI6");
     System.out.println("Students: ");
     String endPoints = activeEndPoints.body();
     List<String> tokens = parseActive(endPoints);
+    System.out.println("HI7");
     for (String token : tokens) {
+      System.out.println("HI7.5");
       assert !Objects.equals(token, "");
       System.out.println(token);
       HttpResponse<String> response = null;
       String temp = infoAPI + token;
+      System.out.println("HI7.69");
       String apiKey = ClientAuth.getApiKey();
+      System.out.println("HI7.6");
       String parameters = "auth=makel;key=" + apiKey;
+      System.out.println("HI7.7");
       response = client.makeRequest(ReqGenerator.makeGetRequest(temp, parameters));
+      System.out.println("HI7.8");
       while (response.statusCode() != 200) {
         response = client.makeRequest(ReqGenerator.makeGetRequest(String.valueOf(infoAPI), parameters));
       }
+      System.out.println("HI7.9");
       List<InfoStudents> getStudentsToken = JsonParser.storeInfo(response);
+      System.out.println("HI8");
       for (InfoStudents student : getStudentsToken) {
         getStudents.add(student);
         System.out.println(student.convertToString());

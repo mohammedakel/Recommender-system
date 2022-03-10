@@ -64,7 +64,8 @@ public class CSVParser<T extends CSVObject> {
    * @param type
    * @param headersIncluded
    */
-  public CSVParser(String filePath, T type, String delimiter, Boolean headersIncluded, Boolean recSys) {
+  public CSVParser(String filePath, T type, String delimiter, Boolean headersIncluded,
+                   Boolean recSys) {
     this.filePath = filePath;
     this.delimiter = delimiter;
     this.object = type;
@@ -78,7 +79,6 @@ public class CSVParser<T extends CSVObject> {
    * Third constructor is for the command load_headers.
    * It takes in a delimiter type in case the default is not wanted.
    * Also takes in a string filePath for the headers file.
-   *
    *
    * @param filePath
    * @param delimiter
@@ -118,8 +118,9 @@ public class CSVParser<T extends CSVObject> {
           } else { // otherwise use default regex
             args = input.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
           }
-            listOfObjects.add(object.createObjectWithLineOfData(
-                args, (HashMap<String, String>) REPL.getCommandObject("headers_load"))); // calls the createObjectWithLineOfData method and adds to list
+          listOfObjects.add(object.createObjectWithLineOfData(
+              args, (HashMap<String, String>) REPL.getCommandObject(
+                  "headers_load"))); // calls the createObjectWithLineOfData method and adds to list
 
 
 //          if (this.recSys) {
@@ -151,6 +152,7 @@ public class CSVParser<T extends CSVObject> {
 
   /**
    * sortHeaderType creates a hashmap of headernames nad their type (qualatative vs quanatative, etc)
+   *
    * @param csvReader
    * @throws IOException
    */
@@ -161,14 +163,15 @@ public class CSVParser<T extends CSVObject> {
       if (i != 0) { // skip the first line because it is just description
         String[] args;
 
-        if (delimiter == null){
+        if (delimiter == null) {
           args = input.split(",");  // use default if not specified
         } else {
           args = input.split(delimiter);
         }
 
         String headerName = args[0];
-        String headerDescription = cleanString(args[1]); // clean string to check for inconsistencies
+        String headerDescription =
+            cleanString(args[1]); // clean string to check for inconsistencies
         headerTypes.put(headerName,
             headerDescription); // put headername w value header type in hashmap
       }
@@ -188,11 +191,5 @@ public class CSVParser<T extends CSVObject> {
     dataToClean = dataToClean.toLowerCase();
     return dataToClean;
   }
-
-  public void useApiDb() {
-
-    // TO DO:
-    Aggregate aggregate = new Aggregate();
-
-  }
 }
+

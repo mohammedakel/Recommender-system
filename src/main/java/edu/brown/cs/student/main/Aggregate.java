@@ -17,6 +17,7 @@ public class Aggregate implements Command{
     agregator.aggregate(method);
     if (method.equals("info")) {
       REPL.addCommandObject("aggregate_info", agregator.getInfoStudents());
+      System.out.println("HI2");
     }
     else if (method.equals("match")) {
       REPL.addCommandObject("aggregate_match", agregator.getMatchStudents());

@@ -22,14 +22,17 @@ public class DataAddStudent implements REPL, Command{
     permissions.put("names", "R");
     permissions.put("skills", "R");
     permissions.put("traits", "R");
-    String filePath = "data/project1/Recommendation Data/sql/data.sqlite3";
+    //String filePath = "data/project1/Recommendation Data/sql/data.sqlite3";
+    String filePath = "data/project1/sprint2/sql/data.sqlite3";
     proxy = new Database(filePath, permissions);
     students = new HashMap<>();
     this.constructStudent();
 
     this.printDatabaseStudents();
+    REPL.addCommandObject("add_students", students);
 
   }
+
 
   public void printDatabaseStudents() {
     for (Integer id : students.keySet()) {
