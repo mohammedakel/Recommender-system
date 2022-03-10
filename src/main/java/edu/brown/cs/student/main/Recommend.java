@@ -170,6 +170,7 @@ public class Recommend implements REPL, Command {
     Collections.sort(normalizedList, Map.Entry.comparingByValue()); // sort using value
 
     printRecommendations(normalizedList); // print the recommendations
+    REPL.addCommandObject("recommend", normalizedList);
   }
 
   /**
