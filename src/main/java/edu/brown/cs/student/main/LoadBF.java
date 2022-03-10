@@ -40,12 +40,10 @@ public class LoadBF implements Command {
           new CSVParser(filePath, Student::new, true, false); // create parser specifying type of object
       newParser.readLine(); // read data
       List<Student> students = newParser.getListOfObjects(); // get list of students
-
 //      if (REPL.getCommandObject("headers_load") != null) {
 //        System.out.println("Using qualatative data to create bf");
 //      }
 
-      System.out.println("Read " + students.size() + " students from " + filePath);
 
       BloomFiltersLoader bloomLoader =
           new BloomFiltersLoader(students); // create new BloomFiltersLoader
@@ -53,7 +51,7 @@ public class LoadBF implements Command {
 
       REPL.addCommandObject("load_bf",
           idsToBlooms); // add object to REPL hashmap so that it can be accessed by similar_bf
-
+      System.out.println("Read " + students.size() + " students from " + filePath);
     }
   }
 }

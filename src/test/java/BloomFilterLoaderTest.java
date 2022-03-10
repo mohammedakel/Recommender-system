@@ -38,19 +38,20 @@ public class BloomFilterLoaderTest {
   public void testGetBloomData() {
     Student student = createStudentsOne();
     ArrayList<String> result = student.getBloomData();
+//    String[] result = student.getBloomData();
 
-    ArrayList<String> expected = new ArrayList<>();
-    expected.add("communication style");
-    expected.add("meeting style");
-    expected.add("meeting time");
-    expected.add("strength");
-    expected.add("weakness");
-    expected.add("skills");
-    expected.add("interests");
+    ArrayList<String> expected2 = new ArrayList<>();
+    expected2.add("communication style");
+    expected2.add("meeting style");
+    expected2.add("meeting time");
+    expected2.add("strength");
+    expected2.add("weakness");
+    expected2.add("skills");
+    expected2.add("interests");
 
-//    String[] expected = {"communication style", "meeting style", "meeting time",
-//        "strength", "weakness", "skills", "interests"};
-    assertEquals(expected, result);
+    String[] expected = {"communication style", "meeting style", "meeting time",
+        "strength", "weakness", "skills", "interests"};
+    assertEquals(expected2, result);
   }
 
   /**
@@ -83,6 +84,7 @@ public class BloomFilterLoaderTest {
    */
   @Test
   public void testExtractingBloomInformation(){
+    REPL.removeCommands("headers_load");
     Student one = this.createStudentsOne();
     Student two = this.createStudentsTwo();
     List<Student> studentsList = new ArrayList<Student>() {{
@@ -118,6 +120,7 @@ public class BloomFilterLoaderTest {
    */
   @Test
   public void testMaxNumItems(){
+    REPL.removeCommands("headers_load");
     Student one = this.createStudentsOne();
     Student two = this.createStudentsTwo();
     Student three = this.createStudentsThree();
@@ -131,7 +134,7 @@ public class BloomFilterLoaderTest {
     try {
       loader.toString();
       HashSet<String> allItems1 = loader.extractStudentInformation(one);
-      System.out.println("is allItems1 null: " + (allItems1==null));
+      //System.out.println("is allItems1 null: " + (allItems1==null));
     } catch(NullPointerException e) {
       System.out.println("NULL POINTER CAUGHT");
     }
@@ -139,9 +142,9 @@ public class BloomFilterLoaderTest {
     HashSet<String> allItems2 = loader.extractStudentInformation(two);
     HashSet<String> allItems = loader.extractStudentInformation(three);
 
-    System.out.println("is allItems2 null: " + (allItems2==null));
-    System.out.println("is allItems null: " + (allItems==null));
-    System.out.println("is loader null: " + (loader.extractStudentInformation(three)==null));
+    //System.out.println("is allItems2 null: " + (allItems2==null));
+    //System.out.println("is allItems null: " + (allItems==null));
+    //System.out.println("is loader null: " + (loader.extractStudentInformation(three)==null));
     int expectedMax = loader.extractStudentInformation(three).size();
 
     int result = loader.getMaxNumItems();
@@ -156,6 +159,7 @@ public class BloomFilterLoaderTest {
    */
   @Test
   public void testIndividualStudentBloomFilter(){
+    REPL.removeCommands("headers_load");
     Student one = this.createStudentsOne();
     Student two = this.createStudentsTwo();
     Student three = this.createStudentsThree();
@@ -191,6 +195,7 @@ public class BloomFilterLoaderTest {
    */
   @Test
   public void testLoadStudentsBloomFilters() {
+    REPL.removeCommands("headers_load");
     Student one = this.createStudentsOne();
     Student two = this.createStudentsTwo();
     Student three = this.createStudentsThree();

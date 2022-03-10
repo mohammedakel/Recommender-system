@@ -15,6 +15,7 @@ public class Tree implements NearestNeighbor {
   private KdTreeNode root;
   private List<KdTreeNode> nodeList;
   private HashMap<KdTreeNode, Double> distanceMap;
+  private HashMap<Integer, Double> distanceIDMap;
   private PriorityQueue<KdTreeNode> neighborsPq;
 
   /**
@@ -26,6 +27,7 @@ public class Tree implements NearestNeighbor {
   public Tree(List<KdTreeNode> nodeList) {
     k = 3;
     distanceMap = new HashMap<>();
+    distanceIDMap = new HashMap<>();
     this.nodeList = nodeList;
     this.root = buildTree(0, this.nodeList.size() - 1, 0, nodeList);
   }
@@ -54,6 +56,10 @@ public class Tree implements NearestNeighbor {
     newRoot.setLeft(buildTree(start, mid - 1, cd, leftList));
     newRoot.setRight(buildTree(start, mid2 - 1, cd, rightList));
     return newRoot;
+  }
+
+  public HashMap<Integer, Double> getDistanceIDMap() {
+    return distanceIDMap;
   }
 
   /**
@@ -112,6 +118,8 @@ public class Tree implements NearestNeighbor {
 
     neighbors.clear();
     distanceMap.clear();
+    distanceIDMap.clear();
+    // clear distanceIDMap?
 
     //Instantiate priority queue with appropriate comparator that takes in n number of objects
     neighborsPq = new PriorityQueue<>(n, (distanceOne, distanceTwo) -> {
@@ -136,6 +144,7 @@ public class Tree implements NearestNeighbor {
     } else {
       //remove the targetNode from the neighbors list
       neighborsPq.remove(targetNode);
+      distanceIDMap.remove(targetNode.getId());
       while (!neighborsPq.isEmpty()) {
         neighbors.add(neighborsPq.remove().getId());
       }
@@ -158,13 +167,18 @@ public class Tree implements NearestNeighbor {
     //store distance in hash map
     distanceMap.put(current, distance);
 
+
+
     //Case 1: The collection of nodes is incomplete or distance for the current node is lower than
     // the distance for any of the stored
     if ((neighborsPq.size() < n + 1)) {
       neighborsPq.add(current);
+      distanceIDMap.put(current.getId(), distance);
     } else if ((!neighborsPq.isEmpty()) && distance < findDistance(neighborsPq.peek(), target)) {
-      neighborsPq.remove();
+      KdTreeNode removed = neighborsPq.remove();
+      distanceIDMap.remove(removed.getId());
       neighborsPq.add(current);
+      distanceIDMap.put(current.getId(), distance);
     }
 
     //find the relevant axis distance

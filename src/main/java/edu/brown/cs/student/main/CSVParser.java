@@ -91,6 +91,7 @@ public class CSVParser<T extends CSVObject> {
     this.headersIncluded = false;
     this.justHeaders = true;
     this.recSys = false;
+    this.headerTypes = new HashMap<>();
   }
 
   /**
@@ -117,8 +118,9 @@ public class CSVParser<T extends CSVObject> {
           } else { // otherwise use default regex
             args = input.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
           }
-          listOfObjects.add(object.createObjectWithLineOfData(
-              args, (HashMap<String, String>) REPL.getCommandObject("headers_load"))); // calls the createObjectWithLineOfData method and adds to list
+            listOfObjects.add(object.createObjectWithLineOfData(
+                args, (HashMap<String, String>) REPL.getCommandObject("headers_load"))); // calls the createObjectWithLineOfData method and adds to list
+
 
 //          if (this.recSys) {
 //            listOfObjects.add(object.createObjectWithLineOfData(
@@ -153,27 +155,25 @@ public class CSVParser<T extends CSVObject> {
    * @throws IOException
    */
   public void sortHeaderType(BufferedReader csvReader) throws IOException {
-    HashMap<String, String> headersTypes = new HashMap<String, String>();
     String input;
     int i = 0;
     while ((input = csvReader.readLine()) != null) {
       if (i != 0) { // skip the first line because it is just description
         String[] args;
 
-        if (this.delimiter == null){
+        if (delimiter == null){
           args = input.split(",");  // use default if not specified
         } else {
-          args = input.split(this.delimiter);
+          args = input.split(delimiter);
         }
 
         String headerName = args[0];
         String headerDescription = cleanString(args[1]); // clean string to check for inconsistencies
-        headersTypes.put(headerName,
+        headerTypes.put(headerName,
             headerDescription); // put headername w value header type in hashmap
       }
       i++;
     }
-    this.headerTypes = headersTypes; // set headerTypes hashmap
   }
 
   /**

@@ -33,10 +33,10 @@ public class SimilarKD implements REPL, Command {
    * @param args (array of strings)
    */
   public void execute(String[] args) {
-    Tree studentTree = (Tree) REPL.getCommandObject("load_kd");
+    Tree tree = (Tree) REPL.getCommandObject("load_kd");
 
     // check if students have been loaded previously
-    if (studentTree == null) {
+    if (tree == null) {
       System.out.println("ERROR: No student data, run load_kd <path/to/file.csv> first");
     } else if (args.length != 3) {
       System.out.println("ERROR: Incorrect amount of args, run similar_kd <k> <some_user_id>");
@@ -44,7 +44,7 @@ public class SimilarKD implements REPL, Command {
       try {
         int k = Integer.parseInt(args[1]);
         int user_id = Integer.parseInt((args[2]));
-        ArrayList<Integer> neighbors = studentTree.findNeighbor(k, user_id);
+        ArrayList<Integer> neighbors = tree.findNeighbor(k, user_id);
         printNeighbors(neighbors);
       } catch (NumberFormatException e) {
         System.out.println("ERROR: Invalid arg(s). <k> and <some_user_id> must be Integers");

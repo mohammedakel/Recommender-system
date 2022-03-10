@@ -58,10 +58,12 @@ public interface REPL {
 //    if (checkCommandExists(commandName) != false) {
 //      return objectsForCommands.get(commandName);
 //    }
-//    //System.out.println("ERROR: Cannot retrieve object from command that does not exist");
 //    return null;
-
-    return objectsForCommands.get(commandName);
+    if (objectsForCommands.containsKey(commandName)){
+      return objectsForCommands.get(commandName);
+    }
+    //System.out.println("ERROR: Cannot retrieve object from command that does not exist");
+    return null;
   }
 
   /**
@@ -111,15 +113,15 @@ public interface REPL {
   /**
    * Removes command from hashmap
    *
-   * @param name    of command to remove
-   * @param command class
+   * @param commandName    of command to remove
    */
-  default void removeCommands(String name, Command command) {
-    if (commandsHash.containsKey(name)) {
-      commandsHash.remove(name); // remove command
-      System.out.println("Removed command: " + name);
+  static void removeCommands(String commandName) {
+    if (commandsHash.containsKey(commandName)) {
+      commandsHash.remove(commandName); // remove command
+      objectsForCommands.remove(commandName);
+      System.out.println("Removed command: " + commandName);
     } else {
-      System.out.println("ERROR: No command with name: " + name + " exists, cannot remove");
+      System.out.println("ERROR: No command with name: " + commandName + " exists, cannot remove");
     }
   }
 }

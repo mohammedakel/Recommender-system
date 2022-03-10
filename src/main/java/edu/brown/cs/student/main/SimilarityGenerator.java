@@ -9,6 +9,8 @@ import java.util.*;
 public class SimilarityGenerator {
   HashMap<String, BloomFilterBuilder> bloomMap;
   int maxNeighbours;
+  HashMap<Integer, Double> distanceMap;
+  Set<Integer> student_ids;
 
 
   /**
@@ -22,6 +24,8 @@ public class SimilarityGenerator {
   public SimilarityGenerator(HashMap<String, BloomFilterBuilder> idsToBlooms, int k) {
     this.bloomMap = idsToBlooms;
     this.maxNeighbours = k;
+    this.distanceMap = new HashMap<>();
+    this.student_ids = new HashSet<>();
   }
 
   //think about how to add a constructor that allows for other comparators
@@ -45,7 +49,7 @@ public class SimilarityGenerator {
   }
 
   /**
-   * a method that computes the Xnor array of teo given bit arrays
+   * a method that computes the Xnor array of the given bit arrays
    *
    * @param target
    *          bitarray to compare
@@ -68,6 +72,13 @@ public class SimilarityGenerator {
     return m;
   }
 
+  public HashMap<Integer, Double> getDistanceMap() {
+    return distanceMap;
+  }
+
+  public Set<Integer> getStudentIds() {
+    return student_ids;
+  }
   /**
    * a method that computes the Xnor similarity score
    * for now, the method counts the number of similar bits only
@@ -112,16 +123,27 @@ public class SimilarityGenerator {
     ) {
       BitArray currentCompareArray = currentPair.idBloom.getBitArray();
       BitArray XnorBitArray = this.computeXnorArray(targetBloomArray, currentCompareArray);
+      // get bit vector distance for each student and add to map?
+//      distanceMap.put(currentPair.id, (double) similarityScore(XnorBitArray));
+
+      //
       BloomFilterBuilder mBloom = new BloomFilterBuilder(XnorBitArray);
+
       SBLTuple neighbourPair = new SBLTuple(currentPair.id, mBloom);
       if (result.size()<this.maxNeighbours) {
         boolean added = result.add(neighbourPair);
+        distanceMap.put(currentPair.id, (double) similarityScore(XnorBitArray));
+        student_ids.add(currentPair.id);
         if (!added) {System.out.println("Error: item could not be added");}
       } else {
         SBLTuple currentMin = result.peek();
         if(comparator.compare(currentMin, neighbourPair) < 0) {
           SBLTuple min = result.poll();
           boolean added = result.add(neighbourPair);
+          distanceMap.remove(currentMin.id);
+          distanceMap.put(currentPair.id, (double) similarityScore(XnorBitArray));
+          student_ids.remove(currentMin.id);
+          student_ids.add(currentPair.id);
           System.out.println("the id removed is: " + currentMin.id);
           System.out.println("the id added is: " + currentPair.id);
         }
@@ -130,5 +152,6 @@ public class SimilarityGenerator {
     System.out.println("the size of the queue is: " + result.size());
     return result;
   }
+
 
 }

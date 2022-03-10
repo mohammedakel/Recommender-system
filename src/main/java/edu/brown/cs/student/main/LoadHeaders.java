@@ -41,7 +41,7 @@ public class LoadHeaders implements REPL, Command{
       String filePath = args[1];
       CSVParser newParser = new CSVParser(filePath,null); // instantiate parser w type of object specified
       newParser.readLine();
-      HashMap<String, String> headers = newParser.getHeaderTypes();
+      HashMap headers = newParser.getHeaderTypes();
       REPL.addCommandObject("headers_load", headers); // load hashmap so it is accesible for other commands
       System.out.println("Loaded header types.");
     }

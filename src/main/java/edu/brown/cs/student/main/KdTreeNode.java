@@ -12,8 +12,6 @@ public interface KdTreeNode {
 
   List<Double> getQuantitativeData();
 
-  void setHeaderType ();
-
   int getId();
 
   KdTreeNode getLeft();

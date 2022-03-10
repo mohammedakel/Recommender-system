@@ -102,12 +102,12 @@ public class CommandsTest {
     Assert.assertTrue(REPL.checkCommandExists("commandToRemoveName"));
     outContent.reset();  // clear output stream
 
-    newCommand.removeCommands("commandToRemoveNam", newCommand);
+    REPL.removeCommands("commandToRemoveNam");
     Assert.assertTrue(outContent.toString()
         .startsWith("ERROR: No command with name: commandToRemoveNam exists, cannot remove"));
     outContent.reset();
 
-    newCommand.removeCommands("commandToRemoveName", newCommand);
+    REPL.removeCommands("commandToRemoveName");
     Assert.assertTrue(outContent.toString().startsWith("Removed command: commandToRemoveName"));
     Assert.assertFalse(REPL.checkCommandExists("commandToRemoveName"));
   }
@@ -127,6 +127,7 @@ public class CommandsTest {
 
   @Test
   public void getCommandObject() throws IOException {
+    REPL.removeCommands("headers_load");
     HashMap<String, String> headers =
         (HashMap<String, String>) REPL.getCommandObject("headers_load");
     Assert.assertTrue(headers == null);
@@ -144,7 +145,7 @@ public class CommandsTest {
 //        (HashMap<String, String>) REPL.getCommandObject("headers_load");
 //
   }
-
+//
 //  @Test
 //  public void addEmptyCommand() throws IOException {
 //    final String testString = "load";

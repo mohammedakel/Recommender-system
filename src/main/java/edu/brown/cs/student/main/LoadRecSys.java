@@ -7,15 +7,15 @@ import java.util.List;
 
 /**
  * Run recsys_load [4 provideded CSVs]
- *
+ * <p>
  * Only when headers are loaded, load consolidated student data from the
  * 4 provided CSVs into a k-d tree and Bloom filters
- *
+ * <p>
  * Implements REPL and Command interface
- *
+ * <p>
  * Output: (where k is the number of students in the dataset):
  * Loaded Recommender with k student(s).
- *
+ * <p>
  * Acceptance criterion: the data are loaded into a suitable data structure
  * which is accessible for use by other REPL commands.
  *
@@ -40,26 +40,36 @@ public class LoadRecSys implements REPL, Command {
   public void execute(String[] args) throws IOException {
     HashMap<String, String> headers =
         (HashMap<String, String>) REPL.getCommandObject("headers_load");
-    if (headers == null){
-      System.out.println("ERROR: No headers loaded. First run headers_load <header_types.csv PATH>");
-    }
-    else if (args.length == 1) {
+    if (headers == null) {
+      System.out.println(
+          "ERROR: No headers loaded. First run headers_load <header_types.csv PATH>");
+    } else if (args.length == 1) {
       System.out.println("ERROR: No FileName");
-    } else if (args.length != 2) { // change to 5 later on
-      System.out.println("ERROR: Incorrect amount of args: run recsys_load <4 provided CSVs>");
+    } else if (args.length != 3 && args.length!=5) { // change to 5 later on
+      System.out.println(
+          "ERROR: Incorrect amount of args: run recsys_load CSV <4 provided CSVs> or recsys_load API-DB <data.sqlite3 PATH>");
     } else {
-      String filePath = args[1];
-      loadStudents(filePath);
+      if (args.length == 3) {
+        String dataSource = args[1];
+        String filePath = args[2];
+        loadStudents(filePath);
+      } else {
+        String filePath = args[1]; // ignore other CSVs
+        loadStudents(filePath);
+      }
+
     }
   }
 
   /**
    * Helper method that loads kdtree and bf with correct attributes.
+   *
    * @param filePath to create Students from
    * @throws IOException
    */
   public void loadStudents(String filePath) throws IOException {
-    CSVParser newParser = new CSVParser(filePath, Student::new, true, true); // instantiate parser w type of object specified
+    CSVParser newParser = new CSVParser(filePath, Student::new, true,
+        true); // instantiate parser w type of object specified
     newParser.readLine();
 
     List<KdTreeNode> studentNodes = newParser.getListOfObjects(); // get list of KdTreeNodes
@@ -76,13 +86,18 @@ public class LoadRecSys implements REPL, Command {
     REPL.addCommandObject("load_bf",
         idsToBlooms);
 
+    HashMap<String, Object> kdAndBloom = new HashMap<String, Object>();
+    kdAndBloom.put("KDTree", studentTree);
+    kdAndBloom.put("BloomFilter", idsToBlooms);
     List filterAndTree = new ArrayList<>();
     filterAndTree.add(studentTree);
     filterAndTree.add(idsToBlooms);
 
     System.out.println("Loaded Recommender with " + students.size() + " student(s).");
-
+    REPL.addCommandObject("recsys_load_bf", idsToBlooms);
+    REPL.addCommandObject("recsys_load_kdtree", studentTree);
     REPL.addCommandObject("recsys_load", filterAndTree);
+    REPL.addCommandObject("recsys_load_students", students);
   }
 
 }

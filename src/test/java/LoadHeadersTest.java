@@ -1,4 +1,5 @@
 package edu.brown.cs.student.main;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,10 +18,12 @@ public class LoadHeadersTest {
   public void testQualitativeQuantitative() throws IOException {
     String[] load = {"headers_load", "data/sprint2/header_types.csv"};
     LoadHeaders loadHeaders = new LoadHeaders();
+
     loadHeaders.execute(load);
 
     HashMap<String, String> headers =
         (HashMap<String, String>) REPL.getCommandObject("headers_load");
+
 
     Assert.assertTrue(headers.containsKey("id"));
     Assert.assertTrue(headers.get("id").equals("qualitative"));
