@@ -22,7 +22,7 @@ public class DataNames implements REPL, Command {
     permissions.put("traits", "R");
     String filePath = "data/project1/Recommendation Data/sql/data.sqlite3";
     Database proxy = new Database(filePath, permissions);
-    ResultSet getNamesRS = proxy.executeSQL("DELETE FROM names");
+    ResultSet getNamesRS = proxy.executeSQL("SELECT name FROM names");
 
     // Print all of the names
     if(getNamesRS!=null){

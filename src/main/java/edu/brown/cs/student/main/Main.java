@@ -71,6 +71,9 @@ public final class Main {
     APIapi api = new APIapi();
     Aggregate apiAggregate = new Aggregate();
     aggregateAll apiAggregateAll = new aggregateAll();
+    DataNames database = new DataNames();
+    DataAddStudent add = new DataAddStudent();
+    HoroscopeDelete delete = new HoroscopeDelete();
 
     REPL.runREPL();
 
