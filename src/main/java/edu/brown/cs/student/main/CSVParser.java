@@ -146,12 +146,17 @@ public class CSVParser<T extends CSVObject> {
     return listOfObjects;
   }
 
+  /**
+   * To be used by headers_load
+   * @return hashmap of header names and type
+   */
   public HashMap<String, String> getHeaderTypes() {
     return headerTypes;
   }
 
+
   /**
-   * sortHeaderType creates a hashmap of headernames nad their type (qualatative vs quanatative, etc)
+   * sortHeaderType creates a hashmap of header names and their type (qualitative vs quantitative, etc.)
    *
    * @param csvReader
    * @throws IOException

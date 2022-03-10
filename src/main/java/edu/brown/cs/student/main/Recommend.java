@@ -8,11 +8,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
 
 /**
- * Run recommend [num_recomendations] [student_id]
+ * Run recommend [num_recommendations] [student_id]
  * <p>
  * After loading student data, generate recommendations for a particular student’s team
  * <p>
@@ -55,12 +54,12 @@ public class Recommend implements REPL, Command {
           "ERROR: No student data loaded. First run recsys_load <4 CSVs> or recsys_load API-DB <data.sqlite3 PATH>");
     } else if (args.length != 3) {
       System.out.println(
-          "ERROR: Incorrect amount of args: run recommend <num_recomendations> <student_id>");
+          "ERROR: Incorrect amount of args: run recommend <num_recommendations> <student_id>");
     } else {
       try {
         num_recommendations = Integer.parseInt(args[1]);
         if (num_recommendations < 0) {
-          System.out.println("ERROR: Number on recommendations must be nonnegative");
+          System.out.println("ERROR: Number on recommendations must be non-negative");
           return;
         }
         student_id = Integer.parseInt(args[2]);
@@ -121,82 +120,27 @@ public class Recommend implements REPL, Command {
     kd_distances = studentTree.getDistanceIDMap();
     bf_distances = generator.getDistanceMap();
 
-//    System.out.println("KDTree Results: ");
-//    printResults(neighbors, false);
-
-//    System.out.println("DistanceMap Results: ");
-//    printResults(kd_distances.keySet(), false);
-
-//
-//    System.out.println("BloomFilter Results: ");
-//    printResults(similarityResult, true);
-
-//    System.out.println("BF Distances Map Results: ");
-//    printResults(bf_distances.keySet(), false);
-
-
-//
-//    // need to get just the nearest ones
-//    Set<Integer> neighborsSet = new HashSet<>();
-//    neighborsSet.addAll(neighbors);
-//    Set<Integer> BFSet = generator.getStudentIds();
-//
-//    neighborsSet.addAll(BFSet); // get union of student IDS
-
-
-//
-//    System.out.println("kd_distances.size: " + kd_distances.size());
-//    System.out.println("bf_distances.size: " + bf_distances.size());
-
-
-
-
-//    HashMap<Integer, Double> combinedRecStudents =
-
-    // 1. you will want to select from the union of these two sets of students by considering
-    // both the bit vector distance and Euclidean distance from the target for each student
-
-
-    // 2. Since these distances are not proportional, you will want to make them comparable
-    // using min-max normalization
-//    HashMap<Integer, Double> new_kd_distances = normalizeValues(kd_distances);
-//    HashMap<Integer, Double> new_bf_distances = normalizeValues(bf_distances);
-
-    // Since these distances are not proportional, need to make them comparable
-    // using min-max normalization
+    // Since the bit vector distance and Euclidean distance are not proportional, need to
+    // make them comparable using min-max normalization
     normalizeValues(kd_distances);
     normalizeValues(bf_distances);
-
-//    System.out.println("AFTER DistanceMap Results: ");
-//    printResults(kd_distances.values(), false);
-
-//    System.out.println("AFTER BF Distances Map Results: ");
-//    printResults(bf_distances.values(), false);
 
     // get the set of student ids from both maps with recommended students
     Set<Integer> student_ids = kd_distances.keySet();
     Set<Integer> student_ids_2 = bf_distances.keySet();
 
-//    System.out.println("student_ids.size: " + student_ids.size());
-//    System.out.println("student_ids2.size: " + student_ids_2.size());
-
     // take the union of this set, so we can check all students that were recommended
     Set<Integer> unionSet = new HashSet<>();
     unionSet.addAll(student_ids);
     unionSet.addAll(student_ids_2);
-    //student_ids.addAll(student_ids_2); // select union of these two sets of students
-
-//    System.out.println("UNION Size: " + unionSet.size());
-//
-//    System.out.println("Union Results: ");
-//    printResults(unionSet, false);
 
     // for each student, take an average of both normalized distances
-    // (i.e., the bit vector distance and the Euclidean distance), weighting them equally
+    // (the bit vector distance and the Euclidean distance), weighting them equally
     // 0.5 * <AND distance for student 1> + 0.5 * <Euclidean distance for student 1>
     HashMap<Integer, Double> normalizedValues = new HashMap<>();
     Set<Double> distances = new HashSet<>(); // keep track of distances to use for tiebreak
     int t = 0;
+    // loop through students in union set
     for (Integer student : unionSet) {
       Double KDDistance = 0.0;
       Double BFDistance = 0.0;
@@ -207,12 +151,12 @@ public class Recommend implements REPL, Command {
         BFDistance = bf_distances.get(student); // check if student is in bf recommended students list
       }
 
-      double average = (0.5 * KDDistance ) + (0.5 * BFDistance);
+      double average = (0.5 * KDDistance ) + (0.5 * BFDistance); // calculate average
 
       if (distances.contains(average) && t == num_recommendations -1 ) { // tiebreak if at last recommendation
         average = (0.4 * KDDistance ) + (0.6 * BFDistance); // weight qualitative data more
         if (distances.contains(average)) {
-          average = (0.3 * KDDistance ) + (0.7 * BFDistance); // weight qualitative data more
+          average = (0.3 * KDDistance ) + (0.7 * BFDistance); // weight qualitative data more if still tied
         }
       }
       distances.add(average);
@@ -220,13 +164,12 @@ public class Recommend implements REPL, Command {
       t++;
     }
 
-    //  rank and confidently select from the pool of recommended students based on
-    // these composite distances
+    //  rank and select from the pool of recommended students based on
+    // the composite distances
     List<Map.Entry<Integer, Double>> normalizedList = new ArrayList<>(normalizedValues.entrySet());
     Collections.sort(normalizedList, Map.Entry.comparingByValue()); // sort using value
 
     printRecommendations(normalizedList); // print the recommendations
-
   }
 
   /**
@@ -236,24 +179,6 @@ public class Recommend implements REPL, Command {
   public void printRecommendations(List<Map.Entry<Integer, Double>> recs) {
     for (int i = 0; i < num_recommendations && i < recs.size(); i++) {
       System.out.println("Student " + recs.get(i).getKey() + " : " + recs.get(i).getValue());
-    }
-  }
-
-  /**
-   * Used for testing, prints out results, uses boolean BF to print tuples specifically,
-   * otherwise generic
-   * @param toEnumerate collection to iterate through
-   * @param BF
-   */
-  public void printResults(Collection toEnumerate, boolean BF) {
-
-    for (Object currObject : toEnumerate) {
-      if (BF) {
-        SBLTuple curr = (SBLTuple) currObject;
-        System.out.println(curr.id);
-      } else {
-        System.out.println(currObject);
-      }
     }
   }
 
@@ -273,7 +198,6 @@ public class Recommend implements REPL, Command {
       map.replace(entry.getKey(), normalizedValue);
     }
   }
-
 
   /**
    * Helper method for normalize values, finds min of distances
@@ -303,5 +227,22 @@ public class Recommend implements REPL, Command {
       }
     }
     return max;
+  }
+
+  /**
+   * Used for testing, prints out results, uses boolean BF to print tuples specifically,
+   * otherwise generic
+   * @param toEnumerate collection to iterate through
+   * @param BF
+   */
+  public void printResults(Collection toEnumerate, boolean BF) {
+    for (Object currObject : toEnumerate) {
+      if (BF) {
+        SBLTuple curr = (SBLTuple) currObject;
+        System.out.println(curr.id);
+      } else {
+        System.out.println(currObject);
+      }
+    }
   }
 }

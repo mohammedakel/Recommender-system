@@ -2,7 +2,6 @@ package edu.brown.cs.student.main;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Run headers_load [header_types.csv PATH]
@@ -28,7 +27,7 @@ public class LoadHeaders implements REPL, Command{
 
   /**
    * Execute for load_headers checks for the correct amount of args, and then creates
-   * a hashmap of headernames and types, that is stored by the REPL.
+   * a hashmap of header names and types, that is stored by the REPL.
    * @param args (array of strings)
    * @throws IOException
    */
@@ -41,8 +40,8 @@ public class LoadHeaders implements REPL, Command{
       String filePath = args[1];
       CSVParser newParser = new CSVParser(filePath,null); // instantiate parser w type of object specified
       newParser.readLine();
-      HashMap headers = newParser.getHeaderTypes();
-      REPL.addCommandObject("headers_load", headers); // load hashmap so it is accesible for other commands
+      HashMap headers = newParser.getHeaderTypes(); // method that returns HashMap<Header Name, Type (Qualitative, Quantitative, etc)
+      REPL.addCommandObject("headers_load", headers); // load hashmap so it is accessible for other commands
       System.out.println("Loaded header types.");
     }
   }
