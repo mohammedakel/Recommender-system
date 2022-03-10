@@ -49,6 +49,8 @@ public final class Main {
     LoadKD load = new LoadKD();
     SimilarKD similarKD = new SimilarKD();
     DataNames database = new DataNames();
+    DataAddStudent add = new DataAddStudent();
+    HoroscopeDelete delete = new HoroscopeDelete();
 
     REPL.runREPL();
   }
