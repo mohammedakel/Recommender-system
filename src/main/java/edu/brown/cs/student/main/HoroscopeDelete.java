@@ -23,7 +23,7 @@ public class HoroscopeDelete implements REPL, Command {
     permissions.put("sqlite_sequence", "R");
     permissions.put("ta_horoscope", "RW");
     permissions.put("tas", "RW");
-    String fileName = "data/project1/Recommendation Data/sql/horoscopes.sqlite3";
+    String fileName = "data/sprint2/sql/horoscopes.sqlite3";
 
     Database proxy = new Database(fileName, permissions);
     String sql1 = "SElECT name FROM tas";

@@ -6,16 +6,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * Run add_names
+ *
+ * Loads in the database student data into a hashmap and iterates through them to add all elements
+ * to the student object and prints them out to make sure it worked properly
+ *
+ * Implements REPL and Command interface
+ *
+ * @author hjeon15
+ */
 public class DataAddStudent implements REPL, Command{
   private Database proxy;
   private Map<Integer, DatabaseStudent> students;
-
+  /**
+   * Constructor must add itself to REPL hashmap containing command name and classes
+   */
   DataAddStudent() {
     String commandName = "add_students";
     this.addCommands(commandName, this);
   }
 
+  /**
+   * Gives permission to each table elements and runs sql statement using database proxy
+   *
+   * @param args (array of strings)
+   * @throws IOException
+   * @throws ClassNotFoundException
+   */
   public void execute(String[] args) throws IOException, ClassNotFoundException {
     Map<String, String> permissions = new HashMap<>();
     permissions.put("interests", "R");
@@ -26,12 +44,13 @@ public class DataAddStudent implements REPL, Command{
     proxy = new Database(filePath, permissions);
     students = new HashMap<>();
     this.constructStudent();
-
-    this.printDatabaseStudents();
     REPL.addCommandObject("add_students", students);
   }
 
-
+  /**
+   * Helper function to test add_student command is working. Prints out all the componenets of
+   * student object
+   */
   public void printDatabaseStudents() {
     for (Integer id : students.keySet()) {
       DatabaseStudent student = students.get(id);
@@ -45,6 +64,9 @@ public class DataAddStudent implements REPL, Command{
     }
   }
 
+  /**
+   * Constructs student objects by reading into data using SQL statements
+   */
   private void constructStudent() {
     try {
       ResultSet rs = this.proxy.executeSQLWithCache("SELECT * FROM names JOIN skills "
