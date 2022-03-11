@@ -45,9 +45,14 @@ public class RecommendTest {
     REPL.removeCommands("query_bf");
   }
 
+  /**
+   * Checks against manual data set that recommendations are correct
+   * ie made some students exactly the same, etc
+   * @throws IOException
+   */
   @Test
   public void testRecommend() throws IOException {
-    String[] loadRec = {"recsys_load", "data/project1/proj1_studentTest2.csv", "file1" , "file2", "file3"};
+    String[] loadRec = {"recsys_load", "CSV","data/project1/proj1_studentTest2.csv", "file1" , "file2", "file3"};
     String[] recommendString  = {"recommend", "4", "1"};
     String[] headers = {"headers_load", "data/sprint2/header_types.csv"};
 
@@ -69,7 +74,92 @@ public class RecommendTest {
     assertEquals(5, third_student_id);
     assertEquals(4, fourth_student_id);
 
-//    Tree studentTree = (Tree) REPL.getCommandObject("load_kd");
-//    assertEquals(studentTree.getRoot().getId(),4);
+    String[] recommendString2  = {"recommend", "4", "4"};
+
+    recommend.execute(recommendString2);
+
+    List<Map.Entry<Integer, Double>> normalizedList2 =
+        (List<Map.Entry<Integer, Double>>) REPL.getCommandObject("recommend");
+
+    int first_student_id_2 = normalizedList2.get(0).getKey();
+    int second_student_id_2 = normalizedList2.get(1).getKey();
+    int third_student_id_2 = normalizedList2.get(2).getKey();
+    int fourth_student_id_2 = normalizedList2.get(3).getKey();
+
+    assertEquals(5, first_student_id_2);
+    assertEquals(3, second_student_id_2);
+    assertEquals(2, third_student_id_2);
+    assertEquals(1, fourth_student_id_2);
+
+    String[] recommendString3  = {"recommend", "4", "2"};
+
+    recommend.execute(recommendString3);
+
+    List<Map.Entry<Integer, Double>> normalizedList3 =
+        (List<Map.Entry<Integer, Double>>) REPL.getCommandObject("recommend");
+
+    int first_student_id_3 = normalizedList3.get(0).getKey();
+    int second_student_id_3 = normalizedList3.get(1).getKey();
+    int third_student_id_3 = normalizedList3.get(2).getKey();
+    int fourth_student_id_3 = normalizedList3.get(3).getKey();
+
+    assertEquals(1, first_student_id_3);
+    assertEquals(3, second_student_id_3);
+    assertEquals(5, third_student_id_3);
+    assertEquals(4, fourth_student_id_3);
+
+  }
+
+  @Test
+  public void testRecommendStudent2() throws IOException {
+    String[] loadRec = {"recsys_load", "CSV", "data/project1/proj1_studentTest.csv", "file1" , "file2", "file3"};
+    String[] recommendString  = {"recommend", "2", "20"};
+    String[] headers = {"headers_load", "data/sprint2/header_types.csv"};
+
+
+    load_headers.execute(headers);
+    load_recsys.execute(loadRec);
+    recommend.execute(recommendString);
+
+    List<Map.Entry<Integer, Double>> normalizedList =
+        (List<Map.Entry<Integer, Double>>) REPL.getCommandObject("recommend");
+
+    int first_student_id = normalizedList.get(0).getKey();
+    int second_student_id = normalizedList.get(1).getKey();
+
+    assertEquals(22, first_student_id);
+    assertEquals(23, second_student_id);
+
+
+    String[] recommendString2  = {"recommend", "5", "20"};
+
+    recommend.execute(recommendString2);
+
+    List<Map.Entry<Integer, Double>> normalizedList2 =
+        (List<Map.Entry<Integer, Double>>) REPL.getCommandObject("recommend");
+
+    int first_student_id_2 = normalizedList2.get(0).getKey();
+    int second_student_id_2 = normalizedList2.get(1).getKey();
+    int third_student_id_2 = normalizedList2.get(2).getKey();
+    int fourth_student_id_2 = normalizedList2.get(3).getKey();
+    int fifth_student_id_2 = normalizedList2.get(4).getKey();
+
+    assertEquals(22, first_student_id_2);
+    assertEquals(23, second_student_id_2);
+    assertEquals(18, third_student_id_2);
+    assertEquals(5, fourth_student_id_2);
+    assertEquals(13, fifth_student_id_2);
+
+    String[] recommendString3  = {"recommend", "7", "19"};
+
+    recommend.execute(recommendString3);
+
+    List<Map.Entry<Integer, Double>> normalizedList3 =
+        (List<Map.Entry<Integer, Double>>) REPL.getCommandObject("recommend");
+
+    Assert.assertFalse(normalizedList.contains(20));
+    Assert.assertFalse(normalizedList.contains(23));
+    Assert.assertFalse(normalizedList.contains(15));
+    Assert.assertFalse(normalizedList.contains(19));
   }
 }

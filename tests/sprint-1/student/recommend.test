@@ -1,7 +1,7 @@
 INPUT
 recommend
 headers_load data/sprint2/header_types.csv
-recsys_load data/project1/proj1_small.csv file file2 file3
+recsys_load CSV data/project1/proj1_small.csv file file2 file3
 recommend
 recommend -2 2
 recommend 2 hi

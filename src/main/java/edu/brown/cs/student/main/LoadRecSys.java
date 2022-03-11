@@ -38,7 +38,7 @@ public class LoadRecSys implements REPL, Command {
    * @param args (array of strings)
    */
   public void execute(String[] args) throws IOException {
-    if (args.length != 3 && args.length != 5) { // if 3, API-DB, if 5, CSV
+    if (args.length != 3 && args.length != 6) { // if 3, API-DB, if 5, CSV
       System.out.println(
           "ERROR: Incorrect amount of args: run recsys_load CSV <4 provided CSVs> or recsys_load API-DB <data.sqlite3 PATH>");
     } else {
@@ -68,7 +68,7 @@ public class LoadRecSys implements REPL, Command {
               "ERROR: No headers loaded. First run headers_load <header_types.csv PATH>");
           return;
         }
-        String filePath = args[1]; // ignore other CSVs
+        String filePath = args[2]; // ignore other CSVs
         getStudentsFromCSV(filePath);
       }
 

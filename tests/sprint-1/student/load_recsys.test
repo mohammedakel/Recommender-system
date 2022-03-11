@@ -1,11 +1,11 @@
 INPUT
 recsys_load
 recsys_load CSV
-recsys_load a b c d e
+recsys_load CSV a b c d e
 recsys_load API-DB data/sprint2/sql/data.sqlite3
-recsys_load data/project1/proj1_small.csv file file2 file3
+recsys_load CSV data/project1/proj1_small.csv file file2 file3
 headers_load data/sprint2/header_types.csv
-recsys_load data/project1/proj1_small.csv file file2 file3
+recsys_load CSV data/project1/proj1_small.csv file file2 file3
 OUTPUT
 Created new command: stars
 Created new command: naive_neighbors

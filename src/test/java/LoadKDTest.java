@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-public class ZLoadKDTest {
+public class LoadKDTest {
 
   @Test
   public void testValidInput() throws IOException {

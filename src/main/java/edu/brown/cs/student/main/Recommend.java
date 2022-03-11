@@ -126,13 +126,13 @@ public class Recommend implements REPL, Command {
     normalizeValues(bf_distances);
 
     // get the set of student ids from both maps with recommended students
-    Set<Integer> student_ids = kd_distances.keySet();
-    Set<Integer> student_ids_2 = bf_distances.keySet();
+    Set<Integer> kd_student_ids = kd_distances.keySet();
+    Set<Integer> bf_student_ids = bf_distances.keySet();
 
     // take the union of this set, so we can check all students that were recommended
-    Set<Integer> unionSet = new HashSet<>();
-    unionSet.addAll(student_ids);
-    unionSet.addAll(student_ids_2);
+    Set<Integer> union_set = new HashSet<>();
+    union_set.addAll(kd_student_ids);
+    union_set.addAll(bf_student_ids);
 
     // for each student, take an average of both normalized distances
     // (the bit vector distance and the Euclidean distance), weighting them equally
@@ -141,22 +141,28 @@ public class Recommend implements REPL, Command {
     Set<Double> distances = new HashSet<>(); // keep track of distances to use for tiebreak
     int t = 0;
     // loop through students in union set
-    for (Integer student : unionSet) {
+    for (Integer student : union_set) {
+//      if (student == student_id){
+//        break; // dont include target student if somehow in set
+//      }
       Double KDDistance = 0.0;
       Double BFDistance = 0.0;
-      if (student_ids.contains(student)) {
+      if (kd_student_ids.contains(student)) {
         KDDistance = kd_distances.get(student); // check if student is in kd recommended students list
       }
-      if (student_ids_2.contains(student)){
+      if (bf_student_ids.contains(student)){
         BFDistance = bf_distances.get(student); // check if student is in bf recommended students list
       }
 
       double average = (0.5 * KDDistance ) + (0.5 * BFDistance); // calculate average
 
-      if (distances.contains(average) && t == num_recommendations -1 ) { // tiebreak if at last recommendation
+      if (distances.contains(average)) { // tiebreak if at last recommendation
         average = (0.4 * KDDistance ) + (0.6 * BFDistance); // weight qualitative data more
         if (distances.contains(average)) {
           average = (0.3 * KDDistance ) + (0.7 * BFDistance); // weight qualitative data more if still tied
+        }
+        if (distances.contains(average)) {
+          average = (0.2 * KDDistance ) + (0.8 * BFDistance); // weight qualitative data more if still tied
         }
       }
       distances.add(average);
